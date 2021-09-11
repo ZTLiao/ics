@@ -18,9 +18,9 @@ void reg_test() {
   for (i = R_EAX; i <= R_EDI; i ++, reg_t ++) {
     sample[i] = rand();
     reg_l(i) = sample[i];
-	reg_w(i) = sample[i] & 0xffff;
-	reg_b(i) = (sample[i & 0x3] >> (i >> 2 << 3)) & 0xff;
-	*reg_t = sample[i];
+    reg_w(i) = sample[i] & 0xffff;
+    reg_b(i) = (sample[i & 0x3] >> (i >> 2 << 3)) & 0xff;
+    *reg_t = sample[i];
     assert(reg_w(i) == (sample[i] & 0xffff));
   }
 
