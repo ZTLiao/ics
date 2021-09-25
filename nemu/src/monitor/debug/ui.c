@@ -9,6 +9,7 @@
 void cpu_exec(uint64_t);
 int is_batch_mode();
 
+
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
   static char *line_read = NULL;
@@ -32,12 +33,13 @@ static int cmd_c(char *args) {
   return 0;
 }
 
-
 static int cmd_q(char *args) {
   return -1;
 }
 
 static int cmd_help(char *args);
+
+static int cmd_si(char *args);
 
 static struct {
   char *name;
@@ -47,6 +49,7 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
+  { "si", "Single step execution", cmd_si },
 
   /* TODO: Add more commands */
 
@@ -75,6 +78,16 @@ static int cmd_help(char *args) {
     printf("Unknown command '%s'\n", arg);
   }
   return 0;
+}
+
+static int cmd_si(char *args){
+	uint64_t n = (uint64_t) 1;
+	if(args != NULL) {
+		n = (uint64_t) atol(args);
+	}
+	printf("cmd_si: n = %ld\n", n);
+	cpu_exec(n);
+	return 0;
 }
 
 void ui_mainloop() {
