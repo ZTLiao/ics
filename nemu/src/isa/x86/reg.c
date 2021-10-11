@@ -46,6 +46,20 @@ void reg_test() {
 }
 
 void isa_reg_display() {
+	Log("isa_reg_display!");
+#ifdef __ISA_x86__
+	printf("ISA\t\tx86\n");
+	printf("pc\t\t0x%x\n", cpu.pc);
+	printf("eax\t\t0x%x\n", cpu.eax);
+	printf("ebx\t\t0x%x\n", cpu.ebx);
+	printf("ecx\t\t0x%x\n", cpu.ecx);
+	printf("edx\t\t0x%x\n", cpu.edx);
+	printf("esi\t\t0x%x\n", cpu.esi);
+	printf("edi\t\t0x%x\n", cpu.edi);
+	printf("ebp\t\t0x%x\n", cpu.ebp);
+	printf("esp\t\t0x%x\n", cpu.esp);
+#endif
+
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {
