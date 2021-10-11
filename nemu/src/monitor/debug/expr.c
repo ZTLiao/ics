@@ -4,6 +4,7 @@
  * Type 'man regex' for more information about POSIX regex functions.
  */
 #include <regex.h>
+#include <string.h>
 
 enum {
   TK_NOTYPE = 256, TK_EQ,
@@ -78,8 +79,24 @@ static bool make_token(char *e) {
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
+		
+		Token token;
+		token.type = rules[i].token_type;
+		strxfrm(token.str, substr_start, substr_len);
+		token.str[substr_len] = '\0';
+		tokens[nr_token] = token;
+		nr_token++;
 
         switch (rules[i].token_type) {
+			case TK_NOTYPE:
+				Log("expression type = ' +'");
+				break;
+			case '+':
+				Log("expression type = '+'");
+				break;
+			case TK_EQ:
+				Log("expression type = '=='");
+				break;
           default: TODO();
         }
 
@@ -101,6 +118,13 @@ word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
     return 0;
+  }
+
+  Log("start evaluate expression");
+  
+  int i;
+  for (i = 0; i < nr_token; i++) {
+	  Log("%s", tokens[i].str);
   }
 
   /* TODO: Insert codes to evaluate the expression. */
