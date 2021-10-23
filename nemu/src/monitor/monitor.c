@@ -9,12 +9,15 @@ void init_mem();
 void init_regex();
 void init_wp_pool();
 void init_difftest(char *ref_so_file, long img_size, int port);
+word_t expr(char *e, bool *success);
+void expr_test();
 
 static char *log_file = NULL;
 static char *diff_so_file = NULL;
 static char *img_file = NULL;
 static int batch_mode = false;
 static int difftest_port = 1234;
+static char *expr_file = NULL;
 
 int is_batch_mode() { return batch_mode; }
 
@@ -55,6 +58,25 @@ static inline long load_img() {
   return size;
 }
 
+void expr_test() {
+	if (expr_file == NULL) {
+		Log("no expr file is execute. ");
+		return;
+	}
+	Log("expr_file = %s", expr_file);
+	FILE *fp = fopen(expr_file, "r");
+	Assert(fp, "Can not open '%s'", expr_file);
+	Log("The expr is %s", expr_file);
+	char buf[65536] = {};
+	bool b;
+	while (!feof(fp)) {
+		fgets(buf, (sizeof(buf) / sizeof(buf[0])), fp);
+		word_t result = expr(buf, &b);
+		printf("%u %s\n", result, buf);
+	}
+	fclose(fp);
+}
+
 static inline void parse_args(int argc, char *argv[]) {
   const struct option table[] = {
     {"batch"    , no_argument      , NULL, 'b'},
@@ -62,15 +84,17 @@ static inline void parse_args(int argc, char *argv[]) {
     {"diff"     , required_argument, NULL, 'd'},
     {"port"     , required_argument, NULL, 'p'},
     {"help"     , no_argument      , NULL, 'h'},
+    {"expr"     , required_argument, NULL, 'e'},
     {0          , 0                , NULL,  0 },
   };
   int o;
-  while ( (o = getopt_long(argc, argv, "-bhl:d:p:", table, NULL)) != -1) {
+  while ( (o = getopt_long(argc, argv, "-bhl:d:p:e:", table, NULL)) != -1) {
     switch (o) {
       case 'b': batch_mode = true; break;
       case 'p': sscanf(optarg, "%d", &difftest_port); break;
       case 'l': log_file = optarg; break;
       case 'd': diff_so_file = optarg; break;
+      case 'e': expr_file = optarg; break;
       case 1:
         if (img_file != NULL) Log("too much argument '%s', ignored", optarg);
         else img_file = optarg;
@@ -116,4 +140,7 @@ void init_monitor(int argc, char *argv[]) {
 
   /* Display welcome message. */
   welcome();
+
+  /* Test cul expression */
+  expr_test();
 }
