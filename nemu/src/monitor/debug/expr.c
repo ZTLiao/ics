@@ -106,51 +106,52 @@ static bool make_token(char *e) {
          * of tokens, some extra actions should be performed.
          */
 
-		if (rules[i].token_type != TK_NOTYPE) {
-			Token token;
-			token.type = rules[i].token_type;
-			strxfrm(token.str, substr_start, substr_len);
-			token.str[substr_len] = '\0';
-			tokens[nr_token] = token;
-			nr_token++;
+		if (rules[i].token_type == TK_NOTYPE) {
+			continue;
+		}
 
-			switch (rules[i].token_type) {
-				case TK_NOTYPE:
-					Log("token type = ' +'");
-					break;
-				case TK_EQ:
-					Log("token type = '=='");
-					break;
-				case '+':
-					Log("token type = '+'");
-					break;
-				case '-':
-					Log("token type = '-'");
-					break;
-				case '*':
-					Log("token type = '*'");
-					break;
-				case '/':
-					Log("token type = '/'");
-					break;
-				case TK_NUM:
-					Log("token type = '[0-9]+'");
-					break;
-				case '=':
-					Log("token type = '='");
-					break;
-				case '(':
-					Log("token type = '('");
-					break;
-				case ')':
-					Log("token type = ')'");
-					break;
-				case TK_HEX:
-					Log("token type = '0[xX][0-9a-fA-F]+'");
-					break;
-				default: TODO();
-			}
+		Token token;
+		token.type = rules[i].token_type;
+		strxfrm(token.str, substr_start, substr_len);
+		token.str[substr_len] = '\0';
+		tokens[nr_token] = token;
+		nr_token++;
 
+		switch (rules[i].token_type) {
+			case TK_NOTYPE:
+				Log("token type = ' +'");
+				break;
+			case TK_EQ:
+				Log("token type = '=='");
+				break;
+			case '+':
+				Log("token type = '+'");
+				break;
+			case '-':
+				Log("token type = '-'");
+				break;
+			case '*':
+				Log("token type = '*'");
+				break;
+			case '/':
+				Log("token type = '/'");
+				break;
+			case TK_NUM:
+				Log("token type = '[0-9]+'");
+				break;
+			case '=':
+				Log("token type = '='");
+				break;
+			case '(':
+				Log("token type = '('");
+				break;
+			case ')':
+				Log("token type = ')'");
+				break;
+			case TK_HEX:
+				Log("token type = '0[xX][0-9a-fA-F]+'");
+				break;
+			default: TODO();
 		}
         break;
       }

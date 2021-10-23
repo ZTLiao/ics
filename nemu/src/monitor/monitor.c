@@ -69,10 +69,18 @@ void expr_test() {
 	Log("The expr is %s", expr_file);
 	char buf[65536] = {};
 	bool b;
-	while (!feof(fp)) {
-		fgets(buf, (sizeof(buf) / sizeof(buf[0])), fp);
-		word_t result = expr(buf, &b);
-		printf("%u %s\n", result, buf);
+	while (fgets(buf, (sizeof(buf) / sizeof(buf[0])), fp) != NULL) {
+		strtok(buf, " ");
+		char* exprStr = strtok(NULL, " ");
+		char* tempStr = exprStr;
+		int index = 0;
+		while (*tempStr != '\n') {
+			tempStr++;
+			index++;
+		}
+		exprStr[index] = '\0';
+		word_t result = expr(exprStr, &b);
+		printf("%u %s\n", result, exprStr);
 	}
 	fclose(fp);
 }
