@@ -153,8 +153,12 @@ static int cmd_p(char* args) {
 	Log("print expression!");
 	Log("args = '%s'", args);
 	bool b = false;
-	expr(args, &b);
-	Log("b=%d", b);
+	word_t n = expr(args, &b);
+	Log("b = %d, n = %u", b, n);
+#ifdef __ISA_x86__
+	word_t vaddr = vaddr_read(n, 4);
+	printf("vaddr = %x\n", vaddr);
+#endif
 	return 0;
 }
 

@@ -1,4 +1,5 @@
 NAME = nemu
+EXPR_FILE :=
 
 ISA ?= x86
 ISAS = $(shell ls src/isa/)
@@ -90,6 +91,10 @@ app: $(BINARY)
 
 override ARGS ?= --log=$(BUILD_DIR)/nemu-log.txt
 override ARGS += --diff=$(DIFF_REF_SO)
+
+ifneq ($(EXPR_FILE), )
+	override ARGS += --expr=$(NEMU_HOME)/$(EXPR_FILE)
+endif
 
 # Command to execute NEMU
 IMG :=
