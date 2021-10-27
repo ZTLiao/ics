@@ -114,8 +114,6 @@ static bool make_token(char *e) {
 		token.type = rules[i].token_type;
 		strxfrm(token.str, substr_start, substr_len);
 		token.str[substr_len] = '\0';
-		tokens[nr_token] = token;
-		nr_token++;
 
 		switch (rules[i].token_type) {
 			case TK_NOTYPE:
@@ -150,9 +148,14 @@ static bool make_token(char *e) {
 				break;
 			case TK_HEX:
 				Log("token type = '0[xX][0-9a-fA-F]+'");
+				Log("before token.str = %s", token.str);
+				sprintf(token.str, "%ld", strtol(token.str, NULL, 16));
+				Log("after token.str = %s", token.str);
 				break;
 			default: TODO();
 		}
+		tokens[nr_token] = token;
+		nr_token++;
         break;
       }
     }
@@ -199,49 +202,90 @@ static uint32_t eval(int p, int q) {
 		Token token = tokens[p];	
 		return (uint32_t) atoi(token.str);
 	} else if (check_parentheses(p, q)) {
+		Log("p = %d, q = %d", p, q);
 		return eval(p + 1, q - 1);
 	} else {
 		int op = get_op(p, q);
-		Log("main op = %s", tokens[op].str);
+		Log("main tokens[%d].str = %s", op, tokens[op].str);
 		uint32_t val1 = eval(p, op - 1);
 		uint32_t val2 = eval(op + 1, q);
 		switch (tokens[op].type) {
-			case '+': return val1 + val2;
-			case '-': return val1 - val2;
-			case '*': return val1 * val2;
-			case '/': return val1 / val2;
+			case '+': 
+				Log("%d + %d = %d", val1, val2, (val1 + val2));
+				return val1 + val2;
+			case '-': 
+				Log("%d - %d = %d", val1, val2, (val1 - val2));
+				return val1 - val2;
+			case '*': 
+				Log("%d * %d = %d", val1, val2, (val1 * val2));
+				return val1 * val2;
+			case '/': 
+				Log("%d / %d = %d", val1, val2, (val1 / val2));
+				return val1 / val2;
 			default: assert(0);
 		}
 	}
 	return 0;
 }
 
+static char symbol[12][6][6] = {
+	{{'(', '\0'}, {')', '\0'}, {'[', '\0'}, {']', '\0'}, {'.', '\0'}},
+	{{'!', '\0'}, {'~', '\0'}, {'+', '+', '\0'}, {'-', '-', '\0'}},
+	{{'*', '\0'}, {'/', '\0'}, {'%', '\0'}},
+	{{'+', '\0'}, {'-', '\0'}},
+	{{'<', '<', '\0'}, {'>', '>', '\0'}, {'>', '>', '>', '\0'}},
+	{{'<', '\0'}, {'<', '=', '\0'}, {'>', '\0'}, {'>', '=', '\0'}},
+	{{'=', '=', '\0'}, {'!', '=', '\0'}},
+	{{'&', '\0'}},
+	{{'^', '\0'}},
+	{{'|', '\0'}},
+	{{'&', '&', '\0'}},
+	{{'|', '|', '\0'}}
+};
+
 static int get_op(int p, int q) {
-	int index = 0;
+	int weight[65536] = { 0 };
+	bool b = false;
 	int i;
-	bool isParentheses = false;
 	for (i = p; i <= q; i++) {
-		if (tokens[i].type == TK_NUM) {
+		Token token = tokens[i];
+		int token_type = token.type;
+		if (token_type == TK_NUM) {
+			weight[i] = -1;
 			continue;
 		}
-		switch (tokens[i].type) {
-			case '(':
-			case ')':
-				isParentheses = !isParentheses;
-				break;
-			case '-':
-			case '+':
-				if (!isParentheses) {
-					index = i;
+		if (token_type == '(' || token_type == ')') {
+			b = !b;
+		}
+		if (b) {
+			weight[i] = 0;
+			continue;
+		}
+		if (token_type == ')') {
+			weight[i] = 0;
+			continue;
+		}
+		int j, k;
+		for (j = 0; j < (sizeof(symbol) / sizeof(symbol[0])); j++) {
+			for (k = 0; k < (sizeof(symbol[j]) / sizeof(symbol[j][0])); k++) {
+				if (strcmp(symbol[j][k], token.str) == 0) {
+					Log("symbol[%d][%d] = %s", j, k, symbol[j][k]);
+					weight[i] = j;
 				}
-				break;
-			case '*':
-			case '/':
-				if (!isParentheses && index == 0) {
-					index = i;
-				}
-				break;
+			}
 		}
 	}
+	int index = 0;
+	for (i = 0; i < (sizeof(weight) / sizeof(weight[0])); i++) {
+		//Log(" weight[%d] = %d", i, weight[i]);
+		if (weight[i] == 0) {
+			continue;
+		}
+		if (weight[i] > weight[index]) {
+			index = i;
+		}else if (weight[i] == weight[index] && (weight[i] + i) > (weight[index] + index)) {
+			index = i;
+		}
+	} 
 	return index;
 }
