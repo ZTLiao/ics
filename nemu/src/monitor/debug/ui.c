@@ -51,6 +51,8 @@ static int cmd_x(char *args);
 
 static int cmd_p(char *args);
 
+static int cmd_w(char *args);
+
 static struct {
   char *name;
   char *description;
@@ -64,6 +66,7 @@ static struct {
   { "r", "Print register information", cmd_r },
   { "x", "Scanning memory", cmd_x },
   { "p", "Print expression", cmd_p },
+  { "w", "Watch point memory", cmd_w },
   /* TODO: Add more commands */
 
 };
@@ -159,6 +162,11 @@ static int cmd_p(char* args) {
 	word_t vaddr = vaddr_read(n, 4);
 	printf("vaddr = %x\n", vaddr);
 #endif
+	return 0;
+}
+
+static int cmd_w(char* args) {
+	Log("watch point!");
 	return 0;
 }
 
