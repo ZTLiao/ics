@@ -40,6 +40,7 @@ typedef uint16_t ioaddr_t;
 
 #define false 0
 #define true 1
+#define TOKEN_SIZE 65536
 
 #include <debug.h>
 #include <macro.h>

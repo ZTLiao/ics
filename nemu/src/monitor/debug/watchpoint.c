@@ -19,4 +19,28 @@ void init_wp_pool() {
 }
 
 /* TODO: Implement the functionality of watchpoint */
-
+/**
+ * add watch point
+ */
+void add_string(char* pString) {
+	if (free_ == NULL) {
+		init_wp_pool();
+	}
+	int index = 0;
+	WP* prev = NULL;
+	WP* node = head;
+	while (node != NULL) {
+		prev = node;
+		node = node->next;
+		index++;
+	}
+	WP wp;
+	strcpy(wp.str, pString);
+	wp.NO = index;
+	if (head == NULL) {
+		head = &wp;
+	}
+	if (prev != NULL) {
+		prev->next = &wp;
+	}
+}
