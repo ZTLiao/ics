@@ -167,6 +167,9 @@ static int cmd_p(char* args) {
 
 static int cmd_w(char* args) {
 	Log("watch point!");
+	Log("args = '%s'", args);
+	bool b = false;
+	expr(args, &b);
 	return 0;
 }
 

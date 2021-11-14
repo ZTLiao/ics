@@ -1,6 +1,8 @@
 #include <isa.h>
+#include <memory/vaddr.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 #include "local-include/reg.h"
 
 const char *regsl[] = {"eax", "ecx", "edx", "ebx", "esp", "ebp", "esi", "edi"};
@@ -63,5 +65,29 @@ void isa_reg_display() {
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {
-  return 0;
+	Log("%s", s);
+	*success = false;
+	int i;
+	for (i = 0; i < (sizeof(regsl) / sizeof(regsl[0])); i++) {
+		if (strcmp((s + 1), regsl[i]) == 0) {
+			Log("reg_l(%d) = %x", i, reg_l(i));
+			*success = true;
+			return reg_l(i);
+		}
+	}
+	for (i = 0; i < (sizeof(regsw) / sizeof(regsw[0])); i++) {
+		if (strcmp((s + 1), regsw[i]) == 0) {
+			Log("reg_w(%d) = %x", i, reg_w(i));
+			*success = true;
+			return reg_w(i);
+		}
+	}
+	for (i = 0; i < (sizeof(regsb) / sizeof(regsb[0])); i++) {
+		if (strcmp((s + 1), regsb[i]) == 0) {
+			Log("reg_b(%d) = %x", i, reg_b(i));
+			*success = true;
+			return reg_b(i);
+		}
+	}
+	return 0;
 }
