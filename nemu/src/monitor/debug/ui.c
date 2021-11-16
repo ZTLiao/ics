@@ -9,7 +9,9 @@
 #include <readline/history.h>
 
 void cpu_exec(uint64_t);
+
 int is_batch_mode();
+
 void isa_reg_display();
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
@@ -168,8 +170,12 @@ static int cmd_p(char* args) {
 static int cmd_w(char* args) {
 	Log("watch point!");
 	Log("args = '%s'", args);
-	bool b = false;
-	expr(args, &b);
+	if (args == NULL) {
+		print_wp();
+	} else {
+		WP* pWp = new_wp();
+		strcpy(pWp->str, args);
+	}
 	return 0;
 }
 
