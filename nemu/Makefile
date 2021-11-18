@@ -1,4 +1,5 @@
 NAME = nemu
+EXPR_FILE :=
 
 ISA ?= x86
 ISAS = $(shell ls src/isa/)
@@ -78,6 +79,9 @@ $(OBJ_DIR)/%.o: src/%.c
 	@echo + CC $<
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(SO_CFLAGS) -c -o $@ $<
+	@$(CC) $(CFLAGS) $(SO_CFLAGS) -E -MF /dev/null $< | \
+		grep -ve '^#' | \
+		clang-format - > $(basename $@).i
 
 
 # Depencies
@@ -90,6 +94,10 @@ app: $(BINARY)
 
 override ARGS ?= --log=$(BUILD_DIR)/nemu-log.txt
 override ARGS += --diff=$(DIFF_REF_SO)
+
+ifneq ($(EXPR_FILE), )
+	override ARGS += --expr=$(NEMU_HOME)/$(EXPR_FILE)
+endif
 
 # Command to execute NEMU
 IMG :=
@@ -118,3 +126,6 @@ clean:
 	$(MAKE) -C tools/gen-expr clean
 	$(MAKE) -C tools/qemu-diff clean
 	$(MAKE) -C tools/kvm-diff clean
+
+count:
+	find . -name "*.c" -o -name "*.h" | xargs cat | wc -l

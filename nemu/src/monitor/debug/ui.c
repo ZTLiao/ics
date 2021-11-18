@@ -1,4 +1,6 @@
 #include <isa.h>
+#include <memory/paddr.h>
+#include <memory/vaddr.h>
 #include "expr.h"
 #include "watchpoint.h"
 
@@ -7,7 +9,10 @@
 #include <readline/history.h>
 
 void cpu_exec(uint64_t);
+
 int is_batch_mode();
+
+void isa_reg_display();
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -32,12 +37,25 @@ static int cmd_c(char *args) {
   return 0;
 }
 
-
 static int cmd_q(char *args) {
   return -1;
 }
 
 static int cmd_help(char *args);
+
+static int cmd_si(char *args);
+
+static int cmd_info(char *args);
+
+static int cmd_r(char *args);
+
+static int cmd_x(char *args);
+
+static int cmd_p(char *args);
+
+static int cmd_w(char *args);
+
+static int cmd_d(char *args);
 
 static struct {
   char *name;
@@ -47,7 +65,13 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-
+  { "si", "Single step execution", cmd_si },
+  { "info", "Print program status", cmd_info },
+  { "r", "Print register information", cmd_r },
+  { "x", "Scanning memory", cmd_x },
+  { "p", "Print expression", cmd_p },
+  { "w", "Watch point memory", cmd_w },
+  { "d", "Delete watchpoint", cmd_d },
   /* TODO: Add more commands */
 
 };
@@ -75,6 +99,97 @@ static int cmd_help(char *args) {
     printf("Unknown command '%s'\n", arg);
   }
   return 0;
+}
+
+static int cmd_si(char *args) {
+	uint64_t n = (uint64_t) 1;
+	if (args != NULL) {
+		n = (uint64_t) atol(args);
+	}
+	Log("cmd_si: n = %ld", n);
+	cpu_exec(n);
+	return 0;
+}
+
+static int cmd_info(char *args) {
+	if (args == NULL) {
+		printf("no sub cmmand!\n");
+		return 0;
+	}
+	int i;
+	for (i = 0; i < NR_CMD; i++) {
+		char* name = cmd_table[i].name;
+		if (strcmp(args, name) == 0) {
+			Log("name = %s", name);
+			if (cmd_table[i].handler(NULL) < 0) {
+				return 0;
+			}
+		}
+	}
+	return 0;
+}
+
+static int cmd_r(char* args) {
+	Log("print register!");
+	isa_reg_display();
+	return 0;
+}
+
+static int cmd_x(char* args) {
+	if (args == NULL) {
+		return 0;
+	}
+	Log("scanning memory!");
+	char* nStr = strtok(args, " ");
+	char* exprStr = strtok(NULL, " ");
+	Log("n = %s", nStr);
+	int32_t n = (int32_t) atoi(nStr);
+	uint64_t expr = (uint64_t) strtol(exprStr, NULL, 16);
+	Log("expr = %lx", expr);
+	int i;
+	for (i = 0; i <= n; i++) {
+		Log("i = %d", i);
+#ifdef __ISA_x86__
+		word_t vaddr = vaddr_read(expr + i, 4);
+		printf("0x%lx\t\t0x%x\n", (expr + i), vaddr);
+#endif
+	}
+	return 0;
+}
+
+static int cmd_p(char* args) {
+	Log("print expression!");
+	Log("args = '%s'", args);
+	bool b = false;
+	word_t n = expr(args, &b);
+	Log("b = %d, n = %u", b, n);
+#ifdef __ISA_x86__
+	word_t vaddr = vaddr_read(n, 4);
+	printf("vaddr = %x\n", vaddr);
+#endif
+	return 0;
+}
+
+static int cmd_w(char* args) {
+	Log("watch point!");
+	Log("args = '%s'", args);
+	if (args == NULL) {
+		print_wp();
+	} else {
+		WP* pWp = new_wp();
+		strcpy(pWp->str, args);
+	}
+	return 0;
+}
+
+static int cmd_d(char* args) {
+	Log("delete watchpoint!");
+	Log("args = '%s'", args);
+	WP* pWp = find_wp(args);
+	if (pWp != NULL) {
+		free_wp(pWp);
+	}
+	return 0;
 }
 
 void ui_mainloop() {
