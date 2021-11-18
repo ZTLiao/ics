@@ -1,6 +1,8 @@
 #include <isa.h>
+#include <memory/vaddr.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 #include "local-include/reg.h"
 
 const char *regsl[] = {"eax", "ecx", "edx", "ebx", "esp", "ebp", "esi", "edi"};
@@ -14,9 +16,13 @@ void reg_test() {
   cpu.pc = pc_sample;
 
   int i;
-  for (i = R_EAX; i <= R_EDI; i ++) {
+  rtlreg_t *reg_t = &cpu.eax;
+  for (i = R_EAX; i <= R_EDI; i ++, reg_t ++) {
     sample[i] = rand();
     reg_l(i) = sample[i];
+    reg_w(i) = sample[i] & 0xffff;
+    reg_b(i) = (sample[i & 0x3] >> (i >> 2 << 3)) & 0xff;
+    *reg_t = sample[i];
     assert(reg_w(i) == (sample[i] & 0xffff));
   }
 
@@ -42,8 +48,50 @@ void reg_test() {
 }
 
 void isa_reg_display() {
+	Log("isa_reg_display!");
+#ifdef __ISA_x86__
+	printf("ISA\t\tx86\n");
+	printf("pc\t\t0x%x\n", cpu.pc);
+	printf("eax\t\t0x%x\n", cpu.eax);
+	printf("ebx\t\t0x%x\n", cpu.ebx);
+	printf("ecx\t\t0x%x\n", cpu.ecx);
+	printf("edx\t\t0x%x\n", cpu.edx);
+	printf("esi\t\t0x%x\n", cpu.esi);
+	printf("edi\t\t0x%x\n", cpu.edi);
+	printf("ebp\t\t0x%x\n", cpu.ebp);
+	printf("esp\t\t0x%x\n", cpu.esp);
+#endif
+
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {
-  return 0;
+	Log("%s", s);
+	*success = false;
+	if (strcmp((s + 1), "pc") == 0) {
+		*success = true;
+		return cpu.pc;
+	}
+	int i;
+	for (i = 0; i < (sizeof(regsl) / sizeof(regsl[0])); i++) {
+		if (strcmp((s + 1), regsl[i]) == 0) {
+			Log("reg_l(%d) = %x", i, reg_l(i));
+			*success = true;
+			return reg_l(i);
+		}
+	}
+	for (i = 0; i < (sizeof(regsw) / sizeof(regsw[0])); i++) {
+		if (strcmp((s + 1), regsw[i]) == 0) {
+			Log("reg_w(%d) = %x", i, reg_w(i));
+			*success = true;
+			return reg_w(i);
+		}
+	}
+	for (i = 0; i < (sizeof(regsb) / sizeof(regsb[0])); i++) {
+		if (strcmp((s + 1), regsb[i]) == 0) {
+			Log("reg_b(%d) = %x", i, reg_b(i));
+			*success = true;
+			return reg_b(i);
+		}
+	}
+	return 0;
 }
