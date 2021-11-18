@@ -67,6 +67,10 @@ void isa_reg_display() {
 word_t isa_reg_str2val(const char *s, bool *success) {
 	Log("%s", s);
 	*success = false;
+	if (strcmp((s + 1), "pc") == 0) {
+		*success = true;
+		return cpu.pc;
+	}
 	int i;
 	for (i = 0; i < (sizeof(regsl) / sizeof(regsl[0])); i++) {
 		if (strcmp((s + 1), regsl[i]) == 0) {

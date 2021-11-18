@@ -55,6 +55,8 @@ static int cmd_p(char *args);
 
 static int cmd_w(char *args);
 
+static int cmd_d(char *args);
+
 static struct {
   char *name;
   char *description;
@@ -69,6 +71,7 @@ static struct {
   { "x", "Scanning memory", cmd_x },
   { "p", "Print expression", cmd_p },
   { "w", "Watch point memory", cmd_w },
+  { "d", "Delete watchpoint", cmd_d },
   /* TODO: Add more commands */
 
 };
@@ -175,6 +178,16 @@ static int cmd_w(char* args) {
 	} else {
 		WP* pWp = new_wp();
 		strcpy(pWp->str, args);
+	}
+	return 0;
+}
+
+static int cmd_d(char* args) {
+	Log("delete watchpoint!");
+	Log("args = '%s'", args);
+	WP* pWp = find_wp(args);
+	if (pWp != NULL) {
+		free_wp(pWp);
 	}
 	return 0;
 }

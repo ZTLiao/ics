@@ -1,0 +1,13 @@
+1.EFLAGS寄存器中CF位是什么意思?
+CF:是进位标识位
+2.ModR/M字节是什么?
+变长指令
+3.mov指令的具体格式是怎么样的?
+mov %r, %m
+mov %r, %r
+mov %m, %r
+4.gcc中的-Wall和-Werror有什么作用?
+-Wall:编译后显示所有警告
+-Werror:编译后显示所有警告当作错误
+5.为什么要使用-Wall和-Werror?
+将所有可能的警告都变成错误,优化代码
