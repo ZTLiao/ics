@@ -126,3 +126,6 @@ clean:
 	$(MAKE) -C tools/gen-expr clean
 	$(MAKE) -C tools/qemu-diff clean
 	$(MAKE) -C tools/kvm-diff clean
+
+count:
+	find . -name "*.c" -o -name "*.h" | xargs cat | wc -l
