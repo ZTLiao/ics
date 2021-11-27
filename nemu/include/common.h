@@ -21,7 +21,11 @@
 #include <assert.h>
 #include <string.h>
 
+#ifdef __APPLE__
+typedef uint8_t _Bool;
+#else
 typedef uint8_t bool;
+#endif
 
 #ifdef ISA64
 typedef uint64_t word_t;
