@@ -48,7 +48,11 @@ void init_difftest(char *ref_so_file, long img_size, int port) {
   assert(ref_so_file != NULL);
 
   void *handle;
+  #ifdef __APPLE__
+  handle = dlopen(ref_so_file, RTLD_LAZY);
+  #else
   handle = dlopen(ref_so_file, RTLD_LAZY | RTLD_DEEPBIND);
+  #endif
   assert(handle);
 
   ref_difftest_memcpy_from_dut = dlsym(handle, "difftest_memcpy_from_dut");
