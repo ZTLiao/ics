@@ -21,7 +21,9 @@
 #include <assert.h>
 #include <string.h>
 
-#ifndef __APPLE__
+#ifdef __APPLE__
+typedef unsigned char bool;
+#else
 typedef uint8_t bool;
 #endif
 
