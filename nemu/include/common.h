@@ -22,7 +22,7 @@
 #include <string.h>
 
 #ifdef __APPLE__
-typedef unsigned char bool;
+typedef _Bool bool;
 #else
 typedef uint8_t bool;
 #endif
