@@ -17,17 +17,30 @@ uint64_t multimod(uint64_t a, uint64_t b, uint64_t m) {
 	size_t n = 0;
 #ifdef __x86_64__
 	n = sizeof(uint64_t);
-//	printf("a = %lx, b = %lx\n", a, b);
 #elif __i386__
 	n = sizeof(uint32_t);
-//	printf("a = %llx, b = %llx\n", a, b);
 #endif
-	uint64_t cout = mod(multiply(a, b, n << 3), m, n << 3);
-//#ifdef __x86_64__
-//	printf("hex = %lx, cout = %ld\n", cout, cout);
-//#elif __i386__
-//	printf("hex = %llx, cout = %lld\n", cout, cout);
-//#endif
+	n <<= 3;
+	uint64_t cout = 0;
+	int i = 0;
+	for (i = 0; i < n; i++) {
+		uint64_t ai = bit_off(a, i);
+		if (ai) {
+			ai = multiply(ai, (1 << i), n);
+		}
+		ai = multiply(ai, b, n);
+		//ai = mod(ai, m, n);
+		uint64_t c = carry(bit_off(cout, n - 1), bit_off(ai, n - 1), 0);
+		if (c) {
+			while (carry(bit_off(cout, n - 1), bit_off(ai, n - 1), 0)) {
+				cout = mod(add(cout, ai, n), m, n);
+				ai = mod(add(mod(0xFFFFFFFFFFFFFFFF, m, n), mod(1, m, n), n), m, n);
+			}
+		} else {
+			cout = add(cout, ai, n);
+		}
+	}
+	cout = mod(cout, m, n);
 	return cout;
 }
 
@@ -73,12 +86,17 @@ uint64_t multiply(uint64_t a, uint64_t b, size_t n) {
 	uint64_t cout = 0;
 	uint64_t x = complement(a, e0, n);
 	uint64_t y = complement(b, e1, n);
+//#ifdef __x86_64__
+//		printf("x = %ld, y = %ld\n", x, y);
+//#elif __i386__
+//		printf("x = %lld, y = %lld\n", x, y);
+//#endif
 	uint64_t z = 0;
 	uint64_t ACC = 0;
 	uint64_t MQ = y;
 	int i;
-	for (i = 0; i < c; i++) {
-		uint64_t bit = (MQ >> 1) & 1;
+	for (i = 0; i < n; i++) {
+		uint64_t bit = MQ & 1;
 		switch (bit) {
 			case 0:
 				break;
@@ -155,22 +173,22 @@ uint64_t division(uint64_t a, uint64_t b, size_t n) {
 #endif
 	uint64_t dividend = complement(a, e0, n);
 	uint64_t divisor = complement(b, e1, n);
-#ifdef __x86_64__
-		printf("divisor = %ld, dividend = %ld\n", divisor, dividend);
-#elif __i386__
-		printf("divisor = %lld, dividend = %lld\n", divisor, dividend);
-#endif	
+//#ifdef __x86_64__
+//		printf("divisor = %ld, dividend = %ld\n", divisor, dividend);
+//#elif __i386__
+//		printf("divisor = %lld, dividend = %lld\n", divisor, dividend);
+//#endif	
 	divisor <<= (n >> 1);
 	uint64_t quotient = 0;
 	int i;
 	for (i = 0; i <= (n >> 1); i++) {
 		uint64_t remainder = dividend;
 		dividend = substract(dividend, divisor, n);
-#ifdef __x86_64__
-		printf("i = %d, divisor = %lx, dividend = %lx, (dividend & bit) = %lx, quotient = %ld\n", i, divisor, dividend, (dividend & bit), quotient);
-#elif __i386__
-		printf("i = %d, divisor = %llx, dividend = %llx, (dividend & bit) = %llx, quotient = %lld\n", i, divisor, dividend, (dividend & bit), quotient);
-#endif	
+//#ifdef __x86_64__
+//		printf("i = %d, divisor = %lx, dividend = %lx, (dividend & bit) = %lx, quotient = %ld\n", i, divisor, dividend, (dividend & bit), quotient);
+//#elif __i386__
+//		printf("i = %d, divisor = %llx, dividend = %llx, (dividend & bit) = %llx, quotient = %lld\n", i, divisor, dividend, (dividend & bit), quotient);
+//#endif	
 		quotient <<= 1;
 		if (dividend & bit) {
 			dividend = remainder;
