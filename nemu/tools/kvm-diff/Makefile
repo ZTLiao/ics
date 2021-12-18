@@ -6,6 +6,10 @@ $(error Only support x86)
 endif
 endif
 
+ifndef NEMU_HOME
+NEMU_HOME := $(shell dirname $(shell dirname $(shell pwd)))
+endif
+
 INC_DIR += ./include $(NEMU_HOME)/include
 BUILD_DIR ?= ./build
 OBJ_DIR ?= $(BUILD_DIR)/obj-$(ISA)
@@ -25,6 +29,7 @@ OBJS = $(SRCS:src/%.c=$(OBJ_DIR)/%.o)
 
 # Compilation patterns
 $(OBJ_DIR)/%.o: src/%.c
+	@echo $(NEMU_HOME)
 	@echo + CC $<
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS)  -c -o $@ $<
