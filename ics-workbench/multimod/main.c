@@ -4,9 +4,15 @@
 
 uint64_t multimod(uint64_t, uint64_t, uint64_t);
 
+uint64_t multimod_fast(int64_t a, int64_t b, int64_t m) {
+	int64_t t = (a * b - (int64_t)((double)a * b / m) * m) % m;
+	return t < 0 ? t + m : t;
+}
+
 void test(uint64_t a, uint64_t b, uint64_t m) {
   #define U64 "%" PRIu64
   printf(U64 " * " U64 " mod " U64 " = " U64 "\n", a, b, m, multimod(a, b, m));
+  printf(U64 " * " U64 " mod " U64 " = " U64 "\n", a, b, m, multimod_fast(a, b, m));
 }
 
 int main() {
