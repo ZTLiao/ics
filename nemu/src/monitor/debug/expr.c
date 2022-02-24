@@ -1,5 +1,6 @@
 #include <isa.h>
 #include <memory/vaddr.h>
+#include <tools/stack.h>
 
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
@@ -258,21 +259,28 @@ word_t expr(char *e, bool *success) {
 }
 
 static bool check_parentheses(int p, int q) {
-	if (strcmp(tokens[p].str, "(") == 0 && strcmp(tokens[q].str, ")") == 0) {
-		int n = 0;
-		int i;
-		for (i = p; i <= q; i++) {
-			if (strcmp(tokens[i].str, "(") == 0) {
-				n++;
-			}
-			if (strcmp(tokens[i].str, ")") == 0) {
-				n--;
+	bool isValid = false;
+	if (!(strcmp(tokens[p].str, "(") == 0 && strcmp(tokens[q].str, ")") == 0)) {
+		return isValid;
+	}
+	int i;
+	char c1[32];
+	for (i = p; i <= q; i++) {
+		char* c0 = tokens[i].str;
+		if (strcmp(c0, "(") == 0 || strcmp(c0, "[") == 0 || strcmp(c0, "{") == 0) {
+			push_stack(c0);
+		}
+		if (strcmp(c0, ")") == 0 || strcmp(c0, "]") == 0 || strcmp(c0, "}") == 0) {
+			pop_stack(c1);
+			isValid = (strcmp(c1, "(") == 0 && strcmp(c0, ")") == 0) || (strcmp(c1, "[") == 0 && strcmp(c0, "]") == 0) || (strcmp(c1, "{") == 0 && strcmp(c0, "}") == 0);
+			if (!isValid) {
+				break;
 			}
 		}
-		return n == 0;
-	} else {
-		return false;
+		isValid = isValid && get_stack_size() == 0;
 	}
+	Log("isValid = %d", isValid);
+	return isValid;
 }
 
 static uint32_t eval(int p, int q) {
