@@ -99,6 +99,8 @@ again:
     IDEX (0xba, mov_I2r, mov)
     IDEX (0xbb, mov_I2r, mov)
     IDEX (0xbc, mov_I2r, mov)
+	//decode_mov_I2r => def_DHelper(mov_I2r) 
+	//exec_mov => def_EHelper(mov)
     IDEX (0xbd, mov_I2r, mov)
     IDEX (0xbe, mov_I2r, mov)
     IDEX (0xbf, mov_I2r, mov)
