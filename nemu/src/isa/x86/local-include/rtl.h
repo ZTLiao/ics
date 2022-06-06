@@ -27,7 +27,11 @@ static inline def_rtl(sr, int r, const rtlreg_t* src1, int width) {
 static inline def_rtl(push, const rtlreg_t* src1) {
   // esp <- esp - 4
   // M[esp] <- src1
-  TODO();
+  int width = s->isa.is_operand_size_16 ? 2 : 4;
+  Log("BEFORE R_ESP = %x", reg_l(R_ESP));
+  reg_l(R_ESP) = reg_l(R_ESP) - width;
+  Log("AFTER R_ESP = %x", reg_l(R_ESP));
+  rtl_sm(s, &reg_l(R_ESP), 0, src1, width);
 }
 
 static inline def_rtl(pop, rtlreg_t* dest) {
