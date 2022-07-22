@@ -28,7 +28,7 @@ nemu/src/isa/x86/local-include/decode.h
 
 nemu/src/isa/x86/local-include/decode.h
 decode_mov_I2r:
-def_DHelper(I2r)
+def_DHelper(mov_I2r)
 decode_op_r(s, id_dest, false);
 decode_op_I(s, id_src1, true);
 

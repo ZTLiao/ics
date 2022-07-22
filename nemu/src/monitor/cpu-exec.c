@@ -86,7 +86,9 @@ void cpu_exec(uint64_t n) {
 
     /* Execute one instruction, including instruction fetch,
      * instruction decode, and the actual execution. */
+	Log("this_pc : %x", this_pc);
     __attribute__((unused)) vaddr_t seq_pc = isa_exec_once();
+	Log("seq_pc : %x", seq_pc);
 
     difftest_step(this_pc, cpu.pc);
 
