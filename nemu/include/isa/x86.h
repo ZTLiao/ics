@@ -10,6 +10,22 @@
 
 // reg
 
+typedef struct {
+  uint32_t CF    :1;
+  uint32_t b1	 :1;
+  uint32_t PF	 :1;
+  uint32_t b3    :1;
+  uint32_t AF    :1;
+  uint32_t b5    :1;
+  uint32_t ZF    :1;
+  uint32_t SF    :1;
+  uint32_t TF    :1;
+  uint32_t IF    :1;
+  uint32_t DF    :1;
+  uint32_t OF    :1;
+  uint32_t b20   :20;
+} x86_Eflags; 
+
 /* TODO: Re-organize the `CPU_state' structure to match the register
  * encoding scheme in i386 instruction format. For example, if we
  * access cpu.gpr[3]._16, we will get the `bx' register; if we access
@@ -32,6 +48,7 @@ typedef struct {
   rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
 
   vaddr_t pc;
+  x86_Eflags eflags;
 } x86_CPU_state;
 
 // decode

@@ -11,7 +11,8 @@ static inline def_EHelper(and) {
 }
 
 static inline def_EHelper(xor) {
-  TODO();
+  Log("xor...");
+  rtl_xor(s, ddest, ddest, dsrc1);
   print_asm_template2(xor);
 }
 

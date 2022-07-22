@@ -8,6 +8,13 @@ case 0x83:
 	exec_gp1(s);
 	break;
 
+nemu/src/isa/x86/exec/exec.c
+static inline def_EHelper(gp1) {
+	switch (s->isa.ext_opcode) {
+		EX(0, add)
+	}
+}
+
 nemu/include/cpu/exec.h
 #define IDEXW(idx, id, ex, w) CASE_ENTRY(idx, concat(decode_, id), concat(exec_, ex), w)
 #define IDEX(idx, id, ex) IDEXW(idx, id, ex, 0)
@@ -302,15 +309,15 @@ def_EHelper(inv) {
 }
 
 nemu/src/isa/x86/exec/arith.h
-EX(5, sub) ->
-case 5: set_width(s, 0); decode_empty(s); exec_sub(s); break;
+EX(5, add) ->
+case 5: set_width(s, 0); decode_empty(s); exec_add(s); break;
 
 nemu/src/engine/interpreter/rtl-basic.h
-rtl_sub:
-def_rtl_compute_reg(sub)
+rtl_add:
+def_rtl_compute_reg(add)
 
-rtl_subi:
-def_rtl_compute_imm(sub)
+rtl_addi:
+def_rtl_compute_imm(add)
 
 nemu/src/isa/x86/local-include/rtl.h
 rtl_update_ZFSF:
