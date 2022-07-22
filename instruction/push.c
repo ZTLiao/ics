@@ -1,6 +1,6 @@
 nemu/src/isa/x86/exec/exec.c
 fetch_decode_exec:
-IDEX(0x55, r, push);
+IDEX(0x55, r, push)
 
 case 0x55:
 	set_width(s, 0);

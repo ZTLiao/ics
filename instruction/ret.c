@@ -1,11 +1,10 @@
 nemu/src/isa/x86/exec/exec.c
 fetch_decode_exec:
-IDEX(0xe8, J, call)
-
-case 0xe8:
+EX(0xc3, ret)
+case 0xc3:
 	set_width(s, 0);
-	decode_J(s);
-	exec_call(s);
+	decode_empty(s);
+	exec_ret(s);
 	break;
 
 nemu/include/cpu/exec.h
@@ -26,33 +25,15 @@ nemu/include/cpu/decode.h
 nemu/src/isa/x86/local-include/decode.h
 #define def_DopHelper(name) void concat(decode_op_, name) (DecodeExecState *s, Operand *op, bool load_val)
 
-nemu/src/isa/x86/local-include/decode.h
-decode_J:
-def_DHelper(J)
-decode_op_SI(s, id_dest, false);
-s->jmp_pc = id_dest->simm + s->seq_pc;
-
-nemu/src/isa/x86/local-include/decode.h
-decode_op_SI:
-def_DopHelper(SI)
-word_t imm = instr_fetch(&s->seq_pc, op->width);
-operand_imm(s, op, load_val, imm, op->width);
-
 nemu/src/isa/x86/exec/control.h
-exec_call:
-def_EHelper(call)
-rtl_j(s, s->jmp_pc);
-rtl_push(s, &s->seq_pc);
-
-nemu/src/engine/interpreter/rtl-basic.h
-static inline def_rtl(j, vaddr_t target) {
-	s->jmp_pc = target;
-	s->is_jmp = true;
-}
+exec_ret:
+exec_ret(s);
 
 nemu/src/isa/x86/local-include/rtl.h
-rtl_push:
-def_rtl(push)
-int width = s->isa.is_operand_size_16 ? 2 : 4;
-reg_l(R_ESP) = reg_l(R_ESP) - width;
-rtl_sm(s, &reg_l(R_ESP), 0, src1, width);
+rtl_pop:
+rtl_pop(s, ddest);
+
+nemu/src/engine/interpreter/rtl-basic.h
+static inline def_rtl(lm, rtlreg_t *dest, const rtlreg_t* addr, word_t offset, int len) {
+  *dest = vaddr_read(*addr + offset, len);
+}

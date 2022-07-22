@@ -1,6 +1,6 @@
 nemu/src/isa/x86/exec/exec.c
 fetch_decode_exec:
-IDEX(0xbd, mov_I2r, mov);
+IDEX(0xbd, mov_I2r, mov)
 
 case 0xbd:
 	set_width(s, 0);
