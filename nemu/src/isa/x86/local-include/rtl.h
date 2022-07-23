@@ -30,6 +30,7 @@ static inline def_rtl(push, const rtlreg_t* src1) {
   int width = s->isa.is_operand_size_16 ? 2 : 4;
   Log("BEFORE R_ESP = %x", reg_l(R_ESP));
   reg_l(R_ESP) = reg_l(R_ESP) - width;
+  cpu.esp = reg_l(R_ESP);
   Log("AFTER R_ESP = %x, src1 = %x", reg_l(R_ESP), *src1);
   rtl_sm(s, &reg_l(R_ESP), 0, src1, width);
 }
@@ -41,6 +42,7 @@ static inline def_rtl(pop, rtlreg_t* dest) {
   Log("BEFORE R_ESP = %x", reg_l(R_ESP));
   rtl_lm(s, dest, &reg_l(R_ESP), 0, width);
   reg_l(R_ESP) = reg_l(R_ESP) + width;
+  cpu.esp = reg_l(R_ESP);
   Log("AFTER R_ESP = %x, dest = %x", reg_l(R_ESP), *dest);
 }
 

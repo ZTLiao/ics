@@ -12,7 +12,19 @@ static inline def_EHelper(and) {
 
 static inline def_EHelper(xor) {
   Log("xor...");
-  rtl_xor(s, ddest, ddest, dsrc1);
+  Log("before reg_l(id_dest->reg) : %d, cpu.eax : %d, reg_l(id_dest->reg) == cpu.eax : %d", reg_l(id_dest->reg), cpu.eax, (reg_l(id_dest->reg) == cpu.eax));
+  rtl_xor(s, s0, ddest, dsrc1);
+  operand_write(s, id_dest, s0);
+  if (id_dest->type == OP_TYPE_REG) {
+	rtlreg_t* reg = &cpu.eax;
+	reg = reg + id_dest->reg;
+	*reg = *s0;
+	Log("reg_l(id_dest->reg) : %d, cpu.eax : %d, reg_l(id_dest->reg) == cpu.eax : %d", reg_l(id_dest->reg), cpu.eax, (reg_l(id_dest->reg) == cpu.eax));
+	Log("id_dest->type : %d, id_dest->reg : %d, id_dest->width : %d", id_dest->type, id_dest->reg, id_dest->width);
+	Log("id_dest->reg : %d", reg_l(id_dest->reg));
+	Log("ddest : %d", *ddest);
+	Log("cpu.eax : %d", cpu.eax);
+  }
   print_asm_template2(xor);
 }
 
