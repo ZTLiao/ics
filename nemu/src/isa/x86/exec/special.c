@@ -27,11 +27,9 @@ def_EHelper(inv) {
 
 def_EHelper(nemu_trap) {
   difftest_skip_ref();
-#ifdef DIFFTEST
+
   rtl_exit(NEMU_END, cpu.pc, cpu.eax);
-#else
-  Log("nemu trap...");  
-#endif
+  
   print_asm("nemu trap");
   return;
 }
