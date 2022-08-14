@@ -158,7 +158,7 @@ typedef struct {
   uint32_t padding[19];
 } __attribute__((packed)) TSS64;
 
-// Multiprocesor configuration
+// Multiprocessor configuration
 typedef struct {          // configuration table header
   uint8_t  signature[4];  // "PCMP"
   uint16_t length;        // total table length
