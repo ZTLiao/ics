@@ -1,0 +1,313 @@
+
+/home/liaozetao/Documents/ics/am-kernels/tests/cpu-tests/build/hello-str-x86-nemu.elf:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+00100000 <_start>:
+  100000:	bd 00 00 00 00       	mov    $0x0,%ebp
+  100005:	bc 00 90 10 00       	mov    $0x109000,%esp
+  10000a:	e8 f1 00 00 00       	call   100100 <_trm_init>
+  10000f:	90                   	nop
+
+00100010 <check>:
+  100010:	55                   	push   %ebp
+  100011:	89 e5                	mov    %esp,%ebp
+  100013:	83 ec 08             	sub    $0x8,%esp
+  100016:	80 7d 08 00          	cmpb   $0x0,0x8(%ebp)
+  10001a:	74 02                	je     10001e <check+0xe>
+  10001c:	c9                   	leave  
+  10001d:	c3                   	ret    
+  10001e:	83 ec 0c             	sub    $0xc,%esp
+  100021:	6a 01                	push   $0x1
+  100023:	e8 cc 00 00 00       	call   1000f4 <halt>
+
+00100028 <main>:
+  100028:	8d 4c 24 04          	lea    0x4(%esp),%ecx
+  10002c:	83 e4 f0             	and    $0xfffffff0,%esp
+  10002f:	ff 71 fc             	pushl  -0x4(%ecx)
+  100032:	55                   	push   %ebp
+  100033:	89 e5                	mov    %esp,%ebp
+  100035:	51                   	push   %ecx
+  100036:	83 ec 08             	sub    $0x8,%esp
+  100039:	68 cc 02 10 00       	push   $0x1002cc
+  10003e:	68 da 02 10 00       	push   $0x1002da
+  100043:	68 20 03 10 00       	push   $0x100320
+  100048:	e8 6b 01 00 00       	call   1001b8 <sprintf>
+  10004d:	58                   	pop    %eax
+  10004e:	5a                   	pop    %edx
+  10004f:	68 cc 02 10 00       	push   $0x1002cc
+  100054:	68 20 03 10 00       	push   $0x100320
+  100059:	e8 26 02 00 00       	call   100284 <strcmp>
+  10005e:	85 c0                	test   %eax,%eax
+  100060:	0f 94 c0             	sete   %al
+  100063:	0f b6 c0             	movzbl %al,%eax
+  100066:	89 04 24             	mov    %eax,(%esp)
+  100069:	e8 a2 ff ff ff       	call   100010 <check>
+  10006e:	c7 04 24 02 00 00 00 	movl   $0x2,(%esp)
+  100075:	6a 01                	push   $0x1
+  100077:	6a 01                	push   $0x1
+  100079:	68 dd 02 10 00       	push   $0x1002dd
+  10007e:	68 20 03 10 00       	push   $0x100320
+  100083:	e8 30 01 00 00       	call   1001b8 <sprintf>
+  100088:	83 c4 18             	add    $0x18,%esp
+  10008b:	68 eb 02 10 00       	push   $0x1002eb
+  100090:	68 20 03 10 00       	push   $0x100320
+  100095:	e8 ea 01 00 00       	call   100284 <strcmp>
+  10009a:	85 c0                	test   %eax,%eax
+  10009c:	0f 94 c0             	sete   %al
+  10009f:	0f b6 c0             	movzbl %al,%eax
+  1000a2:	89 04 24             	mov    %eax,(%esp)
+  1000a5:	e8 66 ff ff ff       	call   100010 <check>
+  1000aa:	c7 04 24 0c 00 00 00 	movl   $0xc,(%esp)
+  1000b1:	6a 0a                	push   $0xa
+  1000b3:	6a 02                	push   $0x2
+  1000b5:	68 dd 02 10 00       	push   $0x1002dd
+  1000ba:	68 20 03 10 00       	push   $0x100320
+  1000bf:	e8 f4 00 00 00       	call   1001b8 <sprintf>
+  1000c4:	83 c4 18             	add    $0x18,%esp
+  1000c7:	68 f6 02 10 00       	push   $0x1002f6
+  1000cc:	68 20 03 10 00       	push   $0x100320
+  1000d1:	e8 ae 01 00 00       	call   100284 <strcmp>
+  1000d6:	85 c0                	test   %eax,%eax
+  1000d8:	0f 94 c0             	sete   %al
+  1000db:	0f b6 c0             	movzbl %al,%eax
+  1000de:	89 04 24             	mov    %eax,(%esp)
+  1000e1:	e8 2a ff ff ff       	call   100010 <check>
+  1000e6:	83 c4 10             	add    $0x10,%esp
+  1000e9:	31 c0                	xor    %eax,%eax
+  1000eb:	8b 4d fc             	mov    -0x4(%ebp),%ecx
+  1000ee:	c9                   	leave  
+  1000ef:	8d 61 fc             	lea    -0x4(%ecx),%esp
+  1000f2:	c3                   	ret    
+  1000f3:	90                   	nop
+
+001000f4 <halt>:
+  1000f4:	55                   	push   %ebp
+  1000f5:	89 e5                	mov    %esp,%ebp
+  1000f7:	8b 45 08             	mov    0x8(%ebp),%eax
+  1000fa:	d6                   	(bad)  
+  1000fb:	eb fe                	jmp    1000fb <halt+0x7>
+  1000fd:	66 90                	xchg   %ax,%ax
+  1000ff:	90                   	nop
+
+00100100 <_trm_init>:
+  100100:	55                   	push   %ebp
+  100101:	89 e5                	mov    %esp,%ebp
+  100103:	83 ec 14             	sub    $0x14,%esp
+  100106:	68 03 03 10 00       	push   $0x100303
+  10010b:	e8 18 ff ff ff       	call   100028 <main>
+  100110:	d6                   	(bad)  
+  100111:	83 c4 10             	add    $0x10,%esp
+  100114:	eb fe                	jmp    100114 <_trm_init+0x14>
+  100116:	66 90                	xchg   %ax,%ax
+
+00100118 <my_itoa>:
+  100118:	55                   	push   %ebp
+  100119:	89 e5                	mov    %esp,%ebp
+  10011b:	57                   	push   %edi
+  10011c:	56                   	push   %esi
+  10011d:	53                   	push   %ebx
+  10011e:	8b 4d 08             	mov    0x8(%ebp),%ecx
+  100121:	8b 7d 0c             	mov    0xc(%ebp),%edi
+  100124:	85 c9                	test   %ecx,%ecx
+  100126:	78 7f                	js     1001a7 <my_itoa+0x8f>
+  100128:	31 f6                	xor    %esi,%esi
+  10012a:	bb 09 00 00 00       	mov    $0x9,%ebx
+  10012f:	85 db                	test   %ebx,%ebx
+  100131:	7e 4a                	jle    10017d <my_itoa+0x65>
+  100133:	90                   	nop
+  100134:	b8 01 00 00 00       	mov    $0x1,%eax
+  100139:	31 d2                	xor    %edx,%edx
+  10013b:	90                   	nop
+  10013c:	8d 04 80             	lea    (%eax,%eax,4),%eax
+  10013f:	01 c0                	add    %eax,%eax
+  100141:	42                   	inc    %edx
+  100142:	39 da                	cmp    %ebx,%edx
+  100144:	75 f6                	jne    10013c <my_itoa+0x24>
+  100146:	85 f6                	test   %esi,%esi
+  100148:	75 3e                	jne    100188 <my_itoa+0x70>
+  10014a:	39 c8                	cmp    %ecx,%eax
+  10014c:	7e 12                	jle    100160 <my_itoa+0x48>
+  10014e:	85 db                	test   %ebx,%ebx
+  100150:	74 42                	je     100194 <my_itoa+0x7c>
+  100152:	4b                   	dec    %ebx
+  100153:	b8 01 00 00 00       	mov    $0x1,%eax
+  100158:	85 db                	test   %ebx,%ebx
+  10015a:	7f d8                	jg     100134 <my_itoa+0x1c>
+  10015c:	39 c8                	cmp    %ecx,%eax
+  10015e:	7f ee                	jg     10014e <my_itoa+0x36>
+  100160:	31 d2                	xor    %edx,%edx
+  100162:	66 90                	xchg   %ax,%ax
+  100164:	29 c1                	sub    %eax,%ecx
+  100166:	42                   	inc    %edx
+  100167:	39 c8                	cmp    %ecx,%eax
+  100169:	7e f9                	jle    100164 <my_itoa+0x4c>
+  10016b:	83 c2 30             	add    $0x30,%edx
+  10016e:	89 f0                	mov    %esi,%eax
+  100170:	46                   	inc    %esi
+  100171:	88 14 07             	mov    %dl,(%edi,%eax,1)
+  100174:	85 db                	test   %ebx,%ebx
+  100176:	74 24                	je     10019c <my_itoa+0x84>
+  100178:	4b                   	dec    %ebx
+  100179:	85 db                	test   %ebx,%ebx
+  10017b:	7f b7                	jg     100134 <my_itoa+0x1c>
+  10017d:	b8 01 00 00 00       	mov    $0x1,%eax
+  100182:	85 f6                	test   %esi,%esi
+  100184:	74 c4                	je     10014a <my_itoa+0x32>
+  100186:	66 90                	xchg   %ax,%ax
+  100188:	39 c1                	cmp    %eax,%ecx
+  10018a:	7d d4                	jge    100160 <my_itoa+0x48>
+  10018c:	89 f0                	mov    %esi,%eax
+  10018e:	b2 30                	mov    $0x30,%dl
+  100190:	eb de                	jmp    100170 <my_itoa+0x58>
+  100192:	66 90                	xchg   %ax,%ax
+  100194:	c6 07 30             	movb   $0x30,(%edi)
+  100197:	be 01 00 00 00       	mov    $0x1,%esi
+  10019c:	c6 04 37 00          	movb   $0x0,(%edi,%esi,1)
+  1001a0:	89 f0                	mov    %esi,%eax
+  1001a2:	5b                   	pop    %ebx
+  1001a3:	5e                   	pop    %esi
+  1001a4:	5f                   	pop    %edi
+  1001a5:	5d                   	pop    %ebp
+  1001a6:	c3                   	ret    
+  1001a7:	f7 d9                	neg    %ecx
+  1001a9:	c6 07 2d             	movb   $0x2d,(%edi)
+  1001ac:	47                   	inc    %edi
+  1001ad:	be 01 00 00 00       	mov    $0x1,%esi
+  1001b2:	e9 73 ff ff ff       	jmp    10012a <my_itoa+0x12>
+  1001b7:	90                   	nop
+
+001001b8 <sprintf>:
+  1001b8:	55                   	push   %ebp
+  1001b9:	89 e5                	mov    %esp,%ebp
+  1001bb:	57                   	push   %edi
+  1001bc:	56                   	push   %esi
+  1001bd:	53                   	push   %ebx
+  1001be:	83 ec 3c             	sub    $0x3c,%esp
+  1001c1:	8b 5d 08             	mov    0x8(%ebp),%ebx
+  1001c4:	8b 75 0c             	mov    0xc(%ebp),%esi
+  1001c7:	8a 06                	mov    (%esi),%al
+  1001c9:	84 c0                	test   %al,%al
+  1001cb:	0f 84 a7 00 00 00    	je     100278 <sprintf+0xc0>
+  1001d1:	8d 4d 10             	lea    0x10(%ebp),%ecx
+  1001d4:	31 d2                	xor    %edx,%edx
+  1001d6:	eb 10                	jmp    1001e8 <sprintf+0x30>
+  1001d8:	88 03                	mov    %al,(%ebx)
+  1001da:	89 f8                	mov    %edi,%eax
+  1001dc:	89 f7                	mov    %esi,%edi
+  1001de:	89 c6                	mov    %eax,%esi
+  1001e0:	43                   	inc    %ebx
+  1001e1:	8a 47 01             	mov    0x1(%edi),%al
+  1001e4:	84 c0                	test   %al,%al
+  1001e6:	74 3b                	je     100223 <sprintf+0x6b>
+  1001e8:	8d 7e 01             	lea    0x1(%esi),%edi
+  1001eb:	3c 25                	cmp    $0x25,%al
+  1001ed:	75 e9                	jne    1001d8 <sprintf+0x20>
+  1001ef:	8a 46 01             	mov    0x1(%esi),%al
+  1001f2:	83 c6 02             	add    $0x2,%esi
+  1001f5:	3c 64                	cmp    $0x64,%al
+  1001f7:	74 37                	je     100230 <sprintf+0x78>
+  1001f9:	3c 73                	cmp    $0x73,%al
+  1001fb:	75 e4                	jne    1001e1 <sprintf+0x29>
+  1001fd:	89 c8                	mov    %ecx,%eax
+  1001ff:	83 c1 04             	add    $0x4,%ecx
+  100202:	8b 10                	mov    (%eax),%edx
+  100204:	8a 02                	mov    (%edx),%al
+  100206:	84 c0                	test   %al,%al
+  100208:	74 0d                	je     100217 <sprintf+0x5f>
+  10020a:	66 90                	xchg   %ax,%ax
+  10020c:	42                   	inc    %edx
+  10020d:	43                   	inc    %ebx
+  10020e:	88 43 ff             	mov    %al,-0x1(%ebx)
+  100211:	8a 02                	mov    (%edx),%al
+  100213:	84 c0                	test   %al,%al
+  100215:	75 f5                	jne    10020c <sprintf+0x54>
+  100217:	ba 01 00 00 00       	mov    $0x1,%edx
+  10021c:	8a 47 01             	mov    0x1(%edi),%al
+  10021f:	84 c0                	test   %al,%al
+  100221:	75 c5                	jne    1001e8 <sprintf+0x30>
+  100223:	89 d0                	mov    %edx,%eax
+  100225:	8d 65 f4             	lea    -0xc(%ebp),%esp
+  100228:	5b                   	pop    %ebx
+  100229:	5e                   	pop    %esi
+  10022a:	5f                   	pop    %edi
+  10022b:	5d                   	pop    %ebp
+  10022c:	c3                   	ret    
+  10022d:	8d 76 00             	lea    0x0(%esi),%esi
+  100230:	89 c8                	mov    %ecx,%eax
+  100232:	83 c1 04             	add    $0x4,%ecx
+  100235:	89 4d c4             	mov    %ecx,-0x3c(%ebp)
+  100238:	83 ec 08             	sub    $0x8,%esp
+  10023b:	8d 55 d3             	lea    -0x2d(%ebp),%edx
+  10023e:	52                   	push   %edx
+  10023f:	ff 30                	pushl  (%eax)
+  100241:	e8 d2 fe ff ff       	call   100118 <my_itoa>
+  100246:	89 c2                	mov    %eax,%edx
+  100248:	83 c4 10             	add    $0x10,%esp
+  10024b:	85 c0                	test   %eax,%eax
+  10024d:	8b 4d c4             	mov    -0x3c(%ebp),%ecx
+  100250:	7e c5                	jle    100217 <sprintf+0x5f>
+  100252:	31 c0                	xor    %eax,%eax
+  100254:	89 4d c0             	mov    %ecx,-0x40(%ebp)
+  100257:	90                   	nop
+  100258:	40                   	inc    %eax
+  100259:	8a 4c 05 d2          	mov    -0x2e(%ebp,%eax,1),%cl
+  10025d:	88 4d c4             	mov    %cl,-0x3c(%ebp)
+  100260:	88 4c 03 ff          	mov    %cl,-0x1(%ebx,%eax,1)
+  100264:	39 c2                	cmp    %eax,%edx
+  100266:	75 f0                	jne    100258 <sprintf+0xa0>
+  100268:	8b 4d c0             	mov    -0x40(%ebp),%ecx
+  10026b:	01 d3                	add    %edx,%ebx
+  10026d:	ba 01 00 00 00       	mov    $0x1,%edx
+  100272:	e9 6a ff ff ff       	jmp    1001e1 <sprintf+0x29>
+  100277:	90                   	nop
+  100278:	31 d2                	xor    %edx,%edx
+  10027a:	89 d0                	mov    %edx,%eax
+  10027c:	8d 65 f4             	lea    -0xc(%ebp),%esp
+  10027f:	5b                   	pop    %ebx
+  100280:	5e                   	pop    %esi
+  100281:	5f                   	pop    %edi
+  100282:	5d                   	pop    %ebp
+  100283:	c3                   	ret    
+
+00100284 <strcmp>:
+  100284:	55                   	push   %ebp
+  100285:	89 e5                	mov    %esp,%ebp
+  100287:	56                   	push   %esi
+  100288:	53                   	push   %ebx
+  100289:	8b 45 08             	mov    0x8(%ebp),%eax
+  10028c:	8b 55 0c             	mov    0xc(%ebp),%edx
+  10028f:	31 f6                	xor    %esi,%esi
+  100291:	eb 12                	jmp    1002a5 <strcmp+0x21>
+  100293:	90                   	nop
+  100294:	8a 1a                	mov    (%edx),%bl
+  100296:	84 db                	test   %bl,%bl
+  100298:	74 2a                	je     1002c4 <strcmp+0x40>
+  10029a:	40                   	inc    %eax
+  10029b:	42                   	inc    %edx
+  10029c:	38 d9                	cmp    %bl,%cl
+  10029e:	75 0b                	jne    1002ab <strcmp+0x27>
+  1002a0:	be 01 00 00 00       	mov    $0x1,%esi
+  1002a5:	8a 08                	mov    (%eax),%cl
+  1002a7:	84 c9                	test   %cl,%cl
+  1002a9:	75 e9                	jne    100294 <strcmp+0x10>
+  1002ab:	85 f6                	test   %esi,%esi
+  1002ad:	74 0c                	je     1002bb <strcmp+0x37>
+  1002af:	8a 12                	mov    (%edx),%dl
+  1002b1:	38 10                	cmp    %dl,(%eax)
+  1002b3:	0f 94 c0             	sete   %al
+  1002b6:	0f b6 c0             	movzbl %al,%eax
+  1002b9:	89 c6                	mov    %eax,%esi
+  1002bb:	89 f0                	mov    %esi,%eax
+  1002bd:	5b                   	pop    %ebx
+  1002be:	5e                   	pop    %esi
+  1002bf:	5d                   	pop    %ebp
+  1002c0:	c3                   	ret    
+  1002c1:	8d 76 00             	lea    0x0(%esi),%esi
+  1002c4:	31 f6                	xor    %esi,%esi
+  1002c6:	89 f0                	mov    %esi,%eax
+  1002c8:	5b                   	pop    %ebx
+  1002c9:	5e                   	pop    %esi
+  1002ca:	5d                   	pop    %ebp
+  1002cb:	c3                   	ret    
