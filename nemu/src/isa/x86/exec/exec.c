@@ -21,14 +21,14 @@ static inline def_EHelper(gp1) {
 	//EX(5, sub) 
 	//EX(6, xor) 
 	//EX(7, cmp)
-    EX(0, add) 
+    EX (0, add) 
 	EMPTY(1) 
 	EMPTY(2) 
 	EMPTY(3)
-    EMPTY(4) 
-	EX(5, sub) 
+    EX (4, and) 
+	EX (5, sub) 
 	EMPTY(6) 
-	EMPTY(7)
+	EX (7, cmp)
   }
 }
 
@@ -59,8 +59,14 @@ static inline def_EHelper(gp4) {
 /* 0xff */
 static inline def_EHelper(gp5) {
   switch (s->isa.ext_opcode) {
-    EMPTY(0) EMPTY(1) EMPTY(2) EMPTY(3)
-    EMPTY(4) EMPTY(5) EMPTY(6) EMPTY(7)
+    EMPTY(0) 
+	EMPTY(1) 
+	EMPTY(2) 
+	EMPTY(3)
+    EMPTY(4) 
+	EMPTY(5) 
+	EX (6, push) 
+	EMPTY(7)
   }
 }
 
@@ -78,6 +84,9 @@ static inline def_EHelper(2byte_esc) {
   switch (opcode) {
   /* TODO: Add more instructions!!! */
     IDEX (0x01, gp7_E, gp7)
+	IDEX (0x84, J, jcc)
+	IDEX (0x94, setcc_E, setcc)
+	IDEX (0xb6, G2E, movzx)
     default: exec_inv(s);
   }
 }
@@ -90,15 +99,36 @@ again:
   switch (opcode) {
     EX   (0x0f, 2byte_esc)
 	IDEX (0x31, G2E, xor)
+	IDEXW(0x38, G2E, cmp, 1)
+	IDEXW(0x3C, I2r, cmp, 1)
+	IDEX (0x40, r, inc)
+	IDEX (0x42, r, inc)
+	IDEX (0x43, r, inc)
+	IDEX (0x51, r, push)
+	IDEX (0x53, r, push)
 	IDEX (0x55, r, push)
+	IDEX (0x56, r, push)
+	IDEX (0x57, r, push)
+	IDEX (0x58, r, pop)
+	IDEX (0x5a, r, pop)
+	IDEX (0x5b, r, pop)
+	IDEX (0x5d, r, pop)
+	IDEX (0x5e, r, pop)
+	IDEX (0x5f, r, pop)
 	IDEX (0x68, I, push)
+	IDEXW(0x6a, I, push, 1)
+	IDEXW(0x74, J, jcc, 1)
+	IDEXW(0x75, J, jcc, 1)
     IDEXW(0x80, I2E, gp1, 1)
     IDEX (0x81, I2E, gp1)
     IDEX (0x83, SI2E, gp1)
+    IDEXW(0x84, G2E, test, 1)
+    IDEX (0x85, G2E, test)
     IDEXW(0x88, mov_G2E, mov, 1)
     IDEX (0x89, mov_G2E, mov)
     IDEXW(0x8a, mov_E2G, mov, 1)
     IDEX (0x8b, mov_E2G, mov)
+    IDEX (0x8d, lea_M2G, lea)
     IDEXW(0xa0, O2a, mov, 1)
     IDEX (0xa1, O2a, mov)
     IDEXW(0xa2, a2O, mov, 1)
@@ -126,6 +156,7 @@ again:
 	EX   (0xc3, ret)
     IDEXW(0xc6, mov_I2E, mov, 1)
     IDEX (0xc7, mov_I2E, mov)
+    EX   (0xc9, leave)
     IDEXW(0xd0, gp2_1_E, gp2, 1)
     IDEX (0xd1, gp2_1_E, gp2)
     IDEXW(0xd2, gp2_cl2E, gp2, 1)
