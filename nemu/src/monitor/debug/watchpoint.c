@@ -92,7 +92,6 @@ void print_wp() {
 }
 
 void exec_wp() {
-	Log("execute watchpoint.");
 	WP* node = head;
 	while (node != NULL) {
 		bool b;
@@ -108,7 +107,6 @@ void exec_wp() {
 }
 
 bool check_wp() {
-	Log("check watchpoint.");
 	WP* node = head;
 	while (node != NULL) {
 		word_t old_val = node->old_val;

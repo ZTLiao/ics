@@ -31,19 +31,22 @@ static inline def_rtl(push, const rtlreg_t* src1) {
   Log("BEFORE R_ESP = %x", reg_l(R_ESP));
   reg_l(R_ESP) = reg_l(R_ESP) - width;
   cpu.esp = reg_l(R_ESP);
-  Log("AFTER R_ESP = %x, src1 = %x", reg_l(R_ESP), *src1);
   rtl_sm(s, &reg_l(R_ESP), 0, src1, width);
+  Log("AFTER R_ESP = %x, src1 = %x", reg_l(R_ESP), *src1);
 }
 
 static inline def_rtl(pop, rtlreg_t* dest) {
   // dest <- M[esp]
   // esp <- esp + 4
   int width = s->isa.is_operand_size_16 ? 2 : 4;
-  Log("BEFORE R_ESP = %x", reg_l(R_ESP));
+  Log("rtl_pop...");
+  Log("reg_l(R_ESP) = %x, dest = %p", reg_l(R_ESP), dest);
   rtl_lm(s, dest, &reg_l(R_ESP), 0, width);
+  
+  Log("BEFORE R_ESP = %x, dest = %x", reg_l(R_ESP), *dest);
   reg_l(R_ESP) = reg_l(R_ESP) + width;
   cpu.esp = reg_l(R_ESP);
-  Log("AFTER R_ESP = %x, dest = %x", reg_l(R_ESP), *dest);
+  Log("AFTER R_ESP = %x", reg_l(R_ESP));
 }
 
 static inline bool is_overflow(const rtlreg_t* res, const rtlreg_t* src1, const rtlreg_t* src2, int width) {
@@ -123,6 +126,7 @@ def_rtl_setget_eflags(CF)
 def_rtl_setget_eflags(OF)
 def_rtl_setget_eflags(ZF)
 def_rtl_setget_eflags(SF)
+def_rtl_setget_eflags(PF)
 
 static inline bool is_zero(const rtlreg_t* result, int width) {
 	uint8_t* pResult = (uint8_t*)result;
@@ -144,13 +148,7 @@ static inline def_rtl(update_ZF, const rtlreg_t* result, int width) {
 }
 
 static inline bool is_sign(const rtlreg_t* result, int width) {
-  uint8_t* pResult = (uint8_t*)result;
-  int count = 0;
-  int i;
-  for (i = 0; i < 8; i++) {
-	  count += (pResult[0] >> i) & 1;
-  }
-  return (count % 2) == 0;
+  return result[0] >> (width * 8 - 1) & 1;
 }
 
 static inline def_rtl(update_SF, const rtlreg_t* result, int width) {
@@ -165,6 +163,23 @@ static inline def_rtl(update_SF, const rtlreg_t* result, int width) {
 static inline def_rtl(update_ZFSF, const rtlreg_t* result, int width) {
   rtl_update_ZF(s, result, width);
   rtl_update_SF(s, result, width);
+}
+
+static inline bool is_even(const rtlreg_t* result, int width) {
+	int count = 0;
+	int i;
+	for (i = 0; i < width * 8; i++) {
+		count += (result[0] >> i) & 1;
+	}
+	return count && (count % 2) == 0;
+}
+
+static inline def_rtl(update_PF, const rtlreg_t* result, int width) {
+	bool flag = is_even(result, width);
+	Log("result = %x, is_even = %d", *result, flag);
+	rtlreg_t src = flag;
+	rtl_set_PF(s, &src);
+	Log("eflag.PF = %d", cpu.eflags.PF);
 }
 
 #endif

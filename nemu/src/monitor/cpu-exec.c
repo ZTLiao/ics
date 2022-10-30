@@ -23,6 +23,8 @@ static uint64_t g_timer = 0; // unit: ms
 const rtlreg_t rzero = 0;
 
 void asm_print(vaddr_t this_pc, int instr_len, bool print_flag);
+void exec_wp();
+bool check_wp();
 
 int is_exit_status_bad() {
   int good = (nemu_state.state == NEMU_END && nemu_state.halt_ret == 0) ||

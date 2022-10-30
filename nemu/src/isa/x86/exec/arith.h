@@ -33,12 +33,27 @@ static inline def_EHelper(sub) {
 }
 
 static inline def_EHelper(cmp) {
-  TODO();
+  Log("cmp...");
+  // id_dest - id_src1;
+  rtl_sub(s, s0, ddest, dsrc1);
+  rtl_update_ZFSF(s, s0, id_dest->width);
+  rtl_update_PF(s, s0, id_dest->width);
+  rtl_is_sub_overflow(s, s1, s0, ddest, dsrc1, id_dest->width);
+  rtl_set_OF(s, s1);
+  rtl_is_sub_carry(s, s2, ddest, dsrc1);
+  rtl_set_CF(s, s2);
   print_asm_template2(cmp);
 }
 
 static inline def_EHelper(inc) {
-  TODO();
+  Log("inc..");
+  if (id_dest->type == OP_TYPE_REG) {
+	  Log("BEFORE *ddest = %d", *ddest);
+	  rtlreg_t val = *ddest + 1;
+	  Log("AFTER *ddest = %d", val);
+	  reg_l(id_dest->reg) = val;
+	  *(&cpu.eax + id_dest->reg) = val;
+  }
   print_asm_template1(inc);
 }
 

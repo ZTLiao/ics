@@ -3,7 +3,7 @@
 static inline def_EHelper(jmp) {
   // the target address is calculated at the decode stage
   rtl_j(s, s->jmp_pc);
-  Log("s->jmp_pc=%x", s->jmp_pc);
+  Log("s->jmp_pc = %x", s->jmp_pc);
   print_asm("jmp %x", s->jmp_pc);
 }
 
@@ -24,6 +24,7 @@ static inline def_EHelper(jmp_rm) {
 
 static inline def_EHelper(call) {
   // the target address is calculated at the decode stage
+  Log("call...");
   rtl_j(s, s->jmp_pc);
   Log("s->seq_pc = %x", s->seq_pc);
   rtl_push(s, &s->seq_pc);
@@ -32,12 +33,13 @@ static inline def_EHelper(call) {
 }
 
 static inline def_EHelper(ret) {
+  Log("ret...");
   switch(s->opcode) {
 	case 0xc2:
 	case 0xc3:
-		rtl_pop(s, ddest);
-		Log("*ddest=%x", *ddest);
-		s->seq_pc = *ddest;
+		rtl_pop(s, s0);
+		Log("*dsrc1 = %x", *s0);
+		s->seq_pc = *s0;
 		if (s->isa.is_operand_size_16) {
 			s->seq_pc = s->seq_pc & 0x0000FFFF;
 		}	
