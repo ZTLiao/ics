@@ -20,7 +20,12 @@ char* strcat(char* dst, const char* src) {
 }
 
 int strcmp(const char* s1, const char* s2) {
-  return 0;
+  int b = 0;
+  while (*s1 != 0 && *s2 != 0 && *(s1++) == *(s2++)) {
+	b = 1;
+  }
+  b = b && (*s1 == *s2);
+  return b;
 }
 
 int strncmp(const char* s1, const char* s2, size_t n) {

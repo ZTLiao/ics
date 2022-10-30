@@ -1,0 +1,20 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+MODULE	Makefile	/^export MODULE := Lab2$/;"	m
+NAME	Makefile	/^NAME := $(shell basename $(PWD))$/;"	m
+__flags	asm.h	/^	int __flags;$/;"	m	struct:__anon1
+__mask	asm.h	/^	long __mask;$/;"	m	struct:__anon1
+__pc	asm.h	/^	void (*__pc)(void);$/;"	m	struct:__anon1
+__regs	asm.h	/^	void *__regs[16];$/;"	m	struct:__anon1
+asm_add	asm-impl.c	/^int64_t asm_add(int64_t a, int64_t b) {$/;"	f
+asm_jmp_buf	asm.h	14;"	d
+asm_longjmp	asm-impl.c	/^void asm_longjmp(asm_jmp_buf env, int val) {$/;"	f
+asm_memcpy	asm-impl.c	/^void *asm_memcpy(void *dest, const void *src, size_t n) {$/;"	f
+asm_popcnt	asm-impl.c	/^int asm_popcnt(uint64_t x) {$/;"	f
+asm_setjmp	asm-impl.c	/^int asm_setjmp(asm_jmp_buf env) {$/;"	f
+jmp_buf	asm.h	/^} jmp_buf[1];$/;"	t	typeref:struct:__anon1
+main	main.c	/^int main() {$/;"	f
