@@ -7,7 +7,7 @@ size_t strlen(const char *s) {
   return 0;
 }
 
-char *strcpy(char* dst,const char* src) {
+char *strcpy(char* dst, const char* src) {
   return NULL;
 }
 
@@ -32,16 +32,19 @@ int strncmp(const char* s1, const char* s2, size_t n) {
   return 0;
 }
 
-void* memset(void* v,int c,size_t n) {
+void* memset(void* v, int c, size_t n) {
   return NULL;
 }
 
-void* memmove(void* dst,const void* src,size_t n) {
+void* memmove(void* dst, const void* src, size_t n) {
   return NULL;
 }
 
 void* memcpy(void* out, const void* in, size_t n) {
-  return NULL;
+  while (n--) {
+	*((char *)(out++)) = *((char *)(in++));
+  }
+  return out;
 }
 
 int memcmp(const void* s1, const void* s2, size_t n) {
