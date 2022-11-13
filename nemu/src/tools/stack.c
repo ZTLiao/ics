@@ -22,8 +22,10 @@ void pop_stack(char* val) {
 	if (pStackFrame == NULL) {
 		return;
 	}
-	if (pStackFrame->prev == NULL) {
+	if (pStackFrame->prev != NULL) {
 		CurrFrame = pStackFrame->prev;
+	} else {
+		CurrFrame = NULL;
 	}
 	strcpy(val, pStackFrame->val);
 	StackSize--;
