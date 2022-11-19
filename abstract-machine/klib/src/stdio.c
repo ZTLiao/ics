@@ -21,7 +21,7 @@ int printf(const char *fmt, ...) {
 	char *tmpbuf = buffer;
 	int i = 0;
 	while (i < written) {
-		my_putchar(tmpbuf[i++]);
+		putch(tmpbuf[i++]);
 	}
 	va_end(ap);
 	return written;
