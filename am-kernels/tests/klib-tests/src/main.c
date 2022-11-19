@@ -3,12 +3,24 @@
 void (*entry)() = NULL;
 
 static const char *tests[256] = {
-	['m'] = "test memcpy",
+	['a'] = "test memcpy",
+	['b'] = "test memcmp",
+	['c'] = "test memset",
+	['d'] = "test strcat",
+	['e'] = "test strcmp",
+	['f'] = "test memmove",
+	['g'] = "test sprintf",
 };
 
 int main(const char *args) {
 	switch (args[0]) {
-		CASE('m', test_memcpy);
+		CASE('a', test_memcpy);
+		CASE('b', test_memcmp);
+		CASE('c', test_memset);
+		CASE('d', test_strcat);
+		CASE('e', test_strcmp);
+		CASE('f', test_memmove);
+		CASE('g', test_sprintf);
 		default:
 			printf("Usage: make run mainargs=*\n");
 			int ch;
