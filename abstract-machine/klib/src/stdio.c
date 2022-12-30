@@ -7,10 +7,6 @@
 
 #define ASCII " !\"#$\%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
 
-int my_putchar(int c);
-
-int my_sys_write(int fd, const void *buf, int count);
-
 int my_itoa(int n, char *buffer);
 
 int printf(const char *fmt, ...) {
@@ -113,6 +109,7 @@ int sprintf(char *out, const char *fmt, ...) {
   va_list ap;
   va_start(ap, fmt);
   int written = vsprintf(out, fmt, ap);
+  out[written] = 0;
   va_end(ap);
   return written;
 }
@@ -126,6 +123,7 @@ int snprintf(char *out, size_t n, const char *fmt, ...) {
   while (n--) {
        *(out++) = *(tmpbuf++);
   }
+  out[written] = 0;
   va_end(ap);
   return written;
 }
@@ -137,31 +135,8 @@ int vsnprintf(char *out, size_t n, const char *fmt, va_list ap) {
 	while (n--) {
 		*(out++) = *(tmpbuf++);
 	}
+	out[written] = 0;
 	return written;
-}
-
-int my_putchar(int c) {
-	unsigned char ch = c;
-	int fd = 1;
-	if (my_sys_write(fd, &ch, 1) <= 0) {
-		return -1;
-	}
-	return ch;
-}
-
-int my_sys_write(int fd, const void *buf, int count) {
-	long _ret;
-	register long _num  __asm__("rax") = 0x1;
-	register long _arg1 __asm__("rdi") = (long) (fd);
-	register long _arg2 __asm__("rsi") = (long) (buf);
-	register long _arg3 __asm__("rdx") = (long) (count);
-	__asm__ volatile (
-	"syscall;"
-	: "=a"(_ret)
-	: "r"(_arg1), "r"(_arg2), "r"(_arg3), "0"(_num)
-	: "rcx", "r11", "memory", "cc"
-	);
-	return (int) _ret;
 }
 
 int my_itoa(int n, char *buffer) {

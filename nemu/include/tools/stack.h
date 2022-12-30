@@ -4,15 +4,29 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct StackFrame {
-	struct StackFrame *prev;
-	char val[32];
-} STACK_FRAME, *PSTACK_FRAME;
+typedef struct Node {
+  struct Node *prev;
+  void *val;
+  int size;
+} Node, *PNode;
 
-void push_stack(char*);
+typedef struct Stack {
+  struct Node *top;
+  struct Node *curr;
+  int total;
+  void (*push)(struct Stack *self, void *val, int n);
+  void (*pop)(struct Stack *self, void *val);
+  int (*size)(struct Stack *self);
+} Stack, *PStack;
 
-void pop_stack(char*);
+PStack Stack__constructor__();
 
-int get_stack_size();
+void Stack__destructor__(PStack self);
+
+void push(PStack self, void *val, int n);
+
+void pop(PStack self, void *val);
+
+int size(PStack self);
 
 #endif
