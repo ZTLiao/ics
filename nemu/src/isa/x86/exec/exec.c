@@ -27,7 +27,7 @@ static inline def_EHelper(gp1) {
 	EMPTY(3)
     EX (4, and) 
 	EX (5, sub) 
-	EMPTY(6) 
+	EX (6, xor) 
 	EX (7, cmp)
   }
 }
@@ -35,16 +35,28 @@ static inline def_EHelper(gp1) {
 /* 0xc0, 0xc1, 0xd0, 0xd1, 0xd2, 0xd3 */
 static inline def_EHelper(gp2) {
   switch (s->isa.ext_opcode) {
-    EMPTY(0) EMPTY(1) EMPTY(2) EMPTY(3)
-    EMPTY(4) EMPTY(5) EMPTY(6) EMPTY(7)
+    EMPTY(0) 
+	EMPTY(1) 
+	EMPTY(2) 
+	EMPTY(3)
+    EX (4, shl) 
+	EX (5, shr) 
+	EMPTY(6) 
+	EX (7, sar)
   }
 }
 
 /* 0xf6, 0xf7 */
 static inline def_EHelper(gp3) {
   switch (s->isa.ext_opcode) {
-    EMPTY(0) EMPTY(1) EMPTY(2) EMPTY(3)
-    EMPTY(4) EMPTY(5) EMPTY(6) EMPTY(7)
+    EMPTY(0) 
+	EMPTY(1) 
+	EX (2, not) 
+	EMPTY(3)
+    EMPTY(4) 
+	EMPTY(5) 
+	EMPTY(6) 
+	EMPTY(7)
   }
 }
 
@@ -59,11 +71,11 @@ static inline def_EHelper(gp4) {
 /* 0xff */
 static inline def_EHelper(gp5) {
   switch (s->isa.ext_opcode) {
-    EMPTY(0) 
+    EX (0, inc) 
 	EMPTY(1) 
 	EMPTY(2) 
 	EMPTY(3)
-    EMPTY(4) 
+    EX (4, jmp_rm) 
 	EMPTY(5) 
 	EX (6, push) 
 	EMPTY(7)
@@ -85,8 +97,11 @@ static inline def_EHelper(2byte_esc) {
   /* TODO: Add more instructions!!! */
     IDEX (0x01, gp7_E, gp7)
 	IDEX (0x84, J, jcc)
-	IDEX (0x94, setcc_E, setcc)
-	IDEX (0xb6, G2E, movzx)
+	IDEXW(0x94, setcc_E, setcc, 1)
+	IDEXW(0x95, setcc_E, setcc, 1)
+	IDEXW(0xb6, E2G, movzx, 1)
+	IDEXW(0xb7, E2G, movzx, 2)
+	IDEXW(0xbe, E2G, movsx, 1)
     default: exec_inv(s);
   }
 }
@@ -97,19 +112,39 @@ again:
   opcode = instr_fetch(&s->seq_pc, 1);
   s->opcode = opcode;
   switch (opcode) {
+	IDEXW(0x00, G2E, add, 1)
+	IDEX (0x01, G2E, add)
+	IDEXW(0x02, E2G, add, 1)
+	IDEX (0x03, E2G, add)
+	IDEXW(0x04, I2a, add, 1)
+	IDEX (0x05, I2a, add)
+	IDEX (0x09, G2E, or)
+	IDEXW(0x0a, G2E, or, 1)
     EX   (0x0f, 2byte_esc)
+    IDEX (0x13, E2G, adc)
+	IDEXW(0x22, E2G, and, 1)
+	IDEX (0x29, G2E, sub)
 	IDEX (0x31, G2E, xor)
 	IDEXW(0x38, G2E, cmp, 1)
-	IDEXW(0x3C, I2r, cmp, 1)
+	IDEX (0x39, G2E, cmp)
+	IDEX (0x3b, G2E, cmp)
+	IDEXW(0x3c, I2a, cmp, 1)
 	IDEX (0x40, r, inc)
+	IDEX (0x41, r, inc)
 	IDEX (0x42, r, inc)
 	IDEX (0x43, r, inc)
+	IDEX (0x46, r, inc)
+	IDEX (0x47, r, inc)
+	IDEX (0x4b, r, dec)
+	IDEX (0x50, r, push)
 	IDEX (0x51, r, push)
+	IDEX (0x52, r, push)
 	IDEX (0x53, r, push)
 	IDEX (0x55, r, push)
 	IDEX (0x56, r, push)
 	IDEX (0x57, r, push)
 	IDEX (0x58, r, pop)
+	IDEX (0x59, r, pop)
 	IDEX (0x5a, r, pop)
 	IDEX (0x5b, r, pop)
 	IDEX (0x5d, r, pop)
@@ -119,6 +154,11 @@ again:
 	IDEXW(0x6a, I, push, 1)
 	IDEXW(0x74, J, jcc, 1)
 	IDEXW(0x75, J, jcc, 1)
+	IDEXW(0x77, J, jcc, 1)
+	IDEXW(0x78, J, jcc, 1)
+	IDEXW(0x7d, J, jcc, 1)
+	IDEXW(0x7e, J, jcc, 1)
+	IDEXW(0x7f, J, jcc, 1)
     IDEXW(0x80, I2E, gp1, 1)
     IDEX (0x81, I2E, gp1)
     IDEX (0x83, SI2E, gp1)
@@ -126,9 +166,10 @@ again:
     IDEX (0x85, G2E, test)
     IDEXW(0x88, mov_G2E, mov, 1)
     IDEX (0x89, mov_G2E, mov)
-    IDEXW(0x8a, mov_E2G, mov, 1)
+    IDEXW(0x8a, mov_E2G, mov, 1) 
     IDEX (0x8b, mov_E2G, mov)
     IDEX (0x8d, lea_M2G, lea)
+	EX   (0x90, nop)
     IDEXW(0xa0, O2a, mov, 1)
     IDEX (0xa1, O2a, mov)
     IDEXW(0xa2, a2O, mov, 1)
@@ -146,8 +187,6 @@ again:
     IDEX (0xba, mov_I2r, mov)
     IDEX (0xbb, mov_I2r, mov)
     IDEX (0xbc, mov_I2r, mov)
-	//decode_mov_I2r => def_DHelper(mov_I2r) 
-	//exec_mov => def_EHelper(mov)
     IDEX (0xbd, mov_I2r, mov)
     IDEX (0xbe, mov_I2r, mov)
     IDEX (0xbf, mov_I2r, mov)
@@ -163,6 +202,7 @@ again:
     IDEX (0xd3, gp2_cl2E, gp2)
     EX   (0xd6, nemu_trap)
 	IDEX (0xe8, J, call)
+	IDEX (0xe9, J, jmp)
 	IDEXW(0xeb, J, jmp, 1)
     IDEXW(0xf6, E, gp3, 1)
     IDEX (0xf7, E, gp3)

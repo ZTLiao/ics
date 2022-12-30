@@ -26,7 +26,7 @@ typedef struct {
   uint32_t b20   :20;
 } x86_Eflags; 
 
-/* TODO: Re-organize the `CPU_state' structure to match the register
+/* Re-organize the `CPU_state' structure to match the register
  * encoding scheme in i386 instruction format. For example, if we
  * access cpu.gpr[3]._16, we will get the `bx' register; if we access
  * cpu.gpr[1]._8[1], we will get the 'ch' register. Hint: Use `union'.
@@ -34,19 +34,27 @@ typedef struct {
  */
 
 typedef struct {
-  struct {
-    uint32_t _32;
-    uint16_t _16;
-    uint8_t _8[2];
-  } gpr[8];
+  union {
+    union {
+      uint32_t _32;
+	  struct {
+	    union {
+          uint16_t _16;
+          uint8_t _8[2];
+	    };
+		uint16_t _RESERVE;
+	  };
+    } gpr[8];
 
-  /* Do NOT change the order of the GPRs' definitions. */
+    /* Do NOT change the order of the GPRs' definitions. */
 
-  /* In NEMU, rtlreg_t is exactly uint32_t. This makes RTL instructions
-   * in PA2 able to directly access these registers.
-   */
-  rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
-
+    /* In NEMU, rtlreg_t is exactly uint32_t. This makes RTL instructions
+     * in PA2 able to directly access these registers.
+     */
+	struct {
+      rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
+	};
+  };
   vaddr_t pc;
   x86_Eflags eflags;
 } x86_CPU_state;

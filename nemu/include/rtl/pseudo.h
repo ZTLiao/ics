@@ -17,7 +17,7 @@ static inline def_rtl(mv, rtlreg_t* dest, const rtlreg_t *src1) {
 
 static inline def_rtl(not, rtlreg_t *dest, const rtlreg_t* src1) {
   // dest <- ~src1
-  TODO();
+  *dest = ~(*src1);
 }
 
 static inline def_rtl(neg, rtlreg_t *dest, const rtlreg_t* src1) {
@@ -27,7 +27,36 @@ static inline def_rtl(neg, rtlreg_t *dest, const rtlreg_t* src1) {
 
 static inline def_rtl(sext, rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- signext(src1[(width * 8 - 1) .. 0])
-  TODO();
+  int sign = 0;
+  if (width == 1) {
+    sign = (*src1 & 0x80) >> 7;
+  } else if (width == 2) {
+    sign = (*src1 & 0x8000) >> 15;
+  }
+  rtlreg_t tmp = *src1;
+  Log("sign = %d, *src = %X", sign, *src1);
+#ifdef ISA64
+  int len = 64;
+#else
+  int len = 32;
+#endif
+  if (sign) {
+    int i;
+    for (i = width * 8; i < len; i++) {
+	  Log("sign << %d = %X", i, (sign << i));
+      if (sign) {
+	    tmp |= (sign << i);
+	  }
+    }
+  } else {
+    if (width == 1) {
+	  tmp &= 0xFF;
+	} else if (width == 2) {
+	  tmp &= 0xFFFF;
+	}
+  }
+  Log("tmp = %X", tmp);
+  *dest = tmp;
 }
 
 static inline def_rtl(zext, rtlreg_t* dest, const rtlreg_t* src1, int width) {

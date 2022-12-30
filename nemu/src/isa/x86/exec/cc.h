@@ -32,23 +32,31 @@ static inline void rtl_setcc(DecodeExecState *s, rtlreg_t* dest, uint32_t subcod
     case CC_O:
     case CC_B:
     case CC_E:
-		//NE
-	    if (subcode & 0x1) {
-		} else {
-			Log("cpu.eflags.ZF = %d", cpu.eflags.ZF);
-			*dest = cpu.eflags.ZF;
-		}
-		break;
+	  Log("cpu.eflags.ZF = %d", cpu.eflags.ZF);
+	  *dest = cpu.eflags.ZF;
+	  break;
     case CC_BE:
+	  Log("cpu.eflags.CF = %d, cpu.eflags.ZF = %d", cpu.eflags.CF, cpu.eflags.ZF);
+	  *dest = cpu.eflags.CF || cpu.eflags.ZF;
+	  break;
     case CC_S:
+	  Log("cpu.eflags.SF = %d", cpu.eflags.SF);
+	  *dest = cpu.eflags.SF;
+	  break;
     case CC_L:
+	  Log("cpu.eflags.SF = %d, cpu.eflags.OF = %d", cpu.eflags.SF, cpu.eflags.OF);
+	  *dest = cpu.eflags.SF != cpu.eflags.OF;
+	  break;
     case CC_LE:
-       TODO();
+       Log("cpu.eflags.ZF = %d, cpu.eflags.SF = %d, cpu.eflags.OF = %d", cpu.eflags.ZF, cpu.eflags.SF, cpu.eflags.OF);
+	   *dest = cpu.eflags.ZF || (cpu.eflags.SF != cpu.eflags.OF); 
+	   break;
     case CC_P: panic("PF is not supported");
     default: panic("should not reach here");
   }
 
   if (invert) {
+	Log("invert...");
     rtl_xori(s, dest, dest, 0x1);
   }
   assert(*dest == 0 || *dest == 1);

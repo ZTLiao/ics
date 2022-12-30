@@ -28,11 +28,12 @@ static inline def_rtl(push, const rtlreg_t* src1) {
   // esp <- esp - 4
   // M[esp] <- src1
   int width = s->isa.is_operand_size_16 ? 2 : 4;
-  Log("BEFORE R_ESP = %x", reg_l(R_ESP));
-  reg_l(R_ESP) = reg_l(R_ESP) - width;
-  cpu.esp = reg_l(R_ESP);
-  rtl_sm(s, &reg_l(R_ESP), 0, src1, width);
-  Log("AFTER R_ESP = %x, src1 = %x", reg_l(R_ESP), *src1);
+  Log("BEFORE R_ESP = %x", cpu.esp);
+  cpu.esp = cpu.esp - width;
+  rtl_sm(s, &cpu.esp, 0, src1, width);
+  rtlreg_t tmp;
+  rtl_lm(s, &tmp, &reg_l(R_ESP), 0, 4);
+  Log("AFTER R_ESP = %x, src1 = %x, reg_l(%d) = %x, tmp = %x", cpu.esp, *src1, R_ESP, reg_l(R_ESP), tmp);
 }
 
 static inline def_rtl(pop, rtlreg_t* dest) {
@@ -40,13 +41,11 @@ static inline def_rtl(pop, rtlreg_t* dest) {
   // esp <- esp + 4
   int width = s->isa.is_operand_size_16 ? 2 : 4;
   Log("rtl_pop...");
-  Log("reg_l(R_ESP) = %x, dest = %p", reg_l(R_ESP), dest);
-  rtl_lm(s, dest, &reg_l(R_ESP), 0, width);
-  
-  Log("BEFORE R_ESP = %x, dest = %x", reg_l(R_ESP), *dest);
-  reg_l(R_ESP) = reg_l(R_ESP) + width;
-  cpu.esp = reg_l(R_ESP);
-  Log("AFTER R_ESP = %x", reg_l(R_ESP));
+  Log("cpu.esp = %x, dest = %p", cpu.esp, dest);
+  rtl_lm(s, dest, &cpu.esp, 0, width);
+  Log("BEFORE R_ESP = %x, dest = %x", cpu.esp, *dest);
+  cpu.esp = cpu.esp + width;
+  Log("AFTER R_ESP = %x", cpu.esp);
 }
 
 static inline bool is_overflow(const rtlreg_t* res, const rtlreg_t* src1, const rtlreg_t* src2, int width) {
@@ -76,14 +75,17 @@ static inline def_rtl(is_sub_overflow, rtlreg_t* dest,
 }
 
 static inline bool is_carry(const rtlreg_t* src1, const rtlreg_t* src2) {
+  if (*src1 == 0 || *src2 == 0) {
+    return 0;
+  }
   uint8_t cin = 0;
-  uint8_t cout = 0;
   int i;
   for (i = 0; i < 32; i++) {
-    cin = ((*src1 >> i) & 0x1) ^ ((*src2 >> i) & 0x1) ^ cin;
+	uint8_t tmp0 = *src1 >> i & 1;
+	uint8_t tmp1 = *src2 >> i & 1;
+    cin = (tmp0 & tmp1) | ((tmp0 ^ tmp1) & cin);
   }
-  cout = ((*src1 & 0x80000000) >> 31) & ((*src2 & 0x80000000) >> 31);
-  return cout ^ cin;
+  return cin;
 }
 
 static inline def_rtl(is_sub_carry, rtlreg_t* dest,
@@ -109,9 +111,8 @@ static inline def_rtl(is_add_carry, rtlreg_t* dest,
     const rtlreg_t* res, const rtlreg_t* src1) {
   // dest <- is_carry(src1 + src2)
   bool flag = is_carry(res, src1);
-  Log("is_add_carry = %d", flag);
-  Log("eflags.CF = %d", flag);
   *dest = flag;
+  Log("is_add_carry eflags.CF = %d", flag);
 }
 
 #define def_rtl_setget_eflags(f) \

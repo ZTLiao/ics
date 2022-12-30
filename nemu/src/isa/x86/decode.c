@@ -105,6 +105,7 @@ void read_ModR_M(DecodeExecState *s, Operand *rm, bool load_rm_val, Operand *reg
   if (m.mod == 3) operand_reg(s, rm, load_rm_val, m.R_M, rm->width);
   else {
     load_addr(s, &m, rm);
+	printf("s->isa.mbase = %x, s->isa.moff = %x, rm->width = %d\n", *s->isa.mbase, s->isa.moff, rm->width);
     if (load_rm_val) rtl_lm(s, &rm->val, s->isa.mbase, s->isa.moff, rm->width);
     rm->preg = &rm->val;
   }

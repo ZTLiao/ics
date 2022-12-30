@@ -131,6 +131,7 @@ static inline def_DHelper(E2G) {
 }
 
 static inline def_DHelper(mov_E2G) {
+  Log("mov_E2G...");
   operand_rm(s, id_src1, true, id_dest, false);
 }
 

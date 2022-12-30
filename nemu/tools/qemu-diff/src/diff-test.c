@@ -46,19 +46,16 @@ void difftest_init(int port) {
   }
   else if (pid == 0) {
     // child
-
     // install a parent death signal in the chlid
     int r = prctl(PR_SET_PDEATHSIG, SIGTERM);
     if (r == -1) {
       perror("prctl error");
       assert(0);
     }
-
     if (getppid() != ppid_before_fork) {
       printf("parent has died!\n");
       assert(0);
     }
-
     close(STDIN_FILENO);
     execlp(ISA_QEMU_BIN, ISA_QEMU_BIN, ISA_QEMU_ARGS "-S", "-gdb", buf, "-nographic", NULL);
     perror("exec");
