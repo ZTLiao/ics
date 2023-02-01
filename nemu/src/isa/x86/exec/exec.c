@@ -49,14 +49,14 @@ static inline def_EHelper(gp2) {
 /* 0xf6, 0xf7 */
 static inline def_EHelper(gp3) {
   switch (s->isa.ext_opcode) {
-    EMPTY(0) 
+    IDEXW(0, test_I, test, s->dest.width) 
 	EMPTY(1) 
-	EX (2, not) 
+	EX   (2, not) 
 	EMPTY(3)
     EMPTY(4) 
-	EMPTY(5) 
+	EX   (5, imul1) 
 	EMPTY(6) 
-	EMPTY(7)
+	EX (7, idiv)
   }
 }
 
@@ -73,7 +73,7 @@ static inline def_EHelper(gp5) {
   switch (s->isa.ext_opcode) {
     EX (0, inc) 
 	EMPTY(1) 
-	EMPTY(2) 
+	EX (2, call) 
 	EMPTY(3)
     EX (4, jmp_rm) 
 	EMPTY(5) 
@@ -97,11 +97,18 @@ static inline def_EHelper(2byte_esc) {
   /* TODO: Add more instructions!!! */
     IDEX (0x01, gp7_E, gp7)
 	IDEX (0x84, J, jcc)
+	IDEX (0x85, J, jcc)
+	IDEX (0x8c, J, jcc)
+	IDEX (0x8d, J, jcc)
+	IDEX (0x8e, J, jcc)
+	IDEX (0x8f, J, jcc)
 	IDEXW(0x94, setcc_E, setcc, 1)
 	IDEXW(0x95, setcc_E, setcc, 1)
+	IDEX (0xaf, E2G, imul2)
 	IDEXW(0xb6, E2G, movzx, 1)
 	IDEXW(0xb7, E2G, movzx, 2)
 	IDEXW(0xbe, E2G, movsx, 1)
+	IDEXW(0xbf, E2G, movsx, 2)
     default: exec_inv(s);
   }
 }
@@ -119,7 +126,7 @@ again:
 	IDEXW(0x04, I2a, add, 1)
 	IDEX (0x05, I2a, add)
 	IDEX (0x09, G2E, or)
-	IDEXW(0x0a, G2E, or, 1)
+	IDEXW(0x0a, E2G, or, 1)
     EX   (0x0f, 2byte_esc)
     IDEX (0x13, E2G, adc)
 	IDEXW(0x22, E2G, and, 1)
@@ -127,15 +134,19 @@ again:
 	IDEX (0x31, G2E, xor)
 	IDEXW(0x38, G2E, cmp, 1)
 	IDEX (0x39, G2E, cmp)
-	IDEX (0x3b, G2E, cmp)
+	IDEXW(0x3a, E2G, cmp, 1)
+	IDEX (0x3b, E2G, cmp)
 	IDEXW(0x3c, I2a, cmp, 1)
+	IDEX (0x3d, I2a, cmp)
 	IDEX (0x40, r, inc)
 	IDEX (0x41, r, inc)
 	IDEX (0x42, r, inc)
 	IDEX (0x43, r, inc)
 	IDEX (0x46, r, inc)
 	IDEX (0x47, r, inc)
+	IDEX (0x48, r, dec)
 	IDEX (0x4b, r, dec)
+	IDEX (0x4e, r, dec)
 	IDEX (0x50, r, push)
 	IDEX (0x51, r, push)
 	IDEX (0x52, r, push)
@@ -156,6 +167,7 @@ again:
 	IDEXW(0x75, J, jcc, 1)
 	IDEXW(0x77, J, jcc, 1)
 	IDEXW(0x78, J, jcc, 1)
+	IDEXW(0x7c, J, jcc, 1)
 	IDEXW(0x7d, J, jcc, 1)
 	IDEXW(0x7e, J, jcc, 1)
 	IDEXW(0x7f, J, jcc, 1)
@@ -170,6 +182,7 @@ again:
     IDEX (0x8b, mov_E2G, mov)
     IDEX (0x8d, lea_M2G, lea)
 	EX   (0x90, nop)
+	EX   (0x99, cltd)
     IDEXW(0xa0, O2a, mov, 1)
     IDEX (0xa1, O2a, mov)
     IDEXW(0xa2, a2O, mov, 1)

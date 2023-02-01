@@ -35,11 +35,9 @@ static inline def_EHelper(sub) {
 static inline def_EHelper(cmp) {
   Log("cmp...");
   // id_dest - id_src1;
-  if (id_src1->type == OP_TYPE_REG) {
-    rtl_sub(s, s0, ddest, dsrc1);
-  } else if (id_src1->type == OP_TYPE_IMM) {
-    rtl_subi(s, s0, ddest, *dsrc1);
-  }
+  rtl_sext(s, dsrc1, dsrc1, id_src1->width);
+  Log("dsrc1 = %X, ddest = %X", *dsrc1, *ddest);
+  rtl_sub(s, s0, ddest, dsrc1);
   Log("s0 = %x", *s0);
   rtl_update_ZFSF(s, s0, id_dest->width);
   rtl_update_PF(s, s0, id_dest->width);
@@ -52,6 +50,7 @@ static inline def_EHelper(cmp) {
 
 static inline def_EHelper(inc) {
   Log("inc..");
+  rtlreg_t *temp0 = ddest;
   if (id_dest->type == OP_TYPE_REG) {
 	  Log("BEFORE *ddest = %d", *ddest);
 	  rtlreg_t val = *ddest + 1;
@@ -63,11 +62,18 @@ static inline def_EHelper(inc) {
 	  Log("AFTER *ddest = %d", *ddest);
 	  operand_write(s, id_dest, ddest);
   } 
+  rtl_update_ZFSF(s, ddest, id_dest->width);
+  rtl_update_PF(s, ddest, id_dest->width);
+  rtlreg_t temp1 = 1;
+  rtl_is_add_overflow(s, s1, ddest, temp0, &temp1, id_dest->width);
+  rtl_set_OF(s, s1);
+  print_asm_template1(dec);
   print_asm_template1(inc);
 }
 
 static inline def_EHelper(dec) {
   Log("dec...");
+  rtlreg_t *temp0 = ddest;
   if (id_dest->type == OP_TYPE_REG) {
 	  Log("BEFORE *ddest = %d", *ddest);
 	  rtlreg_t val = *ddest - 1;
@@ -79,6 +85,11 @@ static inline def_EHelper(dec) {
 	  Log("AFTER *ddest = %d", *ddest);
 	  operand_write(s, id_dest, ddest);
   } 
+  rtl_update_ZFSF(s, ddest, id_dest->width);
+  rtl_update_PF(s, ddest, id_dest->width);
+  rtlreg_t temp1 = 1;
+  rtl_is_sub_overflow(s, s1, ddest, temp0, &temp1, id_dest->width);
+  rtl_set_OF(s, s1);
   print_asm_template1(dec);
 }
 
@@ -231,6 +242,8 @@ static inline def_EHelper(div) {
 }
 
 static inline def_EHelper(idiv) {
+  Log("idiv...");
+  Log("BEFORE id_dest->width = %d, cpu.eax = %d, cpu.edx = %d", id_dest->width, cpu.eax, cpu.edx);
   switch (id_dest->width) {
     case 1:
       rtl_lr(s, s0, R_AX, 2);

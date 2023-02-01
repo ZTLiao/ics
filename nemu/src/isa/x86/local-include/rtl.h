@@ -6,6 +6,20 @@
 
 /* RTL pseudo instructions */
 
+#define def_rtl_setget_eflags(f) \
+  static inline def_rtl(concat(set_, f), const rtlreg_t* src) { \
+    cpu.eflags.f = *src; \
+  } \
+  static inline def_rtl(concat(get_, f), rtlreg_t* dest) { \
+    *dest = cpu.eflags.f; \
+  }
+
+def_rtl_setget_eflags(CF)
+def_rtl_setget_eflags(OF)
+def_rtl_setget_eflags(ZF)
+def_rtl_setget_eflags(SF)
+def_rtl_setget_eflags(PF)
+
 static inline def_rtl(lr, rtlreg_t* dest, int r, int width) {
   switch (width) {
     case 4: rtl_mv(s, dest, &reg_l(r)); return;
@@ -67,10 +81,28 @@ static inline bool is_overflow(const rtlreg_t* res, const rtlreg_t* src1, const 
 static inline def_rtl(is_sub_overflow, rtlreg_t* dest,
     const rtlreg_t* res, const rtlreg_t* src1, const rtlreg_t* src2, int width) {
   // dest <- is_overflow(src1 - src2)
-  rtlreg_t src = (-(*src2));
-  bool flag = is_overflow(res, src1, &src, width);
-  Log("is_sub_overflow = %d", flag);
-  Log("eflags.OF = %d", flag);
+  Log("res = %X, src1 = %X, src2 = %X, width = %d", *res, *src1, *src2, width);
+  uint8_t over  = 0;
+  uint8_t over1 = 0;
+  uint8_t over2 = 0;
+  if (width == 1) {
+	over  = (*res  & 0x80) >> 7;
+	over1 = (*src1 & 0x80) >> 7;
+	over2 = (*src2 & 0x80) >> 7;
+  } else if (width == 2) {
+    over  = (*res  & 0x8000) >> 15;
+    over1 = (*src1 & 0x8000) >> 15;
+    over2 = (*src2 & 0x8000) >> 15;
+  } else if (width == 4) {
+    over  = (*res  & 0x80000000) >> 31;
+    over1 = (*src1 & 0x80000000) >> 31;
+    over2 = (*src2 & 0x80000000) >> 31;
+  }
+  bool flag = 0;
+  if (over1 != over2 && over != over1) {
+    flag = 1;
+  }
+  Log("is_sub_overflow eflags.OF = %d", flag);
   *dest = flag;
 }
 
@@ -91,8 +123,10 @@ static inline bool is_carry(const rtlreg_t* src1, const rtlreg_t* src2) {
 static inline def_rtl(is_sub_carry, rtlreg_t* dest,
     const rtlreg_t* src1, const rtlreg_t* src2) {
   // dest <- is_carry(src1 - src2)
-  rtlreg_t src = (-(*src2));
-  bool flag = is_carry(src1, &src);
+  rtlreg_t res = *src1 - *src2;
+  uint8_t over1 = (res & 0x80000000) >> 31;
+  uint8_t over2 = (*src1 & 0x80000000) >> 31;
+  bool flag = over1 ^ over2;
   Log("is_sub_carry = %d", flag);
   Log("eflags.CF = %d", flag);
   *dest = flag;
@@ -115,19 +149,7 @@ static inline def_rtl(is_add_carry, rtlreg_t* dest,
   Log("is_add_carry eflags.CF = %d", flag);
 }
 
-#define def_rtl_setget_eflags(f) \
-  static inline def_rtl(concat(set_, f), const rtlreg_t* src) { \
-    cpu.eflags.f = *src; \
-  } \
-  static inline def_rtl(concat(get_, f), rtlreg_t* dest) { \
-    *dest = cpu.eflags.f; \
-  }
 
-def_rtl_setget_eflags(CF)
-def_rtl_setget_eflags(OF)
-def_rtl_setget_eflags(ZF)
-def_rtl_setget_eflags(SF)
-def_rtl_setget_eflags(PF)
 
 static inline bool is_zero(const rtlreg_t* result, int width) {
 	uint8_t* pResult = (uint8_t*)result;

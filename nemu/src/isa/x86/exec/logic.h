@@ -2,15 +2,25 @@
 
 static inline def_EHelper(test) {
   Log("test...");
-  Log("id_dest->reg : %d, id_src1->reg : %d", id_dest->reg, id_src1->reg);
+  Log("id_dest->type : %d, id_src1->type : %d", id_dest->type, id_src1->type);
   if (id_dest->type == OP_TYPE_REG) {
-    if (id_dest->width == 1) {
-      Log("ddest : %x, dsrc1 : %x", reg_b(id_dest->reg), reg_b(id_src1->reg));
-	  rtl_and(s, s0, (rtlreg_t *) &reg_b(id_dest->reg), (rtlreg_t *) &reg_b(id_src1->reg));	
-    } else {
-      Log("ddest : %x, dsrc1 : %x", reg_l(id_dest->reg), reg_l(id_src1->reg));
-	  rtl_and(s, s0, (rtlreg_t *) &reg_l(id_dest->reg), (rtlreg_t *) &reg_l(id_src1->reg));	
-    }
+	if (id_src1->type == OP_TYPE_REG) {
+      if (id_dest->width == 1) {
+        Log("ddest : %x, dsrc1 : %x", reg_b(id_dest->reg), reg_b(id_src1->reg));
+	    rtl_and(s, s0, (rtlreg_t *) &reg_b(id_dest->reg), (rtlreg_t *) &reg_b(id_src1->reg));	
+      } else {
+        Log("ddest : %x, dsrc1 : %x", reg_l(id_dest->reg), reg_l(id_src1->reg));
+	    rtl_and(s, s0, (rtlreg_t *) &reg_l(id_dest->reg), (rtlreg_t *) &reg_l(id_src1->reg));	
+	  }
+    } else if (id_src1->type == OP_TYPE_IMM) {
+      if (id_dest->width == 1) {
+        Log("ddest : %x, dsrc1 : %x", reg_b(id_dest->reg), *dsrc1);
+	    rtl_and(s, s0, (rtlreg_t *) &reg_b(id_dest->reg), dsrc1);	
+      } else {
+        Log("ddest : %x, dsrc1 : %x", reg_l(id_dest->reg), *dsrc1);
+	    rtl_and(s, s0, (rtlreg_t *) &reg_l(id_dest->reg), dsrc1);	
+	  }
+	}
   } else {
 	if (id_src1->type == OP_TYPE_REG) {
 	  if (id_src1->width == 1) {
@@ -32,16 +42,18 @@ static inline def_EHelper(test) {
 static inline def_EHelper(and) {
   Log("and...");
   if (id_src1->type == OP_TYPE_IMM) {
-     Log("ddest : %x, dsrc1 : %x", *ddest, *dsrc1);
      rtl_andi(s, ddest, ddest, *dsrc1);
   } else if (id_src1->type == OP_TYPE_MEM) {
 	 if (id_dest->type == OP_TYPE_REG) {
 	   if (id_dest->width == 1) {
-         rtl_and(s, (rtlreg_t *) &reg_b(id_dest->reg), (rtlreg_t *) &reg_b(id_dest->reg), dsrc1);
+         rtl_and(s, s0, (rtlreg_t *) &reg_b(id_dest->reg), dsrc1);
+		 reg_b(id_dest->reg) = (0xFF & *s0);
 	   } else if (id_dest->width == 2) {
-         rtl_and(s, (rtlreg_t *) &reg_w(id_dest->reg), (rtlreg_t *) &reg_w(id_dest->reg), dsrc1);
+         rtl_and(s, s0, (rtlreg_t *) &reg_w(id_dest->reg), dsrc1);
+		 reg_w(id_dest->reg) = (0xFFFF & *s0);
 	   } else {
-         rtl_and(s, (rtlreg_t *) &reg_l(id_dest->reg), (rtlreg_t *) &reg_l(id_dest->reg), dsrc1);
+         rtl_and(s, s0, (rtlreg_t *) &reg_l(id_dest->reg), dsrc1);
+		 reg_l(id_dest->reg) = *s0;
 	   }
 	 } else {
        rtl_and(s, ddest, ddest, dsrc1);
@@ -49,6 +61,7 @@ static inline def_EHelper(and) {
   } else {
      rtl_and(s, ddest, ddest, dsrc1);
   }
+  Log("ddest : %x, dsrc1 : %x", *ddest, *dsrc1);
   rtl_set_CF(s, rz);
   rtl_set_OF(s, rz);
   print_asm_template2(and);
@@ -78,11 +91,26 @@ static inline def_EHelper(xor) {
 static inline def_EHelper(or) {
   Log("or...");
   if (id_src1->type == OP_TYPE_IMM) {
-     Log("ddest : %x, dsrc1 : %x", *ddest, *dsrc1);
      rtl_ori(s, ddest, ddest, *dsrc1);
+  } else if (id_src1->type == OP_TYPE_MEM) {
+	 if (id_dest->type == OP_TYPE_REG) {
+	   if (id_dest->width == 1) {
+         rtl_or(s, s0, (rtlreg_t *) &reg_b(id_dest->reg), dsrc1);
+		 reg_b(id_dest->reg) = (0xFF & *s0);
+	   } else if (id_dest->width == 2) {
+         rtl_or(s, s0, (rtlreg_t *) &reg_w(id_dest->reg), dsrc1);
+		 reg_w(id_dest->reg) = (0xFFFF & *s0);
+	   } else {
+         rtl_or(s, s0, (rtlreg_t *) &reg_l(id_dest->reg), dsrc1);
+		 reg_l(id_dest->reg) = *s0;
+	   }
+	 } else {
+       rtl_or(s, ddest, ddest, dsrc1);
+	 }
   } else {
      rtl_or(s, ddest, ddest, dsrc1);
   }
+  Log("s0 = %x, ddest : %x, dsrc1 : %x", *s0, *ddest, *dsrc1);
   rtl_update_ZFSF(s, ddest, id_dest->width);
   rtl_update_PF(s, ddest, id_dest->width);
   rtl_set_CF(s, rz);
@@ -102,6 +130,11 @@ static inline def_EHelper(not) {
 	} else {
       rtl_not(s, (rtlreg_t *) &reg_l(id_dest->reg), (rtlreg_t *) &reg_l(id_dest->reg));
 	}
+  }
+  if (id_dest->type == OP_TYPE_REG) {
+	Log("reg ddest = %x", reg_l(id_dest->reg));
+  } else {
+    Log("other ddest = %x", *ddest);
   }
   print_asm_template1(not);
 }
@@ -182,9 +215,11 @@ static inline def_EHelper(shr) {
 
 
 static inline def_EHelper(setcc) {
+  Log("setcc...");
   uint32_t cc = s->opcode & 0xf;
-  rtl_setcc(s, ddest, cc);
-  operand_write(s, id_dest, ddest);
+  rtl_setcc(s, s0, cc);
+  Log("s0 = %d", *s0);
+  operand_write(s, id_dest, s0);
 
   print_asm("set%s %s", get_cc_name(cc), id_dest->str);
 }

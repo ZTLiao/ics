@@ -1,0 +1,120 @@
+
+/home/liaozetao/Documents/ics/am-kernels/tests/cpu-tests/build/bubble-sort-x86-nemu.elf:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+00100000 <_start>:
+  100000:	bd 00 00 00 00       	mov    $0x0,%ebp
+  100005:	bc 00 90 10 00       	mov    $0x109000,%esp
+  10000a:	e8 ed 00 00 00       	call   1000fc <_trm_init>
+  10000f:	90                   	nop
+
+00100010 <check>:
+  100010:	55                   	push   %ebp
+  100011:	89 e5                	mov    %esp,%ebp
+  100013:	83 ec 08             	sub    $0x8,%esp
+  100016:	80 7d 08 00          	cmpb   $0x0,0x8(%ebp)
+  10001a:	74 02                	je     10001e <check+0xe>
+  10001c:	c9                   	leave  
+  10001d:	c3                   	ret    
+  10001e:	83 ec 0c             	sub    $0xc,%esp
+  100021:	6a 01                	push   $0x1
+  100023:	e8 c8 00 00 00       	call   1000f0 <halt>
+
+00100028 <bubble_sort>:
+  100028:	55                   	push   %ebp
+  100029:	89 e5                	mov    %esp,%ebp
+  10002b:	53                   	push   %ebx
+  10002c:	bb 13 00 00 00       	mov    $0x13,%ebx
+  100031:	85 db                	test   %ebx,%ebx
+  100033:	74 31                	je     100066 <bubble_sort+0x3e>
+  100035:	8d 76 00             	lea    0x0(%esi),%esi
+  100038:	31 c0                	xor    %eax,%eax
+  10003a:	66 90                	xchg   %ax,%ax
+  10003c:	8b 14 85 20 01 10 00 	mov    0x100120(,%eax,4),%edx
+  100043:	40                   	inc    %eax
+  100044:	8b 0c 85 20 01 10 00 	mov    0x100120(,%eax,4),%ecx
+  10004b:	39 ca                	cmp    %ecx,%edx
+  10004d:	7e 0e                	jle    10005d <bubble_sort+0x35>
+  10004f:	89 0c 85 1c 01 10 00 	mov    %ecx,0x10011c(,%eax,4)
+  100056:	89 14 85 20 01 10 00 	mov    %edx,0x100120(,%eax,4)
+  10005d:	39 d8                	cmp    %ebx,%eax
+  10005f:	75 db                	jne    10003c <bubble_sort+0x14>
+  100061:	4b                   	dec    %ebx
+  100062:	85 db                	test   %ebx,%ebx
+  100064:	75 d2                	jne    100038 <bubble_sort+0x10>
+  100066:	8b 5d fc             	mov    -0x4(%ebp),%ebx
+  100069:	c9                   	leave  
+  10006a:	c3                   	ret    
+  10006b:	90                   	nop
+
+0010006c <main>:
+  10006c:	8d 4c 24 04          	lea    0x4(%esp),%ecx
+  100070:	83 e4 f0             	and    $0xfffffff0,%esp
+  100073:	ff 71 fc             	pushl  -0x4(%ecx)
+  100076:	55                   	push   %ebp
+  100077:	89 e5                	mov    %esp,%ebp
+  100079:	53                   	push   %ebx
+  10007a:	51                   	push   %ecx
+  10007b:	e8 a8 ff ff ff       	call   100028 <bubble_sort>
+  100080:	31 db                	xor    %ebx,%ebx
+  100082:	66 90                	xchg   %ax,%ax
+  100084:	83 ec 0c             	sub    $0xc,%esp
+  100087:	31 c0                	xor    %eax,%eax
+  100089:	39 1c 9d 20 01 10 00 	cmp    %ebx,0x100120(,%ebx,4)
+  100090:	0f 94 c0             	sete   %al
+  100093:	50                   	push   %eax
+  100094:	e8 77 ff ff ff       	call   100010 <check>
+  100099:	83 c4 10             	add    $0x10,%esp
+  10009c:	43                   	inc    %ebx
+  10009d:	83 fb 14             	cmp    $0x14,%ebx
+  1000a0:	75 e2                	jne    100084 <main+0x18>
+  1000a2:	83 ec 0c             	sub    $0xc,%esp
+  1000a5:	6a 01                	push   $0x1
+  1000a7:	e8 64 ff ff ff       	call   100010 <check>
+  1000ac:	83 c4 10             	add    $0x10,%esp
+  1000af:	e8 74 ff ff ff       	call   100028 <bubble_sort>
+  1000b4:	31 db                	xor    %ebx,%ebx
+  1000b6:	66 90                	xchg   %ax,%ax
+  1000b8:	83 ec 0c             	sub    $0xc,%esp
+  1000bb:	31 c0                	xor    %eax,%eax
+  1000bd:	39 1c 9d 20 01 10 00 	cmp    %ebx,0x100120(,%ebx,4)
+  1000c4:	0f 94 c0             	sete   %al
+  1000c7:	50                   	push   %eax
+  1000c8:	e8 43 ff ff ff       	call   100010 <check>
+  1000cd:	83 c4 10             	add    $0x10,%esp
+  1000d0:	43                   	inc    %ebx
+  1000d1:	83 fb 14             	cmp    $0x14,%ebx
+  1000d4:	75 e2                	jne    1000b8 <main+0x4c>
+  1000d6:	83 ec 0c             	sub    $0xc,%esp
+  1000d9:	6a 01                	push   $0x1
+  1000db:	e8 30 ff ff ff       	call   100010 <check>
+  1000e0:	83 c4 10             	add    $0x10,%esp
+  1000e3:	31 c0                	xor    %eax,%eax
+  1000e5:	8d 65 f8             	lea    -0x8(%ebp),%esp
+  1000e8:	59                   	pop    %ecx
+  1000e9:	5b                   	pop    %ebx
+  1000ea:	5d                   	pop    %ebp
+  1000eb:	8d 61 fc             	lea    -0x4(%ecx),%esp
+  1000ee:	c3                   	ret    
+  1000ef:	90                   	nop
+
+001000f0 <halt>:
+  1000f0:	55                   	push   %ebp
+  1000f1:	89 e5                	mov    %esp,%ebp
+  1000f3:	8b 45 08             	mov    0x8(%ebp),%eax
+  1000f6:	d6                   	(bad)  
+  1000f7:	eb fe                	jmp    1000f7 <halt+0x7>
+  1000f9:	66 90                	xchg   %ax,%ax
+  1000fb:	90                   	nop
+
+001000fc <_trm_init>:
+  1000fc:	55                   	push   %ebp
+  1000fd:	89 e5                	mov    %esp,%ebp
+  1000ff:	83 ec 14             	sub    $0x14,%esp
+  100102:	68 12 01 10 00       	push   $0x100112
+  100107:	e8 60 ff ff ff       	call   10006c <main>
+  10010c:	d6                   	(bad)  
+  10010d:	83 c4 10             	add    $0x10,%esp
+  100110:	eb fe                	jmp    100110 <_trm_init+0x14>
