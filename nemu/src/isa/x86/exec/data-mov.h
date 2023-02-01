@@ -1,15 +1,6 @@
 static inline def_EHelper(mov) {
   Log("mov...");
-  Log("before ddest = %x, dsrc1 = %x, id_src1->type = %d", *ddest, *dsrc1, id_src1->type);
   operand_write(s, id_dest, dsrc1);
-  Log("after ddest = %x, dsrc1 = %x", *ddest, *dsrc1);
-  if (id_dest->type == OP_TYPE_REG) {
-	if (id_dest->width == 1) {
-      Log("id_dest->reg = %d, reg_b(%d) = %x", id_dest->reg, id_dest->reg, reg_b(id_dest->reg));
-	} else if (id_dest->width == 4) {
-      Log("id_dest->reg = %d, reg_l(%d) = %x", id_dest->reg, id_dest->reg, reg_l(id_dest->reg));
-	}
-  }
   print_asm_template2(mov);
 }
 
@@ -80,12 +71,19 @@ static inline def_EHelper(leave) {
 }
 
 static inline def_EHelper(cltd) {
+  Log("cltd...");
+  Log("BEFORE cpu.eax = %d, cpu.edx = %d", cpu.eax, cpu.edx);
   if (s->isa.is_operand_size_16) {
-    TODO();
+    rtl_sext(s, &cpu.eax, &cpu.eax, 2);
+  } else {
+    rtl_sext(s, &cpu.eax, &cpu.eax, 4);
+	if ((cpu.eax & 0x80000000) != 0) {
+	  cpu.edx = 0xFFFFFFFF;
+	} else {
+	  cpu.edx = 0x00000000;
+	}
   }
-  else {
-    TODO();
-  }
+  Log("AFTER cpu.eax = %d, cpu.edx = %d", cpu.eax, cpu.edx);
   print_asm(s->isa.is_operand_size_16 ? "cwtl" : "cltd");
 }
 

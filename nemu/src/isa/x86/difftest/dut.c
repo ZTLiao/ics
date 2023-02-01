@@ -4,15 +4,23 @@
 #include "difftest.h"
 
 void printEflags(CPU_state *ref_r) {
-  Log("ref_r->eflags.CF = %d, cpu.eflags.CF = %d", ref_r->eflags.CF, cpu.eflags.CF);
-  Log("ref_r->eflags.PF = %d, cpu.eflags.PF = %d", ref_r->eflags.PF, cpu.eflags.PF);
-  Log("ref_r->eflags.AF = %d, cpu.eflags.AF = %d", ref_r->eflags.AF, cpu.eflags.AF);
-  Log("ref_r->eflags.ZF = %d, cpu.eflags.ZF = %d", ref_r->eflags.ZF, cpu.eflags.ZF);
-  Log("ref_r->eflags.SF = %d, cpu.eflags.SF = %d", ref_r->eflags.SF, cpu.eflags.SF);
-  Log("ref_r->eflags.TF = %d, cpu.eflags.TF = %d", ref_r->eflags.TF, cpu.eflags.TF);
-  Log("ref_r->eflags.IF = %d, cpu.eflags.IF = %d", ref_r->eflags.IF, cpu.eflags.IF);
-  Log("ref_r->eflags.DF = %d, cpu.eflags.DF = %d", ref_r->eflags.DF, cpu.eflags.DF);
-  Log("ref_r->eflags.OF = %d, cpu.eflags.OF = %d", ref_r->eflags.OF, cpu.eflags.OF);
+  Log("cpu.eflags.CF = %d", cpu.eflags.CF);
+  Log("cpu.eflags.PF = %d", cpu.eflags.PF);
+  Log("cpu.eflags.AF = %d", cpu.eflags.AF);
+  Log("cpu.eflags.ZF = %d", cpu.eflags.ZF);
+  Log("cpu.eflags.SF = %d", cpu.eflags.SF);
+  Log("cpu.eflags.TF = %d", cpu.eflags.TF);
+  Log("cpu.eflags.IF = %d", cpu.eflags.IF);
+  Log("cpu.eflags.DF = %d", cpu.eflags.DF);
+  Log("cpu.eflags.OF = %d", cpu.eflags.OF);
+  Log("ref_r->eax = %X", ref_r->eax);
+  Log("ref_r->ebx = %X", ref_r->ebx);
+  Log("ref_r->ecx = %X", ref_r->ecx);
+  Log("ref_r->edx = %X", ref_r->edx);
+  Log("ref_r->esi = %X", ref_r->esi);
+  Log("ref_r->edi = %X", ref_r->edi);
+  Log("ref_r->esp = %X", ref_r->esp);
+  Log("ref_r->ebp = %X", ref_r->ebp);
 }
 
 bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
