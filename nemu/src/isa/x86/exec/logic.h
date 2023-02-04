@@ -145,23 +145,38 @@ static inline def_EHelper(sar) {
   if (id_src1->type == OP_TYPE_IMM) {
     temp = *dsrc1;
   } else if (id_src1->type == OP_TYPE_REG) {
-	if (id_src1->width == 1) {
-	  temp = reg_b(id_src1->reg);
-	} else if (id_src1->width == 2) {
-	  temp = reg_w(id_src1->reg);
-	} else {
-	  temp = reg_l(id_src1->reg);
-	}
+    temp = reg_b(id_src1->reg);
   }
-  Log("temp = %x", temp);
-  while (temp != 0) {
-	if (id_dest->type == OP_TYPE_REG) {
-	  *(&cpu.eax + id_dest->reg) = reg_l(id_dest->reg) / 2;
+  Log("temp = %X, id_dest->type = %d", temp, id_dest->type);
+  if (id_dest->type == OP_TYPE_REG) {
+    rtlreg_t reg_val = reg_l(id_dest->reg);
+	int sign = 0;
+	int width = id_dest->width;
+	if (width == 1) {
+	  sign = (reg_val & 0x80) >> 7;
+    } else if (width == 2) {
+	  sign = (reg_val & 0x8000) >> 15;
+	} else if (width == 4) {
+	  sign = (reg_val & 0x80000000) >> 31;
+	}
+	if (sign) {
+	  if (width == 1) {
+	    sign = 0x80;
+	  } else if (width == 2) {
+	    sign = 0x8000;
+	  } else if (width == 4) {
+	    sign = 0x80000000;
+	  }
+	}
+	while (temp != 0) {
+	  reg_val = (reg_val / 2) | sign;
+	  sign = sign / 2;
+	  temp = temp - 1;
     }
-	temp = temp - 1;
+	*(&cpu.eax + id_dest->reg) = reg_val;
   }
   if (id_dest->type == OP_TYPE_REG) {
-    Log("dsrc1 = %x, ddest = %x", *dsrc1, reg_l(id_dest->reg));
+    Log("dsrc1 = %X, id_dest->reg = %d, ddest = %X", *dsrc1, id_dest->reg, reg_l(id_dest->reg));
   }
   // unnecessary to update CF and OF in NEMU
   print_asm_template2(sar);

@@ -1,0 +1,117 @@
+
+/home/liaozetao/Documents/ics/am-kernels/tests/cpu-tests/build/shuixianhua-x86-nemu.elf:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+00100000 <_start>:
+  100000:	bd 00 00 00 00       	mov    $0x0,%ebp
+  100005:	bc 00 90 10 00       	mov    $0x109000,%esp
+  10000a:	e8 e1 00 00 00       	call   1000f0 <_trm_init>
+  10000f:	90                   	nop
+
+00100010 <check>:
+  100010:	55                   	push   %ebp
+  100011:	89 e5                	mov    %esp,%ebp
+  100013:	83 ec 08             	sub    $0x8,%esp
+  100016:	80 7d 08 00          	cmpb   $0x0,0x8(%ebp)
+  10001a:	74 02                	je     10001e <check+0xe>
+  10001c:	c9                   	leave  
+  10001d:	c3                   	ret    
+  10001e:	83 ec 0c             	sub    $0xc,%esp
+  100021:	6a 01                	push   $0x1
+  100023:	e8 bc 00 00 00       	call   1000e4 <halt>
+
+00100028 <main>:
+  100028:	8d 4c 24 04          	lea    0x4(%esp),%ecx
+  10002c:	83 e4 f0             	and    $0xfffffff0,%esp
+  10002f:	ff 71 fc             	pushl  -0x4(%ecx)
+  100032:	55                   	push   %ebp
+  100033:	89 e5                	mov    %esp,%ebp
+  100035:	57                   	push   %edi
+  100036:	56                   	push   %esi
+  100037:	53                   	push   %ebx
+  100038:	51                   	push   %ecx
+  100039:	83 ec 18             	sub    $0x18,%esp
+  10003c:	bb 64 00 00 00       	mov    $0x64,%ebx
+  100041:	c7 45 e4 00 00 00 00 	movl   $0x0,-0x1c(%ebp)
+  100048:	43                   	inc    %ebx
+  100049:	81 fb f4 01 00 00    	cmp    $0x1f4,%ebx
+  10004f:	74 6f                	je     1000c0 <main+0x98>
+  100051:	b8 1f 85 eb 51       	mov    $0x51eb851f,%eax
+  100056:	f7 e3                	mul    %ebx
+  100058:	89 d6                	mov    %edx,%esi
+  10005a:	c1 ee 05             	shr    $0x5,%esi
+  10005d:	b8 cd cc cc cc       	mov    $0xcccccccd,%eax
+  100062:	f7 e3                	mul    %ebx
+  100064:	89 d0                	mov    %edx,%eax
+  100066:	c1 e8 03             	shr    $0x3,%eax
+  100069:	b9 0a 00 00 00       	mov    $0xa,%ecx
+  10006e:	99                   	cltd   
+  10006f:	f7 f9                	idiv   %ecx
+  100071:	89 d7                	mov    %edx,%edi
+  100073:	89 d8                	mov    %ebx,%eax
+  100075:	99                   	cltd   
+  100076:	f7 f9                	idiv   %ecx
+  100078:	89 f8                	mov    %edi,%eax
+  10007a:	0f af c7             	imul   %edi,%eax
+  10007d:	0f af f8             	imul   %eax,%edi
+  100080:	89 f0                	mov    %esi,%eax
+  100082:	0f af c6             	imul   %esi,%eax
+  100085:	0f af f0             	imul   %eax,%esi
+  100088:	01 f7                	add    %esi,%edi
+  10008a:	89 d6                	mov    %edx,%esi
+  10008c:	0f af f2             	imul   %edx,%esi
+  10008f:	0f af d6             	imul   %esi,%edx
+  100092:	01 d7                	add    %edx,%edi
+  100094:	39 df                	cmp    %ebx,%edi
+  100096:	75 b0                	jne    100048 <main+0x20>
+  100098:	83 ec 0c             	sub    $0xc,%esp
+  10009b:	8b 7d e4             	mov    -0x1c(%ebp),%edi
+  10009e:	31 c0                	xor    %eax,%eax
+  1000a0:	39 1c bd 08 01 10 00 	cmp    %ebx,0x100108(,%edi,4)
+  1000a7:	0f 94 c0             	sete   %al
+  1000aa:	50                   	push   %eax
+  1000ab:	e8 60 ff ff ff       	call   100010 <check>
+  1000b0:	83 c4 10             	add    $0x10,%esp
+  1000b3:	47                   	inc    %edi
+  1000b4:	89 7d e4             	mov    %edi,-0x1c(%ebp)
+  1000b7:	43                   	inc    %ebx
+  1000b8:	81 fb f4 01 00 00    	cmp    $0x1f4,%ebx
+  1000be:	75 91                	jne    100051 <main+0x29>
+  1000c0:	83 ec 0c             	sub    $0xc,%esp
+  1000c3:	31 c0                	xor    %eax,%eax
+  1000c5:	83 7d e4 04          	cmpl   $0x4,-0x1c(%ebp)
+  1000c9:	0f 94 c0             	sete   %al
+  1000cc:	50                   	push   %eax
+  1000cd:	e8 3e ff ff ff       	call   100010 <check>
+  1000d2:	83 c4 10             	add    $0x10,%esp
+  1000d5:	31 c0                	xor    %eax,%eax
+  1000d7:	8d 65 f0             	lea    -0x10(%ebp),%esp
+  1000da:	59                   	pop    %ecx
+  1000db:	5b                   	pop    %ebx
+  1000dc:	5e                   	pop    %esi
+  1000dd:	5f                   	pop    %edi
+  1000de:	5d                   	pop    %ebp
+  1000df:	8d 61 fc             	lea    -0x4(%ecx),%esp
+  1000e2:	c3                   	ret    
+  1000e3:	90                   	nop
+
+001000e4 <halt>:
+  1000e4:	55                   	push   %ebp
+  1000e5:	89 e5                	mov    %esp,%ebp
+  1000e7:	8b 45 08             	mov    0x8(%ebp),%eax
+  1000ea:	d6                   	(bad)  
+  1000eb:	eb fe                	jmp    1000eb <halt+0x7>
+  1000ed:	66 90                	xchg   %ax,%ax
+  1000ef:	90                   	nop
+
+001000f0 <_trm_init>:
+  1000f0:	55                   	push   %ebp
+  1000f1:	89 e5                	mov    %esp,%ebp
+  1000f3:	83 ec 14             	sub    $0x14,%esp
+  1000f6:	68 06 01 10 00       	push   $0x100106
+  1000fb:	e8 28 ff ff ff       	call   100028 <main>
+  100100:	d6                   	(bad)  
+  100101:	83 c4 10             	add    $0x10,%esp
+  100104:	eb fe                	jmp    100104 <_trm_init+0x14>

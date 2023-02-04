@@ -1,0 +1,126 @@
+
+/home/liaozetao/Documents/ics/am-kernels/tests/cpu-tests/build/select-sort-x86-nemu.elf:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+00100000 <_start>:
+  100000:	bd 00 00 00 00       	mov    $0x0,%ebp
+  100005:	bc 00 90 10 00       	mov    $0x109000,%esp
+  10000a:	e8 f1 00 00 00       	call   100100 <_trm_init>
+  10000f:	90                   	nop
+
+00100010 <check>:
+  100010:	55                   	push   %ebp
+  100011:	89 e5                	mov    %esp,%ebp
+  100013:	83 ec 08             	sub    $0x8,%esp
+  100016:	80 7d 08 00          	cmpb   $0x0,0x8(%ebp)
+  10001a:	74 02                	je     10001e <check+0xe>
+  10001c:	c9                   	leave  
+  10001d:	c3                   	ret    
+  10001e:	83 ec 0c             	sub    $0xc,%esp
+  100021:	6a 01                	push   $0x1
+  100023:	e8 cc 00 00 00       	call   1000f4 <halt>
+
+00100028 <select_sort>:
+  100028:	55                   	push   %ebp
+  100029:	89 e5                	mov    %esp,%ebp
+  10002b:	57                   	push   %edi
+  10002c:	56                   	push   %esi
+  10002d:	53                   	push   %ebx
+  10002e:	31 db                	xor    %ebx,%ebx
+  100030:	89 de                	mov    %ebx,%esi
+  100032:	43                   	inc    %ebx
+  100033:	8b 3c 9d 1c 01 10 00 	mov    0x10011c(,%ebx,4),%edi
+  10003a:	89 f9                	mov    %edi,%ecx
+  10003c:	89 d8                	mov    %ebx,%eax
+  10003e:	66 90                	xchg   %ax,%ax
+  100040:	8b 14 85 20 01 10 00 	mov    0x100120(,%eax,4),%edx
+  100047:	39 ca                	cmp    %ecx,%edx
+  100049:	7d 04                	jge    10004f <select_sort+0x27>
+  10004b:	89 d1                	mov    %edx,%ecx
+  10004d:	89 c6                	mov    %eax,%esi
+  10004f:	40                   	inc    %eax
+  100050:	83 f8 14             	cmp    $0x14,%eax
+  100053:	75 eb                	jne    100040 <select_sort+0x18>
+  100055:	89 0c 9d 1c 01 10 00 	mov    %ecx,0x10011c(,%ebx,4)
+  10005c:	89 3c b5 20 01 10 00 	mov    %edi,0x100120(,%esi,4)
+  100063:	83 fb 13             	cmp    $0x13,%ebx
+  100066:	75 c8                	jne    100030 <select_sort+0x8>
+  100068:	5b                   	pop    %ebx
+  100069:	5e                   	pop    %esi
+  10006a:	5f                   	pop    %edi
+  10006b:	5d                   	pop    %ebp
+  10006c:	c3                   	ret    
+  10006d:	66 90                	xchg   %ax,%ax
+  10006f:	90                   	nop
+
+00100070 <main>:
+  100070:	8d 4c 24 04          	lea    0x4(%esp),%ecx
+  100074:	83 e4 f0             	and    $0xfffffff0,%esp
+  100077:	ff 71 fc             	pushl  -0x4(%ecx)
+  10007a:	55                   	push   %ebp
+  10007b:	89 e5                	mov    %esp,%ebp
+  10007d:	53                   	push   %ebx
+  10007e:	51                   	push   %ecx
+  10007f:	e8 a4 ff ff ff       	call   100028 <select_sort>
+  100084:	31 db                	xor    %ebx,%ebx
+  100086:	66 90                	xchg   %ax,%ax
+  100088:	83 ec 0c             	sub    $0xc,%esp
+  10008b:	31 c0                	xor    %eax,%eax
+  10008d:	39 1c 9d 20 01 10 00 	cmp    %ebx,0x100120(,%ebx,4)
+  100094:	0f 94 c0             	sete   %al
+  100097:	50                   	push   %eax
+  100098:	e8 73 ff ff ff       	call   100010 <check>
+  10009d:	83 c4 10             	add    $0x10,%esp
+  1000a0:	43                   	inc    %ebx
+  1000a1:	83 fb 14             	cmp    $0x14,%ebx
+  1000a4:	75 e2                	jne    100088 <main+0x18>
+  1000a6:	83 ec 0c             	sub    $0xc,%esp
+  1000a9:	6a 01                	push   $0x1
+  1000ab:	e8 60 ff ff ff       	call   100010 <check>
+  1000b0:	83 c4 10             	add    $0x10,%esp
+  1000b3:	e8 70 ff ff ff       	call   100028 <select_sort>
+  1000b8:	31 db                	xor    %ebx,%ebx
+  1000ba:	66 90                	xchg   %ax,%ax
+  1000bc:	83 ec 0c             	sub    $0xc,%esp
+  1000bf:	31 c0                	xor    %eax,%eax
+  1000c1:	39 1c 9d 20 01 10 00 	cmp    %ebx,0x100120(,%ebx,4)
+  1000c8:	0f 94 c0             	sete   %al
+  1000cb:	50                   	push   %eax
+  1000cc:	e8 3f ff ff ff       	call   100010 <check>
+  1000d1:	83 c4 10             	add    $0x10,%esp
+  1000d4:	43                   	inc    %ebx
+  1000d5:	83 fb 14             	cmp    $0x14,%ebx
+  1000d8:	75 e2                	jne    1000bc <main+0x4c>
+  1000da:	83 ec 0c             	sub    $0xc,%esp
+  1000dd:	6a 01                	push   $0x1
+  1000df:	e8 2c ff ff ff       	call   100010 <check>
+  1000e4:	83 c4 10             	add    $0x10,%esp
+  1000e7:	31 c0                	xor    %eax,%eax
+  1000e9:	8d 65 f8             	lea    -0x8(%ebp),%esp
+  1000ec:	59                   	pop    %ecx
+  1000ed:	5b                   	pop    %ebx
+  1000ee:	5d                   	pop    %ebp
+  1000ef:	8d 61 fc             	lea    -0x4(%ecx),%esp
+  1000f2:	c3                   	ret    
+  1000f3:	90                   	nop
+
+001000f4 <halt>:
+  1000f4:	55                   	push   %ebp
+  1000f5:	89 e5                	mov    %esp,%ebp
+  1000f7:	8b 45 08             	mov    0x8(%ebp),%eax
+  1000fa:	d6                   	(bad)  
+  1000fb:	eb fe                	jmp    1000fb <halt+0x7>
+  1000fd:	66 90                	xchg   %ax,%ax
+  1000ff:	90                   	nop
+
+00100100 <_trm_init>:
+  100100:	55                   	push   %ebp
+  100101:	89 e5                	mov    %esp,%ebp
+  100103:	83 ec 14             	sub    $0x14,%esp
+  100106:	68 16 01 10 00       	push   $0x100116
+  10010b:	e8 60 ff ff ff       	call   100070 <main>
+  100110:	d6                   	(bad)  
+  100111:	83 c4 10             	add    $0x10,%esp
+  100114:	eb fe                	jmp    100114 <_trm_init+0x14>
