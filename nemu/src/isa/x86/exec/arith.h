@@ -18,8 +18,11 @@ static inline def_EHelper(add) {
 
 static inline def_EHelper(sub) {
   Log("sub...");
-  Log("ddest = %x, dsrc1 = %x", *ddest, *dsrc1);
+  if (id_src1->width == 1 && id_dest->width != 1) {
+    rtl_sext(s, dsrc1, dsrc1, id_src1->width);
+  }
   rtl_sub(s, s0, ddest, dsrc1);
+  Log("ddest = %x, dsrc1 = %x, s0 = %X", *ddest, *dsrc1, *s0);
   rtl_update_ZFSF(s, s0, id_dest->width);
   rtl_is_sub_overflow(s, s1, s0, ddest, dsrc1, id_dest->width);
   rtl_set_OF(s, s1);
@@ -119,9 +122,12 @@ static inline def_EHelper(adc) {
 }
 
 static inline def_EHelper(sbb) {
+  Log("sbb...");
   rtl_get_CF(s, s0);
   rtl_add(s, s0, dsrc1, s0);
+  Log("CF : %d, s0 : %X, dsrc1 : %X, ddest : %X", cpu.eflags.CF, *s0, *dsrc1, *ddest);
   rtl_sub(s, s1, ddest, s0);
+  Log("s1 : %X", *s1);
   rtl_update_ZFSF(s, s1, id_dest->width);
   rtl_is_sub_overflow(s, s2, s1, ddest, dsrc1, id_dest->width);
   rtl_set_OF(s, s2);

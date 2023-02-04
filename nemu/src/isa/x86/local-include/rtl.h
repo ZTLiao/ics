@@ -123,10 +123,15 @@ static inline bool is_carry(const rtlreg_t* src1, const rtlreg_t* src2) {
 static inline def_rtl(is_sub_carry, rtlreg_t* dest,
     const rtlreg_t* src1, const rtlreg_t* src2) {
   // dest <- is_carry(src1 - src2)
-  rtlreg_t res = *src1 - *src2;
-  uint8_t over1 = (res & 0x80000000) >> 31;
-  uint8_t over2 = (*src1 & 0x80000000) >> 31;
-  bool flag = over1 ^ over2;
+  bool flag = 0;
+  uint8_t cin = 0;
+  int i;
+  for (i = 0; i < 32; i++) {
+    uint8_t tmp0 = *src1 >> i & 1;
+    uint8_t tmp1 = *src2 >> i & 1;
+    cin = ((~tmp0) & (~tmp1) & cin) | ((~tmp0) & tmp1 & (~cin)) | ((~tmp0) & tmp1 & cin) | (tmp0 & tmp1 & cin);
+  }
+  flag = cin;
   Log("is_sub_carry = %d", flag);
   Log("eflags.CF = %d", flag);
   *dest = flag;
