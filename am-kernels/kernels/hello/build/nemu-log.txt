@@ -1,0 +1,944 @@
+[1;34m[src/monitor/monitor.c,48,load_img] The image is /home/liaozetao/Documents/ics/am-kernels/kernels/hello/build/hello-x86-nemu.bin[0m
+[1;34m[src/monitor/monitor.c,26,welcome] Debug: [1;32mON[0m[0m
+[1;34m[src/monitor/monitor.c,27,welcome] If debug mode is on, A log file will be generated to record every instruction NEMU executes. This may lead to a large log file. If it is not necessary, you can turn it off in include/common.h.[0m
+[1;34m[src/monitor/monitor.c,34,welcome] Build time: 13:54:31, Feb  9 2023[0m
+[1;34m[src/monitor/monitor.c,63,expr_test] no expr file is execute. [0m
+[1;34m[src/device/io/port-io.c,15,add_pio_map] Add port-io map 'serial' at [0x000003f8, 0x000003ff][0m
+[1;34m[src/device/io/mmio.c,13,add_mmio_map] Add mmio map 'serial' at [0xa10003f8, 0xa10003ff][0m
+[1;34m[src/device/io/port-io.c,15,add_pio_map] Add port-io map 'rtc' at [0x00000048, 0x0000004f][0m
+[1;34m[src/device/io/mmio.c,13,add_mmio_map] Add mmio map 'rtc' at [0xa1000048, 0xa100004f][0m
+[1;34m[src/device/io/port-io.c,15,add_pio_map] Add port-io map 'screen' at [0x00000100, 0x00000107][0m
+[1;34m[src/device/io/mmio.c,13,add_mmio_map] Add mmio map 'screen' at [0xa1000100, 0xa1000107][0m
+[1;34m[src/device/io/mmio.c,13,add_mmio_map] Add mmio map 'vmem' at [0xa0000000, 0xa00752ff][0m
+[1;34m[src/device/io/port-io.c,15,add_pio_map] Add port-io map 'keyboard' at [0x00000060, 0x00000063][0m
+[1;34m[src/device/io/mmio.c,13,add_mmio_map] Add mmio map 'keyboard' at [0xa1000060, 0xa1000063][0m
+[1;34m[src/device/io/port-io.c,15,add_pio_map] Add port-io map 'audio' at [0x00000200, 0x00000217][0m
+[1;34m[src/device/io/mmio.c,13,add_mmio_map] Add mmio map 'audio' at [0xa1000200, 0xa1000217][0m
+[1;34m[src/device/io/mmio.c,13,add_mmio_map] Add mmio map 'audio-sbuf' at [0xa0800000, 0xa080ffff][0m
+0x00100000:   bd 00 00 00 00                        movl $0x0,%ebp
+0x00100005:   bc 00 90 10 00                        movl $0x109000,%esp
+0x0010000a:   e8 8d 00 00 00                        call 10009c
+0x0010009c:   55                                    pushl %ebp
+0x0010009d:   89 e5                                 movl %esp,%ebp
+0x0010009f:   83 ec 14                              subl $0x14,%esp
+0x001000a2:   68 e0 00 10 00                        pushl $0x1000e0
+0x001000a7:   e8 64 ff ff ff                        call 100010
+0x00100010:   8d 4c 24 04                           leal 0x4(%esp),%ecx
+0x00100014:   83 e4 f0                              andl $0xfffffff0,%esp
+0x00100017:   ff 71 fc                              pushl -0x4(%ecx)
+0x0010001a:   55                                    pushl %ebp
+0x0010001b:   89 e5                                 movl %esp,%ebp
+0x0010001d:   57                                    pushl %edi
+0x0010001e:   56                                    pushl %esi
+0x0010001f:   53                                    pushl %ebx
+0x00100020:   51                                    pushl %ecx
+0x00100021:   83 ec 18                              subl $0x18,%esp
+0x00100024:   8b 01                                 movl (%ecx),%eax
+0x00100026:   89 45 e4                              movl %eax,-0x1c(%ebp)
+0x00100029:   be 65 00 00 00                        movl $0x65,%esi
+0x0010002e:   bb b4 00 10 00                        movl $0x1000b4,%ebx
+0x00100033:   b0 48                                 movb $0x48,%al
+0x00100035:   eb 1b                                 jmp 100052
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100056:   8b 7d e4                              movl -0x1c(%ebp),%edi
+0x00100059:   0f be 07                              movsxl (%edi),%al
+0x0010005c:   84 c0                                 testb %al,%al
+0x0010005e:   74 e7                                 je 100047
+0x00100060:   83 ec 0c                              subl $0xc,%esp
+0x00100063:   50                                    pushl %eax
+0x00100064:   e8 23 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                       ret
+0x00100069:   47                                    decl %ediincl %edi
+0x0010006a:   0f be 07                              movsxl (%edi),%al
+0x0010006d:   83 c4 10                              addl $0x10,%esp
+0x00100070:   84 c0                                 testb %al,%al
+0x00100072:   75 ec                                 jne 100060
+0x00100060:   83 ec 0c                              subl $0xc,%esp
+0x00100063:   50                                    pushl %eax
+0x00100064:   e8 23 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                       ret
+0x00100069:   47                                    decl %ediincl %edi
+0x0010006a:   0f be 07                              movsxl (%edi),%al
+0x0010006d:   83 c4 10                              addl $0x10,%esp
+0x00100070:   84 c0                                 testb %al,%al
+0x00100072:   75 ec                                 jne 100060
+0x00100060:   83 ec 0c                              subl $0xc,%esp
+0x00100063:   50                                    pushl %eax
+0x00100064:   e8 23 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                       ret
+0x00100069:   47                                    decl %ediincl %edi
+0x0010006a:   0f be 07                              movsxl (%edi),%al
+0x0010006d:   83 c4 10                              addl $0x10,%esp
+0x00100070:   84 c0                                 testb %al,%al
+0x00100072:   75 ec                                 jne 100060
+0x00100060:   83 ec 0c                              subl $0xc,%esp
+0x00100063:   50                                    pushl %eax
+0x00100064:   e8 23 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                       ret
+0x00100069:   47                                    decl %ediincl %edi
+0x0010006a:   0f be 07                              movsxl (%edi),%al
+0x0010006d:   83 c4 10                              addl $0x10,%esp
+0x00100070:   84 c0                                 testb %al,%al
+0x00100072:   75 ec                                 jne 100060
+0x00100060:   83 ec 0c                              subl $0xc,%esp
+0x00100063:   50                                    pushl %eax
+0x00100064:   e8 23 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                       ret
+0x00100069:   47                                    decl %ediincl %edi
+0x0010006a:   0f be 07                              movsxl (%edi),%al
+0x0010006d:   83 c4 10                              addl $0x10,%esp
+0x00100070:   84 c0                                 testb %al,%al
+0x00100072:   75 ec                                 jne 100060
+0x00100060:   83 ec 0c                              subl $0xc,%esp
+0x00100063:   50                                    pushl %eax
+0x00100064:   e8 23 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                       ret
+0x00100069:   47                                    decl %ediincl %edi
+0x0010006a:   0f be 07                              movsxl (%edi),%al
+0x0010006d:   83 c4 10                              addl $0x10,%esp
+0x00100070:   84 c0                                 testb %al,%al
+0x00100072:   75 ec                                 jne 100060
+0x00100060:   83 ec 0c                              subl $0xc,%esp
+0x00100063:   50                                    pushl %eax
+0x00100064:   e8 23 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                       ret
+0x00100069:   47                                    decl %ediincl %edi
+0x0010006a:   0f be 07                              movsxl (%edi),%al
+0x0010006d:   83 c4 10                              addl $0x10,%esp
+0x00100070:   84 c0                                 testb %al,%al
+0x00100072:   75 ec                                 jne 100060
+0x00100060:   83 ec 0c                              subl $0xc,%esp
+0x00100063:   50                                    pushl %eax
+0x00100064:   e8 23 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                       ret
+0x00100069:   47                                    decl %ediincl %edi
+0x0010006a:   0f be 07                              movsxl (%edi),%al
+0x0010006d:   83 c4 10                              addl $0x10,%esp
+0x00100070:   84 c0                                 testb %al,%al
+0x00100072:   75 ec                                 jne 100060
+0x00100060:   83 ec 0c                              subl $0xc,%esp
+0x00100063:   50                                    pushl %eax
+0x00100064:   e8 23 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                       ret
+0x00100069:   47                                    decl %ediincl %edi
+0x0010006a:   0f be 07                              movsxl (%edi),%al
+0x0010006d:   83 c4 10                              addl $0x10,%esp
+0x00100070:   84 c0                                 testb %al,%al
+0x00100072:   75 ec                                 jne 100060
+0x00100074:   43                                    decl %ebxincl %ebx
+0x00100075:   89 f0                                 movl %esi,%eax
+0x00100077:   84 c0                                 testb %al,%al
+0x00100079:   75 d3                                 jne 10004e
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010004e:   0f b6 73 01                           movzxl 0x1(%ebx),%dh
+0x00100052:   3c 25                                 cmpb $0x25,%al
+0x00100054:   75 e2                                 jne 100038
+0x00100038:   83 ec 0c                              subl $0xc,%esp
+0x0010003b:   0f be c0                              movsxl %al,%al
+0x0010003e:   50                                    pushl %eax
+0x0010003f:   e8 48 00 00 00                        call 10008c
+0x0010008c:   55                                    pushl %ebp
+0x0010008d:   89 e5                                 movl %esp,%ebp
+0x0010008f:   8b 45 08                              movl 0x8(%ebp),%eax
+0x00100092:   ba f8 03 00 00                        movl $0x3f8,%edx
+0x00100097:   ee                                    outl %eax,%dx
+0x00100098:   5d                                    popl %ebp
+0x00100099:   c3                                                                                                                                                                                                                                               
+0x00100044:   83 c4 10                              addl $0x10,%esp
+0x00100047:   43                                    decl %ebxincl %ebx
+0x00100048:   89 f0                                 movl %esi,%eax
+0x0010004a:   84 c0                                 testb %al,%al
+0x0010004c:   74 2d                                 je 10007b
+0x0010007b:   31 c0                                 xorl %eax,%eax
+0x0010007d:   8d 65 f0                              leal -0x10(%ebp),%esp
+0x00100080:   59                                    popl %ecx
+0x00100081:   5b                                    popl %ebx
+0x00100082:   5e                                    popl %esi
+0x00100083:   5f                                    popl %edi
+0x00100084:   5d                                    popl %ebp
+0x00100085:   8d 61 fc                              leal -0x4(%ecx),%esp
+0x00100088:   c3                                                                       ret
+[1;34m[src/monitor/cpu-exec.c,36,rtl_exit] rtl_exit state : 2, halt_pc : 1000AC, halt_ret : 0[0m
+0x001000ac:   d6                                    nemu trap
+[1;34m[src/monitor/cpu-exec.c,129,cpu_exec] nemu: [1;32mHIT GOOD TRAP[0m at pc = 0x001000ac
+
+[0m
+[1;34m[src/monitor/cpu-exec.c,47,monitor_statistic] total guest instructions = 920[0m
+[1;34m[src/monitor/cpu-exec.c,48,monitor_statistic] host time spent = 17 ms[0m
+[1;34m[src/monitor/cpu-exec.c,49,monitor_statistic] simulation frequency = 54117 instr/s[0m

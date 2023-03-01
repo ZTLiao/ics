@@ -33,7 +33,7 @@ int is_exit_status_bad() {
 }
 
 void rtl_exit(int state, vaddr_t halt_pc, uint32_t halt_ret) {
-  Log("rtl_exit state : %d, halt_pc : %x, halt_ret : %x", state, halt_pc, halt_ret);
+  Log("rtl_exit state : %d, halt_pc : %X, halt_ret : %X", state, halt_pc, halt_ret);
   nemu_state = (NEMUState) { .state = state, .halt_pc = halt_pc, .halt_ret = halt_ret };
 }
 
@@ -89,9 +89,13 @@ void cpu_exec(uint64_t n) {
 
     /* Execute one instruction, including instruction fetch,
      * instruction decode, and the actual execution. */
-	Log("this_pc : %x", this_pc);
+#ifdef LOG
+	Log("this_pc : %X", this_pc);
+#endif
     __attribute__((unused)) vaddr_t seq_pc = isa_exec_once();
-	Log("seq_pc : %x", seq_pc);
+#ifdef LOG
+	Log("seq_pc : %X", seq_pc);
+#endif
 
     difftest_step(this_pc, cpu.pc);
 

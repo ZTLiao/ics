@@ -34,7 +34,9 @@ static inline def_rtl(sext, rtlreg_t* dest, const rtlreg_t* src1, int width) {
     sign = (*src1 & 0x8000) >> 15;
   }
   rtlreg_t tmp = *src1;
+#ifdef LOG
   Log("sign = %d, *src = %X", sign, *src1);
+#endif
 #ifdef ISA64
   int len = 64;
 #else
@@ -43,7 +45,9 @@ static inline def_rtl(sext, rtlreg_t* dest, const rtlreg_t* src1, int width) {
   if (sign) {
     int i;
     for (i = width * 8; i < len; i++) {
+#ifdef LOG
 	  Log("sign << %d = %X", i, (sign << i));
+#endif
       if (sign) {
 	    tmp |= (sign << i);
 	  }
@@ -55,7 +59,9 @@ static inline def_rtl(sext, rtlreg_t* dest, const rtlreg_t* src1, int width) {
 	  tmp &= 0xFFFF;
 	}
   }
+#ifdef LOG
   Log("tmp = %X", tmp);
+#endif
   *dest = tmp;
 }
 

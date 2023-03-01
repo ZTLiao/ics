@@ -18,9 +18,13 @@ void reg_test() {
   int i;
   for (i = R_EAX; i <= R_EDI; i ++) {
     sample[i] = rand();
+#ifdef LOG
     printf("sample[%d] = %x\n", i, sample[i]);
+#endif
     reg_l(i) = sample[i];
+#ifdef LOG
     printf("cpu.%s = %x, reg_l(%d) = %x, reg_w(%d) = %x, reg_b(%d) = %x\n", reg_name(i, 4), *((&cpu.eax) + i), i, reg_l(i), i, reg_w(i), i, reg_b(i));
+#endif
     assert(reg_w(i) == (sample[i] & 0xffff));
   }
 
@@ -33,7 +37,9 @@ void reg_test() {
   assert(reg_b(R_DL) == (sample[R_EDX] & 0xff));
   assert(reg_b(R_DH) == ((sample[R_EDX] >> 8) & 0xff));
 
+#ifdef LOG
   printf("sample[%d] = %x, cpu.ecx = %x\n", R_ECX, sample[R_ECX], cpu.ecx);
+#endif
   assert(sample[R_EAX] == cpu.eax);
   assert(sample[R_ECX] == cpu.ecx);
   assert(sample[R_EDX] == cpu.edx);

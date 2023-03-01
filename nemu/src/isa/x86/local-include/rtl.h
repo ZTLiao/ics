@@ -42,24 +42,34 @@ static inline def_rtl(push, const rtlreg_t* src1) {
   // esp <- esp - 4
   // M[esp] <- src1
   int width = s->isa.is_operand_size_16 ? 2 : 4;
+#ifdef LOG
   Log("BEFORE R_ESP = %x", cpu.esp);
+#endif
   cpu.esp = cpu.esp - width;
   rtl_sm(s, &cpu.esp, 0, src1, width);
   rtlreg_t tmp;
   rtl_lm(s, &tmp, &reg_l(R_ESP), 0, 4);
+#ifdef LOG
   Log("AFTER R_ESP = %x, src1 = %x, reg_l(%d) = %x, tmp = %x", cpu.esp, *src1, R_ESP, reg_l(R_ESP), tmp);
+#endif
 }
 
 static inline def_rtl(pop, rtlreg_t* dest) {
   // dest <- M[esp]
   // esp <- esp + 4
   int width = s->isa.is_operand_size_16 ? 2 : 4;
+#ifdef LOG
   Log("rtl_pop...");
   Log("cpu.esp = %x, dest = %p", cpu.esp, dest);
+#endif
   rtl_lm(s, dest, &cpu.esp, 0, width);
+#ifdef LOG
   Log("BEFORE R_ESP = %x, dest = %x", cpu.esp, *dest);
+#endif
   cpu.esp = cpu.esp + width;
+#ifdef LOG
   Log("AFTER R_ESP = %x", cpu.esp);
+#endif
 }
 
 static inline bool is_overflow(const rtlreg_t* res, const rtlreg_t* src1, const rtlreg_t* src2, int width) {
@@ -81,7 +91,9 @@ static inline bool is_overflow(const rtlreg_t* res, const rtlreg_t* src1, const 
 static inline def_rtl(is_sub_overflow, rtlreg_t* dest,
     const rtlreg_t* res, const rtlreg_t* src1, const rtlreg_t* src2, int width) {
   // dest <- is_overflow(src1 - src2)
+#ifdef LOG
   Log("res = %X, src1 = %X, src2 = %X, width = %d", *res, *src1, *src2, width);
+#endif
   uint8_t over  = 0;
   uint8_t over1 = 0;
   uint8_t over2 = 0;
@@ -102,7 +114,9 @@ static inline def_rtl(is_sub_overflow, rtlreg_t* dest,
   if (over1 != over2 && over != over1) {
     flag = 1;
   }
+#ifdef LOG
   Log("is_sub_overflow eflags.OF = %d", flag);
+#endif
   *dest = flag;
 }
 
@@ -132,8 +146,10 @@ static inline def_rtl(is_sub_carry, rtlreg_t* dest,
     cin = ((~tmp0) & (~tmp1) & cin) | ((~tmp0) & tmp1 & (~cin)) | ((~tmp0) & tmp1 & cin) | (tmp0 & tmp1 & cin);
   }
   flag = cin;
+#ifdef LOG
   Log("is_sub_carry = %d", flag);
   Log("eflags.CF = %d", flag);
+#endif
   *dest = flag;
 }
 
@@ -141,8 +157,10 @@ static inline def_rtl(is_add_overflow, rtlreg_t* dest,
     const rtlreg_t* res, const rtlreg_t* src1, const rtlreg_t* src2, int width) {
   // dest <- is_overflow(src1 + src2)
   bool flag = is_overflow(res, src1, src2, width);
+#ifdef LOG
   Log("is_add_overflow = %d", flag);
   Log("eflags.OF = %d", flag);
+#endif
   *dest = flag;
 }
 
@@ -151,7 +169,9 @@ static inline def_rtl(is_add_carry, rtlreg_t* dest,
   // dest <- is_carry(src1 + src2)
   bool flag = is_carry(res, src1);
   *dest = flag;
+#ifdef LOG
   Log("is_add_carry eflags.CF = %d", flag);
+#endif
 }
 
 
@@ -169,10 +189,14 @@ static inline bool is_zero(const rtlreg_t* result, int width) {
 static inline def_rtl(update_ZF, const rtlreg_t* result, int width) {
   // eflags.ZF <- is_zero(result[width * 8 - 1 .. 0])
   bool flag = is_zero(result, width);
+#ifdef LOG
   Log("result = %x, is_zero = %d", *result, flag);
+#endif
   rtlreg_t src = flag;
   rtl_set_ZF(s, &src);
+#ifdef LOG
   Log("eflags.ZF = %d", cpu.eflags.ZF);
+#endif
 }
 
 static inline bool is_sign(const rtlreg_t* result, int width) {
@@ -182,10 +206,14 @@ static inline bool is_sign(const rtlreg_t* result, int width) {
 static inline def_rtl(update_SF, const rtlreg_t* result, int width) {
   // eflags.SF <- is_sign(result[width * 8 - 1 .. 0])
   bool flag = is_sign(result, width);
+#ifdef LOG
   Log("result = %x, is_sign = %d", *result, flag);
+#endif
   rtlreg_t src = flag;
   rtl_set_SF(s, &src);
+#ifdef LOG
   Log("eflags.SF = %d", cpu.eflags.SF);
+#endif
 }
 
 static inline def_rtl(update_ZFSF, const rtlreg_t* result, int width) {
@@ -204,10 +232,14 @@ static inline bool is_even(const rtlreg_t* result, int width) {
 
 static inline def_rtl(update_PF, const rtlreg_t* result, int width) {
 	bool flag = is_even(result, width);
+#ifdef LOG
 	Log("result = %x, is_even = %d", *result, flag);
+#endif
 	rtlreg_t src = flag;
 	rtl_set_PF(s, &src);
+#ifdef LOG
 	Log("eflag.PF = %d", cpu.eflags.PF);
+#endif
 }
 
 #endif

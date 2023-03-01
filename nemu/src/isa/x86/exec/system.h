@@ -45,11 +45,31 @@ static inline def_EHelper(iret) {
 }
 
 static inline def_EHelper(in) {
-  TODO();
+#ifdef LOG
+  Log("in...");
+#endif
+  uint32_t temp;
+  if (id_src1->width == 1) {
+    temp = pio_read_b(id_src1->val);
+  } else {
+    temp = pio_read_w(id_src1->val);
+  }
+  if (id_dest->width == 1) {
+    reg_b(id_dest->reg) = temp;
+  } else if (id_dest->width == 4) {
+    reg_l(id_dest->reg) = temp;
+  }
   print_asm_template2(in);
 }
 
 static inline def_EHelper(out) {
-  TODO();
+#ifdef LOG
+  Log("out...");
+#endif
+  if (id_dest->width == 1) {
+    pio_write_b(reg_b(id_dest->reg), reg_b(id_src1->reg));
+  } else {
+    pio_write_b(reg_w(id_dest->reg), reg_l(id_src1->reg));
+  }
   print_asm_template2(out);
 }

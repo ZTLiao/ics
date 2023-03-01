@@ -1,0 +1,89 @@
+
+/home/liaozetao/Documents/ics/am-kernels/kernels/hello/build/hello-x86-nemu.elf:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+00100000 <_start>:
+  100000:	bd 00 00 00 00       	mov    $0x0,%ebp
+  100005:	bc 00 90 10 00       	mov    $0x109000,%esp
+  10000a:	e8 8d 00 00 00       	call   10009c <_trm_init>
+  10000f:	90                   	nop
+
+00100010 <main>:
+  100010:	8d 4c 24 04          	lea    0x4(%esp),%ecx
+  100014:	83 e4 f0             	and    $0xfffffff0,%esp
+  100017:	ff 71 fc             	pushl  -0x4(%ecx)
+  10001a:	55                   	push   %ebp
+  10001b:	89 e5                	mov    %esp,%ebp
+  10001d:	57                   	push   %edi
+  10001e:	56                   	push   %esi
+  10001f:	53                   	push   %ebx
+  100020:	51                   	push   %ecx
+  100021:	83 ec 18             	sub    $0x18,%esp
+  100024:	8b 01                	mov    (%ecx),%eax
+  100026:	89 45 e4             	mov    %eax,-0x1c(%ebp)
+  100029:	be 65 00 00 00       	mov    $0x65,%esi
+  10002e:	bb b4 00 10 00       	mov    $0x1000b4,%ebx
+  100033:	b0 48                	mov    $0x48,%al
+  100035:	eb 1b                	jmp    100052 <main+0x42>
+  100037:	90                   	nop
+  100038:	83 ec 0c             	sub    $0xc,%esp
+  10003b:	0f be c0             	movsbl %al,%eax
+  10003e:	50                   	push   %eax
+  10003f:	e8 48 00 00 00       	call   10008c <putch>
+  100044:	83 c4 10             	add    $0x10,%esp
+  100047:	43                   	inc    %ebx
+  100048:	89 f0                	mov    %esi,%eax
+  10004a:	84 c0                	test   %al,%al
+  10004c:	74 2d                	je     10007b <main+0x6b>
+  10004e:	0f b6 73 01          	movzbl 0x1(%ebx),%esi
+  100052:	3c 25                	cmp    $0x25,%al
+  100054:	75 e2                	jne    100038 <main+0x28>
+  100056:	8b 7d e4             	mov    -0x1c(%ebp),%edi
+  100059:	0f be 07             	movsbl (%edi),%eax
+  10005c:	84 c0                	test   %al,%al
+  10005e:	74 e7                	je     100047 <main+0x37>
+  100060:	83 ec 0c             	sub    $0xc,%esp
+  100063:	50                   	push   %eax
+  100064:	e8 23 00 00 00       	call   10008c <putch>
+  100069:	47                   	inc    %edi
+  10006a:	0f be 07             	movsbl (%edi),%eax
+  10006d:	83 c4 10             	add    $0x10,%esp
+  100070:	84 c0                	test   %al,%al
+  100072:	75 ec                	jne    100060 <main+0x50>
+  100074:	43                   	inc    %ebx
+  100075:	89 f0                	mov    %esi,%eax
+  100077:	84 c0                	test   %al,%al
+  100079:	75 d3                	jne    10004e <main+0x3e>
+  10007b:	31 c0                	xor    %eax,%eax
+  10007d:	8d 65 f0             	lea    -0x10(%ebp),%esp
+  100080:	59                   	pop    %ecx
+  100081:	5b                   	pop    %ebx
+  100082:	5e                   	pop    %esi
+  100083:	5f                   	pop    %edi
+  100084:	5d                   	pop    %ebp
+  100085:	8d 61 fc             	lea    -0x4(%ecx),%esp
+  100088:	c3                   	ret    
+  100089:	66 90                	xchg   %ax,%ax
+  10008b:	90                   	nop
+
+0010008c <putch>:
+  10008c:	55                   	push   %ebp
+  10008d:	89 e5                	mov    %esp,%ebp
+  10008f:	8b 45 08             	mov    0x8(%ebp),%eax
+  100092:	ba f8 03 00 00       	mov    $0x3f8,%edx
+  100097:	ee                   	out    %al,(%dx)
+  100098:	5d                   	pop    %ebp
+  100099:	c3                   	ret    
+  10009a:	66 90                	xchg   %ax,%ax
+
+0010009c <_trm_init>:
+  10009c:	55                   	push   %ebp
+  10009d:	89 e5                	mov    %esp,%ebp
+  10009f:	83 ec 14             	sub    $0x14,%esp
+  1000a2:	68 e0 00 10 00       	push   $0x1000e0
+  1000a7:	e8 64 ff ff ff       	call   100010 <main>
+  1000ac:	d6                   	(bad)  
+  1000ad:	83 c4 10             	add    $0x10,%esp
+  1000b0:	eb fe                	jmp    1000b0 <_trm_init+0x14>

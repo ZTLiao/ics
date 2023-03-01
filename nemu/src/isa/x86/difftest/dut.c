@@ -25,7 +25,10 @@ void printEflags(CPU_state *ref_r) {
 
 bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
   Log("isa_difftest_checkregs...");
-  Log("ref_r->pc = %X, cpu.pc = %X", ref_r->pc, cpu.pc);
+  if (ref_r->pc != cpu.pc) {
+    Log("ref_r->pc = %X, cpu.pc = %X", ref_r->pc, cpu.pc);
+	return false;
+  }
   printEflags(ref_r);
   if (ref_r->eax != cpu.eax) {
     Log("ref_r->eax = %X, cpu.eax = %X", ref_r->eax, cpu.eax);

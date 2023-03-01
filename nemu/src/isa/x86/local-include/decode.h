@@ -53,9 +53,13 @@ static inline def_DopHelper(SI) {
    *
    operand_imm(s, op, load_val, ???, op->width);
    */
+#ifdef LOG
   Log("op-width : %d", op->width);
+#endif
   word_t imm = instr_fetch(&s->seq_pc, op->width);
+#ifdef LOG
   Log("BEFORE imm : %x", imm);
+#endif
   if (op->width == 1) {
 	  if (imm >> 7) {
 		  imm |= 0xFFFFFF00;
@@ -65,7 +69,9 @@ static inline def_DopHelper(SI) {
 		  imm |= 0xFFFF0000;
 	  }
   }
+#ifdef LOG
   Log("AFTER imm : %x", imm);
+#endif
   operand_imm(s, op, load_val, imm, op->width);
 }
 
@@ -131,7 +137,9 @@ static inline def_DHelper(E2G) {
 }
 
 static inline def_DHelper(mov_E2G) {
+#ifdef LOG
   Log("mov_E2G...");
+#endif
   operand_rm(s, id_src1, true, id_dest, false);
 }
 
@@ -275,7 +283,9 @@ static inline def_DHelper(a2O) {
 static inline def_DHelper(J) {
   decode_op_SI(s, id_dest, false);
   // the target address can be computed in the decode stage
+#ifdef LOG
   Log("id_dest->simm = %x, s->seq_pc = %x", id_dest->simm, s->seq_pc);
+#endif
   s->jmp_pc = id_dest->simm + s->seq_pc;
 }
 
