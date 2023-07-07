@@ -313,3 +313,143 @@ static inline def_EHelper(bsr) {
   }
   print_asm_template2(bsr);
 }
+
+static inline def_EHelper(rol) {
+#ifdef LOG
+  Log("rol...");
+#endif
+  rtlreg_t temp = *dsrc1;
+  while (temp != 0) {  
+    rtlreg_t tempcf;
+	if (id_dest->width == 1) {
+	  tempcf = (*ddest & 0x80) >> 7;
+	} else if (id_dest->width == 2) {
+	  tempcf = (*ddest & 0x8000) >> 15;
+	} else {
+      tempcf = (*ddest & 0x80000000) >> 31;
+	}
+    *ddest = *ddest * 2 + tempcf;
+#ifdef LOG
+    Log("tempcf = %d, *ddest = %X", tempcf, *ddest);
+#endif
+    temp = temp - 1;
+  }
+  if (*dsrc1 == 1) {
+    rtlreg_t high;
+	if (id_dest->width == 1) {
+	  high = (*ddest & 0x80) >> 7; 
+	} else if (id_dest->width == 2) {
+	  high = (*ddest & 0x8000) >> 15;
+	} else {
+	  high = (*ddest & 0x80000000) >> 31;
+	}
+	operand_write(s, id_dest, ddest);
+	rtl_get_CF(s, s0);
+	if (high != *s0) {
+	  rtlreg_t one = 1;
+	  rtl_set_OF(s, &one);
+	} else {
+	  rtl_set_OF(s, rz);
+	}
+  }
+  print_asm_template2(rol);
+}
+
+static inline def_EHelper(ror) {
+#ifdef LOG
+  Log("ror...");
+#endif
+  rtlreg_t temp = *dsrc1;
+  while (temp != 0) {
+    rtlreg_t tempcf = *ddest & 0x1;
+    *ddest = *ddest / 2 + (tempcf * 2 ^ (id_dest->width));
+	temp = temp - 1;
+  }
+  if (*dsrc1 == 1) {
+    rtlreg_t high;
+	rtlreg_t twoHigh;
+	if (id_dest->width == 1) {
+	  high = (*ddest & 0x80) >> 7;
+	  twoHigh = (*ddest & 0x40) >> 6; 
+	} else if (id_dest->width == 2) {
+	  high = (*ddest & 0x8000) >> 15;
+	  twoHigh = (*ddest & 0x4000) >> 14; 
+	} else {
+	  high = (*ddest & 0x80000000) >> 31;
+	  twoHigh = (*ddest & 0x40000000) >> 30; 
+	}
+	operand_write(s, id_dest, ddest);
+	if (high != twoHigh) {
+	  rtlreg_t one = 1;
+	  rtl_set_OF(s, &one);
+	} else {
+	  rtl_set_OF(s, rz);
+	}
+  }
+  print_asm_template2(ror);
+}
+
+static inline def_EHelper(shld) {
+#ifdef LOG
+  Log("shld...");
+#endif
+  TODO();
+  rtlreg_t OperandSize = 0;
+  if (id_dest->width == 2) {
+    OperandSize = 16;
+  } else if (id_dest->width == 4) {
+	OperandSize = 32;
+  }
+  rtlreg_t count = (id_src1->val & 0xFF);
+#ifdef LOG
+  Log("reg_b(R_CL) = %X", reg_b(R_CL));
+  Log("id_src1->val = %X, OperandSize = %d, id_src1->type = %d, count = %d", id_src1->val, OperandSize, id_src1->type, count);
+#endif
+  rtlreg_t ShiftAmt;
+  rtlreg_t r32 = 32;
+  rtl_div_r(s, &ShiftAmt, &count, &r32);
+#ifdef LOG
+  Log("ShiftAmt = %d, count = %d", ShiftAmt, count);
+#endif  
+  rtlreg_t inBits = *dsrc2;
+  int32_t Base[OperandSize];
+  int32_t i;
+  for (i = OperandSize - 1; i >= 0; i--) {
+    Base[i] = ((inBits >> i) & 1);
+  }
+  if (ShiftAmt != 0) {
+    if (ShiftAmt < OperandSize) {
+	  rtlreg_t CF = Base[OperandSize - ShiftAmt];
+	  rtl_set_CF(s, &CF); 
+	}  
+  }
+  for (i = OperandSize - 1; i > ShiftAmt; i--) {
+	Base[i] = Base[i - ShiftAmt];
+  }
+#ifdef LOG
+  Log("ShiftAmt - 1 = %d", (ShiftAmt - 1));
+#endif
+for (i = ShiftAmt - 1; i >= 0; i--) {
+#ifdef LOG
+    Log("i = %d, i - ShiftAmt = %d", i, (i - ShiftAmt));
+#endif    
+	Base[i] = (inBits >> (i - ShiftAmt + OperandSize)) & 1;
+  }
+  for (i = 0; i < OperandSize; i++) {
+    *ddest |= (Base[i] << i);
+  }
+#ifdef LOG
+  Log("*ddest = %X", *ddest);
+#endif
+  if (id_dest->type == OP_TYPE_REG) {
+#ifdef LOG
+  Log("id_dest->reg = %d, id_dest->width = %d", id_dest->reg, id_dest->width);
+#endif
+    rtl_sr(s, id_dest->reg, ddest, id_dest->width);
+  } else if (id_dest->type == OP_TYPE_IMM) {
+	
+  }
+  rtl_update_ZFSF(s, ddest, id_dest->width);
+  rtl_update_PF(s, ddest, id_dest->width);
+  print_asm_template3(shld);
+}

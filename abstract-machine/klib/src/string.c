@@ -88,25 +88,36 @@ void* memmove(void* dst, const void* src, size_t n) {
   return dst;
 }
 
-void* memcpy(void* out, const void* in, size_t n) {
-  char *t1 = (char *)out;
-  char *t2 = (char *)in;
-  while (n--) {
-	*t1++ = *t2++;
+void* memcpy(void* dst, const void* src, size_t size) {
+  char *psrc;
+  char *pdst;
+  if (NULL == dst || NULL == src) {
+    return NULL;
   }
-  return out;
+  if ((src < dst) && (char *) src + size > (char *) dst) {
+    psrc = (char *) src + size - 1;
+	pdst = (char *) dst + size - 1;
+	while (size --) {
+	  *pdst -- = *psrc --;
+	}
+  } else {
+    psrc = (char *) src;
+	pdst = (char *) dst;
+	while (size --) {
+	  *pdst ++ = *psrc ++;
+	}
+  }
+  return dst;
 }
 
-int memcmp(const void* s1, const void* s2, size_t n) {
+int memcmp(const void* cs, const void* ct, size_t count) {
+  const unsigned char *su1 = cs, *su2 = ct, *end = su1 + count;
   int res = 0;
-  char *t1 = (char *)s1;
-  char *t2 = (char *)s2;
-  while (n--) {
-    if ((res = (*t1 - *t2)) != 0) {
+  while (su1 < end) {
+    res = *su1++ - *su2++;
+	if (res) {
 	  break;
 	}
-	t1 ++;
-	t2 ++;
   }
   return res;
 }

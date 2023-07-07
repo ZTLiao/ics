@@ -172,7 +172,44 @@ static inline def_EHelper(movsb) {
 #ifdef LOG
   Log("movsb...");
 #endif
-  rtl_lr(s, ddest, R_SI, 1);
-  rtl_sr(s, R_DI, ddest, 1);
+  if (s->isa.is_operand_size_16) {
+    rtl_lr(s, s0, R_SI, 2);
+    rtl_lr(s, s1, R_DI, 2);
+  } else {
+    rtl_lr(s, s0, R_ESI, 4);
+    rtl_lr(s, s1, R_EDI, 4);
+  }
+  int IncDec = 0;
+  switch (s->opcode) {
+    case 0xa4: {
+	  rtl_lm(s, s2, s0, 0, 1);
+	  rtl_sm(s, s1, 0, s2, 1);
+	  IncDec = 1;
+	  break;
+	}
+	default: {
+	  if (s->isa.is_operand_size_16) {
+	    rtl_lm(s, s2, s0, 0, 2);
+	    rtl_sm(s, s1, 0, s2, 2);
+	    IncDec = 2;
+	  } else {
+	    rtl_lm(s, s2, s0, 0, 4);
+	    rtl_sm(s, s1, 0, s2, 4);
+	    IncDec = 4;
+	  }
+	  break;
+	}
+  }
+  if (s->isa.is_operand_size_16) {
+    rtl_addi(s, s2, s0, IncDec);
+    rtl_sr(s, R_SI, s2, 2);
+    rtl_addi(s, s2, s1, IncDec);
+    rtl_sr(s, R_DI, s2, 2);
+  } else {
+    rtl_addi(s, s2, s0, IncDec);
+    rtl_sr(s, R_ESI, s2, 4);
+    rtl_addi(s, s2, s1, IncDec);
+    rtl_sr(s, R_EDI, s2, 4);
+  }
   print_asm("movsb");
 }
