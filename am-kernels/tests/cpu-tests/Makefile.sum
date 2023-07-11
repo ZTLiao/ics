@@ -1,0 +1,4 @@
+NAME = sum
+SRCS = tests/sum.c
+LIBS += klib
+include /home/liaozetao/Documents/ics/abstract-machine/Makefile

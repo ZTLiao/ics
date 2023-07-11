@@ -1,0 +1,4 @@
+NAME = to-lower-case
+SRCS = tests/to-lower-case.c
+LIBS += klib
+include /home/liaozetao/Documents/ics/abstract-machine/Makefile

@@ -1,0 +1,4 @@
+NAME = min3
+SRCS = tests/min3.c
+LIBS += klib
+include /home/liaozetao/Documents/ics/abstract-machine/Makefile

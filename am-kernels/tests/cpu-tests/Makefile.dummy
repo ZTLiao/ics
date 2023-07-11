@@ -1,0 +1,4 @@
+NAME = dummy
+SRCS = tests/dummy.c
+LIBS += klib
+include /home/liaozetao/Documents/ics/abstract-machine/Makefile

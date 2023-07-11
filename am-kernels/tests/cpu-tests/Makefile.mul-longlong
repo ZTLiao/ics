@@ -1,0 +1,4 @@
+NAME = mul-longlong
+SRCS = tests/mul-longlong.c
+LIBS += klib
+include /home/liaozetao/Documents/ics/abstract-machine/Makefile

@@ -1,0 +1,4 @@
+NAME = add-longlong
+SRCS = tests/add-longlong.c
+LIBS += klib
+include /home/liaozetao/Documents/ics/abstract-machine/Makefile

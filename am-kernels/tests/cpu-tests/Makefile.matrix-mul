@@ -1,0 +1,4 @@
+NAME = matrix-mul
+SRCS = tests/matrix-mul.c
+LIBS += klib
+include /home/liaozetao/Documents/ics/abstract-machine/Makefile

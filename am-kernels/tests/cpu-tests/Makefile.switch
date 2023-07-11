@@ -1,0 +1,4 @@
+NAME = switch
+SRCS = tests/switch.c
+LIBS += klib
+include /home/liaozetao/Documents/ics/abstract-machine/Makefile
