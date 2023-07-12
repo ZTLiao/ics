@@ -1,6 +1,10 @@
 NAME = nemu
 EXPR_FILE :=
 
+ifndef NEMU_HOME
+NEMU_HOME := $(shell pwd)
+endif
+
 ISA ?= x86
 ISAS = $(shell ls src/isa/)
 ifeq ($(filter $(ISAS), $(ISA)), ) # ISA must be valid
@@ -25,6 +29,7 @@ SO_LDLAGS = -shared -fPIC
 else
 LD_LIBS = -lSDL2 -lreadline -ldl
 endif
+
 
 ifndef SHARE
 DIFF ?= kvm

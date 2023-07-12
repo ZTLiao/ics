@@ -106,8 +106,10 @@ static int cmd_si(char *args) {
 	if (args != NULL) {
 		n = (uint64_t) atol(args);
 	}
+  #ifndef __APPLE__
 	Log("cmd_si: n = %ld", n);
-	cpu_exec(n);
+	#endif
+  cpu_exec(n);
 	return 0;
 }
 
@@ -145,13 +147,19 @@ static int cmd_x(char* args) {
 	Log("n = %s", nStr);
 	int32_t n = (int32_t) atoi(nStr);
 	uint64_t expr = (uint64_t) strtol(exprStr, NULL, 16);
+  #ifndef __APPLE__
 	Log("expr = %lx", expr);
-	int i;
+	#endif
+  int i;
 	for (i = 0; i <= n; i++) {
 		Log("i = %d", i);
 #ifdef __ISA_x86__
 		word_t vaddr = vaddr_read(expr + i, 4);
-		printf("0x%lx\t\t0x%x\n", (expr + i), vaddr);
+    #ifdef __APPLE__
+    printf("0x%llx\t\t0x%x\n", (expr + i), vaddr);
+		#else
+    printf("0x%lx\t\t0x%x\n", (expr + i), vaddr);
+    #endif
 #endif
 	}
 	return 0;

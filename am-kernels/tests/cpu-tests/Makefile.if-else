@@ -1,4 +1,0 @@
-NAME = if-else
-SRCS = tests/if-else.c
-LIBS += klib
-include /home/liaozetao/Documents/ics/abstract-machine/Makefile

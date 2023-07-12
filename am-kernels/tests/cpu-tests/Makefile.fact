@@ -1,4 +1,0 @@
-NAME = fact
-SRCS = tests/fact.c
-LIBS += klib
-include /home/liaozetao/Documents/ics/abstract-machine/Makefile

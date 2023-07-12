@@ -1,4 +1,0 @@
-NAME = fib
-SRCS = tests/fib.c
-LIBS += klib
-include /home/liaozetao/Documents/ics/abstract-machine/Makefile

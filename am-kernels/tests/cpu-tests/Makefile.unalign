@@ -1,4 +1,0 @@
-NAME = unalign
-SRCS = tests/unalign.c
-LIBS += klib
-include /home/liaozetao/Documents/ics/abstract-machine/Makefile

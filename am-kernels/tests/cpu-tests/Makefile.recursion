@@ -1,4 +1,0 @@
-NAME = recursion
-SRCS = tests/recursion.c
-LIBS += klib
-include /home/liaozetao/Documents/ics/abstract-machine/Makefile

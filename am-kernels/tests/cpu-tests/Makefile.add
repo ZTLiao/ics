@@ -1,4 +1,0 @@
-NAME = add
-SRCS = tests/add.c
-LIBS += klib
-include /home/liaozetao/Documents/ics/abstract-machine/Makefile

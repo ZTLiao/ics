@@ -1,4 +1,0 @@
-NAME = max
-SRCS = tests/max.c
-LIBS += klib
-include /home/liaozetao/Documents/ics/abstract-machine/Makefile

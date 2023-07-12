@@ -21,6 +21,11 @@ f(UP) f(DOWN) f(LEFT) f(RIGHT) f(INSERT) f(DELETE) f(HOME) f(END) f(PAGEUP) f(PA
 
 enum {
   _KEY_NONE = 0,
+#ifdef __APPLE__
+  #ifdef _KEY_T
+    #undef _KEY_T
+  #endif
+#endif
   MAP(_KEYS, _KEY_NAME)
 };
 

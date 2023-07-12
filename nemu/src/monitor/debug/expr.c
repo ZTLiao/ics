@@ -1,5 +1,6 @@
 #include <isa.h>
 #include <memory/vaddr.h>
+#include <tools/stack.h>
 
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
@@ -66,6 +67,10 @@ static struct rule {
 
 static regex_t re[NR_REGEX] = {};
 
+PStack num_stack;
+
+PStack op_stack;
+
 /* Rules are used for many times.
  * Therefore we compile them only once before any usage.
  */
@@ -120,7 +125,7 @@ static bool make_token(char *e) {
         Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
             i, rules[i].regex, position, substr_len, substr_len, substr_start);
         position += substr_len;
-        /* TODO: Now a new token is recognized with rules[i]. Add codes
+        /* Now a new token is recognized with rules[i]. Add codes
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
@@ -258,21 +263,30 @@ word_t expr(char *e, bool *success) {
 }
 
 static bool check_parentheses(int p, int q) {
-	if (strcmp(tokens[p].str, "(") == 0 && strcmp(tokens[q].str, ")") == 0) {
-		int n = 0;
-		int i;
-		for (i = p; i <= q; i++) {
-			if (strcmp(tokens[i].str, "(") == 0) {
-				n++;
-			}
-			if (strcmp(tokens[i].str, ")") == 0) {
-				n--;
+	PStack pStack = Stack__constructor__();
+	bool isValid = false;
+	if (!(strcmp(tokens[p].str, "(") == 0 && strcmp(tokens[q].str, ")") == 0)) {
+		return isValid;
+	}
+	int i;
+	char c1[32];
+	for (i = p; i <= q; i++) {
+		char* c0 = tokens[i].str;
+		if (strcmp(c0, "(") == 0 || strcmp(c0, "[") == 0 || strcmp(c0, "{") == 0) {
+			pStack->push(pStack, c0, 1);
+		}
+		if (strcmp(c0, ")") == 0 || strcmp(c0, "]") == 0 || strcmp(c0, "}") == 0) {
+			pStack->pop(pStack, c1);
+			isValid = (strcmp(c1, "(") == 0 && strcmp(c0, ")") == 0) || (strcmp(c1, "[") == 0 && strcmp(c0, "]") == 0) || (strcmp(c1, "{") == 0 && strcmp(c0, "}") == 0);
+			if (!isValid) {
+				break;
 			}
 		}
-		return n == 0;
-	} else {
-		return false;
+		isValid = isValid && pStack->size(pStack) == 0;
 	}
+	Stack__destructor__(pStack);
+	Log("isValid = %d", isValid);
+	return isValid;
 }
 
 static uint32_t eval(int p, int q) {

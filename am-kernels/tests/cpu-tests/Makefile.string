@@ -1,4 +1,0 @@
-NAME = string
-SRCS = tests/string.c
-LIBS += klib
-include /home/liaozetao/Documents/ics/abstract-machine/Makefile

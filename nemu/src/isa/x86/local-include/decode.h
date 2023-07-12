@@ -14,7 +14,6 @@ static inline void operand_reg(DecodeExecState *s, Operand *op, bool load_val, i
     op->preg = &op->val;
     if (load_val) rtl_lr(s, &op->val, r, width);
   }
-
   print_Dop(op->str, OP_STR_SIZE, "%%%s", reg_name(r, width));
 }
 
@@ -48,13 +47,32 @@ static inline def_DopHelper(I) {
 static inline def_DopHelper(SI) {
   assert(op->width == 1 || op->width == 4);
 
-  /* TODO: Use instr_fetch() to read `op->width' bytes of memory
+  /* Use instr_fetch() to read `op->width' bytes of memory
    * pointed by 's->seq_pc'. Interpret the result as a signed immediate,
    * and call `operand_imm()` as following.
    *
    operand_imm(s, op, load_val, ???, op->width);
    */
-  TODO();
+#ifdef LOG
+  Log("op-width : %d", op->width);
+#endif
+  word_t imm = instr_fetch(&s->seq_pc, op->width);
+#ifdef LOG
+  Log("BEFORE imm : %x", imm);
+#endif
+  if (op->width == 1) {
+	  if (imm >> 7) {
+		  imm |= 0xFFFFFF00;
+	  }
+  } else if (op->width == 2) {
+	  if (imm >> 15) {
+		  imm |= 0xFFFF0000;
+	  }
+  }
+#ifdef LOG
+  Log("AFTER imm : %x", imm);
+#endif
+  operand_imm(s, op, load_val, imm, op->width);
 }
 
 /* I386 manual does not contain this abbreviation.
@@ -119,6 +137,9 @@ static inline def_DHelper(E2G) {
 }
 
 static inline def_DHelper(mov_E2G) {
+#ifdef LOG
+  Log("mov_E2G...");
+#endif
   operand_rm(s, id_src1, true, id_dest, false);
 }
 
@@ -262,6 +283,9 @@ static inline def_DHelper(a2O) {
 static inline def_DHelper(J) {
   decode_op_SI(s, id_dest, false);
   // the target address can be computed in the decode stage
+#ifdef LOG
+  Log("id_dest->simm = %x, s->seq_pc = %x", id_dest->simm, s->seq_pc);
+#endif
   s->jmp_pc = id_dest->simm + s->seq_pc;
 }
 

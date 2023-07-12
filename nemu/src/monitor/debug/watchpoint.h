@@ -16,7 +16,5 @@ WP* new_wp();
 void free_wp(WP *wp);
 WP* find_wp(char *args);
 void print_wp();
-void exec_wp();
-bool check_wp();
 
 #endif

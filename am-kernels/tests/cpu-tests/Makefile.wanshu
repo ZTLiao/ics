@@ -1,4 +1,0 @@
-NAME = wanshu
-SRCS = tests/wanshu.c
-LIBS += klib
-include /home/liaozetao/Documents/ics/abstract-machine/Makefile

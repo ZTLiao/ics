@@ -16,13 +16,15 @@ void reg_test() {
   cpu.pc = pc_sample;
 
   int i;
-  rtlreg_t *reg_t = &cpu.eax;
-  for (i = R_EAX; i <= R_EDI; i ++, reg_t ++) {
+  for (i = R_EAX; i <= R_EDI; i ++) {
     sample[i] = rand();
+#ifdef LOG
+    printf("sample[%d] = %x\n", i, sample[i]);
+#endif
     reg_l(i) = sample[i];
-    reg_w(i) = sample[i] & 0xffff;
-    reg_b(i) = (sample[i & 0x3] >> (i >> 2 << 3)) & 0xff;
-    *reg_t = sample[i];
+#ifdef LOG
+    printf("cpu.%s = %x, reg_l(%d) = %x, reg_w(%d) = %x, reg_b(%d) = %x\n", reg_name(i, 4), *((&cpu.eax) + i), i, reg_l(i), i, reg_w(i), i, reg_b(i));
+#endif
     assert(reg_w(i) == (sample[i] & 0xffff));
   }
 
@@ -35,6 +37,9 @@ void reg_test() {
   assert(reg_b(R_DL) == (sample[R_EDX] & 0xff));
   assert(reg_b(R_DH) == ((sample[R_EDX] >> 8) & 0xff));
 
+#ifdef LOG
+  printf("sample[%d] = %x, cpu.ecx = %x\n", R_ECX, sample[R_ECX], cpu.ecx);
+#endif
   assert(sample[R_EAX] == cpu.eax);
   assert(sample[R_ECX] == cpu.ecx);
   assert(sample[R_EDX] == cpu.edx);
@@ -45,21 +50,30 @@ void reg_test() {
   assert(sample[R_EDI] == cpu.edi);
 
   assert(pc_sample == cpu.pc);
+  cpu.pc = 0;
+  cpu.eax = 0;
+  cpu.ebx = 0;
+  cpu.ecx = 0;
+  cpu.edx = 0;
+  cpu.esi = 0;
+  cpu.edi = 0;
+  cpu.ebp = 0;
+  cpu.esp = 0;
 }
 
 void isa_reg_display() {
 	Log("isa_reg_display!");
 #ifdef __ISA_x86__
 	printf("ISA\t\tx86\n");
-	printf("pc\t\t0x%x\n", cpu.pc);
-	printf("eax\t\t0x%x\n", cpu.eax);
-	printf("ebx\t\t0x%x\n", cpu.ebx);
-	printf("ecx\t\t0x%x\n", cpu.ecx);
-	printf("edx\t\t0x%x\n", cpu.edx);
-	printf("esi\t\t0x%x\n", cpu.esi);
-	printf("edi\t\t0x%x\n", cpu.edi);
-	printf("ebp\t\t0x%x\n", cpu.ebp);
-	printf("esp\t\t0x%x\n", cpu.esp);
+	printf("PC\t\t0x%08X\n", cpu.pc);
+	printf("EAX\t\t0x%08X\n", cpu.eax);
+	printf("EBX\t\t0x%08X\n", cpu.ebx);
+	printf("ECX\t\t0x%08X\n", cpu.ecx);
+	printf("EDX\t\t0x%08X\n", cpu.edx);
+	printf("ESI\t\t0x%08X\n", cpu.esi);
+	printf("EDI\t\t0x%08X\n", cpu.edi);
+	printf("EBP\t\t0x%08X\n", cpu.ebp);
+	printf("ESP\t\t0x%08X\n", cpu.esp);
 #endif
 
 }

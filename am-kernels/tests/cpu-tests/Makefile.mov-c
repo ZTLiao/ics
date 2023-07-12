@@ -1,4 +1,0 @@
-NAME = mov-c
-SRCS = tests/mov-c.c
-LIBS += klib
-include /home/liaozetao/Documents/ics/abstract-machine/Makefile

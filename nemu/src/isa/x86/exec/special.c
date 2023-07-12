@@ -29,7 +29,7 @@ def_EHelper(nemu_trap) {
   difftest_skip_ref();
 
   rtl_exit(NEMU_END, cpu.pc, cpu.eax);
-
+  
   print_asm("nemu trap");
   return;
 }

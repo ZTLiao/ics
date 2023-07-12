@@ -23,6 +23,8 @@ static uint64_t g_timer = 0; // unit: ms
 const rtlreg_t rzero = 0;
 
 void asm_print(vaddr_t this_pc, int instr_len, bool print_flag);
+void exec_wp();
+bool check_wp();
 
 int is_exit_status_bad() {
   int good = (nemu_state.state == NEMU_END && nemu_state.halt_ret == 0) ||
@@ -31,14 +33,22 @@ int is_exit_status_bad() {
 }
 
 void rtl_exit(int state, vaddr_t halt_pc, uint32_t halt_ret) {
+  Log("rtl_exit state : %d, halt_pc : %X, halt_ret : %X", state, halt_pc, halt_ret);
   nemu_state = (NEMUState) { .state = state, .halt_pc = halt_pc, .halt_ret = halt_ret };
 }
 
 void monitor_statistic() {
+  #ifdef __APPLE__
+  Log("total guest instructions = %llu", g_nr_guest_instr);
+  Log("host time spent = %llu ms", g_timer);
+  if (g_timer > 0) Log("simulation frequency = %llu instr/s", g_nr_guest_instr * 1000 / g_timer);
+  else Log("Finish running in less than 1 ms and can not calculate the simulation frequency");
+  #else
   Log("total guest instructions = %ld", g_nr_guest_instr);
   Log("host time spent = %ld ms", g_timer);
   if (g_timer > 0) Log("simulation frequency = %ld instr/s", g_nr_guest_instr * 1000 / g_timer);
   else Log("Finish running in less than 1 ms and can not calculate the simulation frequency");
+  #endif
 }
 
 bool log_enable() {
@@ -79,7 +89,13 @@ void cpu_exec(uint64_t n) {
 
     /* Execute one instruction, including instruction fetch,
      * instruction decode, and the actual execution. */
+#ifdef LOG
+	Log("this_pc : %X", this_pc);
+#endif
     __attribute__((unused)) vaddr_t seq_pc = isa_exec_once();
+#ifdef LOG
+	Log("seq_pc : %X", seq_pc);
+#endif
 
     difftest_step(this_pc, cpu.pc);
 
