@@ -25,6 +25,7 @@ int    strncmp   (const char *s1, const char *s2, size_t n);
 
 // stdlib.h
 int    atoi      (const char *nptr);
+int    itoa      (int in, char *buffer);
 void   srand     (unsigned int seed);
 int    rand      (void);
 void  *malloc    (size_t size);
