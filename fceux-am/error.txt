@@ -1,0 +1,8 @@
+main
+/home/liaozetao/Documents/ics/fceux-am/src/drivers/sdl/sdl.cpp
+
+~/Documents/ics/fceux-am/src/fceu.cpp
+/src/ines.cpp
+~/Documents/ics/fceux-am/src/emufile.h
+
+
